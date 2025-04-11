@@ -1,0 +1,28 @@
+move:
+  ros__parameters:
+    plugins:
+      - plansys2_move_bt_node
+    waypoints: ["shelf1", "shelf2", "shelf3", "shelf4", "door", "home"]
+    waypoint_coords:
+      home: [0.031197331845760345, -0.06925294548273087, 0.0]
+      door: [-2.529934883117676, 6.416292667388916, 0.0]
+      shelf1: [0.5127873420715332, -1.433525800704956, 0.0]
+      shelf2: [0.45655569434165955, -4.743329048156738, 0.0]
+      shelf3: [-1.9434707164764404, -4.742434024810791, 0.0]
+      shelf4: [-1.826885461807251, -1.4296108484268188, 0.0]
+attend_visitors:
+  ros__parameters:
+    plugins:
+      - plansys2_isperson_bt_node
+      - plansys2_attend_visitors_bt_node
+solve_rubik:
+  ros__parameters:
+    plugins:
+      - plansys2_solve_rubik_bt_node
+      - plansys2_close_gripper_bt_node
+      - plansys2_open_gripper_bt_node
+      - plansys2_approach_object_bt_node
+search_book:
+  ros__parameters:
+    plugins:
+      - plansys2_search_book_bt_node
