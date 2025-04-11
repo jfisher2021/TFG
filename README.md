@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/dMkD-Mt7)
 # Trabajo Final Planificación - La Biblioteca
 
@@ -394,3 +395,6 @@ https://github.com/user-attachments/assets/e53534b6-c863-4cac-b03d-f919722aff35
 
 ## Presentación
 Se realizará una presentación de 10min del trabajo en clase y deberéis añadir también al repositorio los materiales (slides, vídeos, etc.) utilizados en la presentación.
+=======
+# TFG
+>>>>>>> 5ec679af61e2fb0655d1532a5ffdf74e644ed883
