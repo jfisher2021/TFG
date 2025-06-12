@@ -93,16 +93,6 @@ LLMPlanSolver::getPlan(
   RCLCPP_DEBUG(
     lc_node_->get_logger(), "Writing planning results to %s.", output_dir.string().c_str());
 
-  // const auto domain_file_path = output_dir / std::filesystem::path("domain.pddl");
-  // std::ofstream domain_out(domain_file_path);
-  // domain_out << domain;
-  // domain_out.close();
-
-  // const auto problem_file_path = output_dir / std::filesystem::path("problem.pddl");
-  // std::ofstream problem_out(problem_file_path);
-  // problem_out << problem;
-  // problem_out.close();
-
   std::string python_arg =  "Explicame el siguiente cuadro: " ;
   std::string command = "ssh dedalo.tsc.urjc.es 'python3 /home/jfisher/tfg/copy_example.py " + python_arg + "'";
   std::string result;
@@ -131,18 +121,6 @@ LLMPlanSolver::getPlan(
     return {};
   }
   const auto plan_file_path = output_dir / std::filesystem::path("plan");
-  // const auto args = lc_node_->get_parameter(arguments_parameter_name_).value_to_string();
-
-  // RCLCPP_DEBUG(
-  //   lc_node_->get_logger(),
-  //   "[%s-popf] called with timeout %f seconds with args [%s] with output dir %s",
-  //   lc_node_->get_name(), solver_timeout.seconds(), args.c_str(), output_dir.c_str());
-
-  // bool success = execute_planner("ros2 run popf popf " +
-  //     domain_file_path.string() + " " + problem_file_path.string(),
-  //     solver_timeout, plan_file_path.string());
-
-  // if (!success) {return {};}
 
   return parse_plan_result(plan_file_path.string());
 }
