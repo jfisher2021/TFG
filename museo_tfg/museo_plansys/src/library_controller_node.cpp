@@ -74,7 +74,7 @@ public:
       // actual_goal_ = goals_.back();
       
       // problem_expert_->setGoal(plansys2::Goal("(and " + actual_goal_ + " )"));
-      problem_expert_->setGoal(plansys2::Goal("(and (explained_painting monalisa) (explained_painting elgrito) (explained_painting dibejo) (explained_painting guernica) (explained_painting nocheestrellada))"));
+      // problem_expert_->setGoal(plansys2::Goal("(and (explained_painting monalisa) (explained_painting elgrito) (explained_painting dibejo) (explained_painting guernica) (explained_painting nocheestrellada))"));
 
       RCLCPP_INFO(get_logger(), "2222222222222222SELLLLLLLLLLLLLLLLLL");
 
