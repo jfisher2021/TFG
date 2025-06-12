@@ -151,7 +151,7 @@ Indicad la lista de acciones implementadas y la lista de tipos, predicados y flu
 
 **Respuesta**
 
-Para crear un plan, se utiliza un [dominio](trabajo_final_plansys/pddl/domain.pddl) en PDDL con las siguientes características:
+Para crear un plan, se utiliza un [dominio](museo_plansys/pddl/domain.pddl) en PDDL con las siguientes características:
 
 #### Tipos
 
@@ -216,10 +216,10 @@ Hemos creado varias composiciones de acciones para poder realizar las tareas de 
 ```
 En este caso, la tarea de "solve_rubik" se compone de las siguientes acciones:
 
-- [OpenGripper](trabajo_final_plansys/src/behavior_tree_nodes/OpenGripper.cpp)
-- [ApproachObject](trabajo_final_plansys/src/behavior_tree_nodes/ApproachObject.cpp)
-- [CloseGripper](trabajo_final_plansys/src/behavior_tree_nodes/CloseGripper.cpp)
-- [SolveRubik](trabajo_final_plansys/src/behavior_tree_nodes/SolveRubik.cpp)
+- [OpenGripper](museo_plansys/src/behavior_tree_nodes/OpenGripper.cpp)
+- [ApproachObject](museo_plansys/src/behavior_tree_nodes/ApproachObject.cpp)
+- [CloseGripper](museo_plansys/src/behavior_tree_nodes/CloseGripper.cpp)
+- [SolveRubik](museo_plansys/src/behavior_tree_nodes/SolveRubik.cpp)
 
 Y cada una de estas acciones se implementa como un nodo de BT.
 
@@ -231,7 +231,7 @@ Un ejemplo de un nodo de BT sería el siguiente:
 
 ```cpp
 
-namespace trabajo_final_plansys
+namespace museo_plansys
 {
 
 SolveRubik::SolveRubik(
@@ -288,11 +288,11 @@ SolveRubik::tick()
   return BT::NodeStatus::FAILURE;
 }
 
-}  // namespace trabajo_final_plansys
+}  // namespace museo_plansys
 
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<trabajo_final_plansys::SolveRubik>("SolveRubik");
+  factory.registerNodeType<museo_plansys::SolveRubik>("SolveRubik");
 }
 ```
 
@@ -300,13 +300,13 @@ Esta parte del código se encarga de registrar el nodo en el sistema de BT para 
 ```cpp
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<trabajo_final_plansys::SolveRubik>("SolveRubik");
+  factory.registerNodeType<museo_plansys::SolveRubik>("SolveRubik");
 }
 ```
 
 ### Controlador
 
-Una vez definidas las acciones, un [controlador](trabajo_final_plansys/src/library_controller_node.cpp) gestiona cuando se debe ejecutar cada acción mediante la definición de diferentes goals:
+Una vez definidas las acciones, un [controlador](museo_plansys/src/library_controller_node.cpp) gestiona cuando se debe ejecutar cada acción mediante la definición de diferentes goals:
 
 ```cpp
 // End when no goals left
@@ -331,7 +331,7 @@ Este snippet de código se ejecuta siempre que un nodo devuelve `SUCCESS` o `FAI
 
 
 ## Ejercicio 4 - Planner
-Utilizar un planificador distinto a POPF o TFD para generar los planes. Para conseguir esto es necesario implementar un plugin para poder llamar al planificador elegido desde PlanSys2. Este plugin se debe crear en un **paquete de ROS 2 aparte**, y consistirá en una clase que herede de [PlanSolverBase](https://github.com/PlanSys2/ros2_planning_system/blob/rolling/plansys2_core/include/plansys2_core/PlanSolverBase.hpp). Se puede utilizar la implementación del [plugin de POPF](https://github.com/PlanSys2/ros2_planning_system/tree/rolling/plansys2_popf_plan_solver) como referencia.
+Utilizar un planificador distinto a POPF o TFD para generar los planes. Para conseguir esto es necesario implementar un plugin para poder llamar al planificador elegido desde PlanSys2. Este plugin se debe crear en un **paquete de ROS 2 aparte**, y consistirá en una clase que herede de [PlanSolverBase](https://github.com/PlanSys2/ros2_planning_system/blob/rolling/plansys2_core/include/plansys2_core/PlanSolverBase.hpp). Se puede utilizar la implementación del [plugin de POPF](https://github.com/PlanSys2/ros2_planning_system/tree/rolling/my_llm_plan_solver) como referencia.
 
 **Nota:** Si es posible, se deberá implementar un plugin para el planificador escogido por el grupo en el trabajo de PDDL. El planificador deberá soportar al menos `durative-actions`, por lo que si se escogió un planificador no compatible tendréis que elegir otro para implementar el plugin de PlanSys2.
 
@@ -355,7 +355,7 @@ Lanzamos nuestro controlador y a la vez lanzamos gazebo con el mundo de la bibli
 ```bash
 cd <ros2-workspace>
 source install/setup.bash
-ros2 launch trabajo_final_plansys trabajo_final_plansys_launch.py 
+ros2 launch museo_plansys museo_plansys_launch.py 
 ```
 
 Terminal 2:
@@ -373,7 +373,7 @@ Lanzamos el los nodos:
 ```bash
 cd <ros2-workspace>
 source install/setup.bash
-ros2 run trabajo_final_plansys library_controller_node 
+ros2 run museo_plansys library_controller_node 
 ```
 
 Terminal 4 (opcional):

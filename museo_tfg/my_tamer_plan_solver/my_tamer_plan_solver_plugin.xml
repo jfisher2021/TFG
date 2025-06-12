@@ -1,0 +1,7 @@
+<class_libraries>
+  <library path="my_tamer_plan_solver">
+    <class name="plansys2/TAMERPlanSolver"  type="plansys2::TAMERPlanSolver" base_class_type="plansys2::PlanSolverBase">
+      <description></description>
+    </class>
+  </library>
+</class_libraries>

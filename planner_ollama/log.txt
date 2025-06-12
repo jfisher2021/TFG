@@ -1,0 +1,312 @@
+ (rolling)  jfisherr   main U:31 ?:2  ❲c❳ base  ~/cuarto/2c/plansis/plansys_ws/src/TFG/planner_ollama  1  python3 example.py 
+Aquí te presento un posible plan para resolver el dominio y la tarea:
+
+**Tarea:** Resolución del problema "library_problem" en PDDL.
+
+**Dominio:**
+```
+(define (domain library_domain)
+
+(:requirements :strips :fluents :durative-actions :typing)
+
+(:types 
+  robot
+  location 
+  painting
+  person
+)
+
+(:predicates
+  (robot_at ?r - robot ?l - location)
+  (painting_at ?b - painting ?l - location)
+  (person_at ?p - person ?l - location)
+  (painting_found ?b - painting)
+  (person_attended ?p - person)
+  ; (explain ?p - location)
+  ; (finished_explain ?r - robot)
+  (explained_painting ?p - location)
+  (can_start ?r - robot)
+  (initial_state ?r - robot)
+  (visited ?r - robot ?l - location)
+  (charger_at ?wp - location)
+
+)
+
+(:functions
+  (battery ?r - robot)
+)
+
+(:durative-action start_welcome
+  :parameters (?r - robot)
+  :duration (= ?duration 1)
+  :condition (and 
+    (at start (initial_state ?r))
+  )
+  :effect (and 
+    (at end (can_start ?r))
+    (at start (initial_state ?r))
+  )
+)
+(:durative-action move
+  :parameters (?r - robot ?from ?to - location)
+  :duration (= ?duration 15)
+  :condition (and 
+    (at start (>= (battery ?r) 20))
+    (at start (can_start ?r))
+    (at start (robot_at ?r ?from))
+  )
+  :effect (and 
+    ; (at start (explain ?to))
+    (at start (not(robot_at ?r ?from)))
+    (at start (decrease (battery ?r) 20))
+    (at end (robot_at ?r ?to))
+    (at end (visited ?r ?to))
+    ; (at end (not(explain ?to)))
+  )
+)
+```
+
+**Plan:**
+
+1. **Definición de objetos y predicados:** Defina los objetos y predicados del dominio.
+2. **Creación de flujo de acción:** Crea un flujo de acción para cada acción según la documentación proporcionada.
+3. **Creación de condiciones y efectos:** Crea las condiciones y efectos necesarios para realizar cada acción en el entorno del objeto.
+4. **Integración de objetos y acciones:** Integra los objetos y acciones para crear un sistema complejo que pueda resolver el dominio.
+
+**Ejemplo de plan:**
+
+```
+(define (problem library_problem)
+
+(:domain library_domain)
+
+(:objects
+  home monalisa_ws nocheestrellada_ws elgrito_ws dibejo_ws guernica_ws 
+  tiago - robot
+  pers_1 - person
+)
+
+(:init
+  ; Robot initialization
+  (robot_at tiago home)
+  (initial_state tiago)
+
+  ; Connections
+  ; (finished_explain tiago)
+
+  ; Object locations
+  (= (battery tiaga) 100)
+  (person_at pers_1 guernica_ws)
+  (not(person_attended pers_1))
+  (charger_at home)
+)
+
+(:goal
+  (and 
+    ; (robot_at tiaga guernica_ws)
+    ; (person_attended pers_1)
+    (explained_painting monalisa_ws)
+    (visited tiaga monalisa_ws)
+    (visited tiaga elgrito_ws)
+    (visited tiaga guernica_ws)
+    (visited tiaga nocheestrellada_ws)
+    (visited tiaga dibejo/ws
+    ; (explained_painting nocheestrellada_ws)
+    (explained_painting elgrito_ws)
+    ; (explained_painting dibejo_ws)
+    (explained_painting guernica_ws)
+    ; (finished_explain tiago)
+  )
+)
+
+```
+
+Este es solo un ejemplo básico de cómo podrías estructurar tu plan. Recuerda que la complejidad y el nivel de detallismo pueden variar dependiendo de la tarea específica que tengas en mente. (rolling)  jfisherr   main U:31 ?:2  ❲c❳ base  ~/cuarto/2c/plansis/plansys_ws/src/TFG/planner_ollama  python3 example.py 
+No te preocupes, te voy a ayudar a desarrollar tu plan para PDDL.
+
+**Estructura del Plan**
+
+El plan para PDDL tiene la siguiente estructura:
+
+- `domain library_domain`: Define el dominio del problema.
+- `objects home monalisa_ws nocheestrellada_ws elgrito_ws dibejo_ws guernica_ws tiago pers_1`: Define las objetos que participarán en el plan.
+- `init`: Defina la inicialización del sistema, incluyendo los valores de los variables y conectaciones entre objetos.
+- `goal`: Defina las metas que se deben alcanzar.
+
+**Implementación de cada action**
+
+A continuación, te presento una posible implementación de cada acción:
+
+```pddl
+; Time 0.08
+0.000: (start_welcome tiago)
+  :parameters (?r - robot) ; Robot inicializado
+  :duration (= ?duration 1) ; Durante 1 segundo
+  :condition (and 
+    (at start (initial_state ?r))
+  )
+  :effect (and 
+    (at end (can_start ?r))
+    (at start (initial_state ?r))
+  )
+
+; Time 0.16
+1.001: (move tiago home dibejo_ws)
+  :parameters (?from - location) ; Punto de movimiento
+  :duration (= ?duration 15) ; Durante 15 segundos
+  :condition (and 
+    (at start (>= (battery ?r) 20))
+    (at start (can_start ?r))
+    (at start (robot_at ?r ?from))
+    )
+  :effect (and 
+    (at start (explain_dibejo_ws ?r)) ; Explicar a dibejo
+    (at start (not(robot_at ?r ?from)))
+    (at start (decrease (battery ?r) 20))
+    (at end (robot_at ?^CTraceback (most recent call last):
+  File "/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/planner_ollama/example.py", line 229, in <module>
+    for part in response:
+  File "/home/jfisherr/miniconda3/lib/python3.12/site-packages/ollama/_client.py", line 170, in inner
+    for line in r.iter_lines():
+  File "/home/jfisherr/miniconda3/lib/python3.12/site-packages/httpx/_models.py", line 861, in iter_lines
+    for text in self.iter_text():
+  File "/home/jfisherr/miniconda3/lib/python3.12/site-packages/httpx/_models.py", line 848, in iter_text
+    for byte_content in self.iter_bytes():
+  File "/home/jfisherr/miniconda3/lib/python3.12/site-packages/httpx/_models.py", line 829, in iter_bytes
+    for raw_bytes in self.iter_raw():
+  File "/home/jfisherr/miniconda3/lib/python3.12/site-packages/httpx/_models.py", line 883, in iter_raw
+    for raw_stream_bytes in self.stream:
+  File "/home/jfisherr/miniconda3/lib/python3.12/site-packages/httpx/_client.py", line 126, in __iter__
+    for chunk in self._stream:
+  File "/home/jfisherr/miniconda3/lib/python3.12/site-packages/httpx/_transports/default.py", line 113, in __iter__
+    for part in self._httpcore_stream:
+  File "/home/jfisherr/miniconda3/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 361, in __iter__
+    for part in self._stream:
+  File "/home/jfisherr/miniconda3/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 337, in __iter__
+    raise exc
+  File "/home/jfisherr/miniconda3/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 329, in __iter__
+    for chunk in self._connection._receive_response_body(**kwargs):
+  File "/home/jfisherr/miniconda3/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 198, in _receive_response_body
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jfisherr/miniconda3/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 212, in _receive_event
+    data = self._network_stream.read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jfisherr/miniconda3/lib/python3.12/site-packages/httpcore/_backends/sync.py", line 126, in read
+    return self._sock.recv(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+
+ (rolling)  jfisherr   main U:31 ?:2  ❲c❳ base  ~/cuarto/2c/plansis/plansys_ws/src/TFG/planner_ollama  130  python3 example.py 
+No te preocupes, estaré aquí para ayudarte a desarrollar tu plan. Aquí te presento un posible plan que se ajusta al dominio y problem del problema que me pasaste:
+
+```
+; Time 0.08
+0.000: (start_welcome tiago)  [1.000]
+1.001: (move tiago home dibejo_ws)  [15.000]
+16.002: (visit_dibejo_ws tiago)  [15.000]
+31.002: (explanation_painting tiago elgrito_ws)  [20.000]
+46.002: (move tiago elgrito_ws guernica_ws)  [15.000]
+61.002: (assign_batteries tiago guernica_ws)  [20.000]
+76.002: (finished_explain tiago)  [1.000]
+
+; Tiempo de espera
+0.097: (wait_dibejo_ws tiago)  [100.000]
+106.002: (visit_guernica_ws tiago elgrito_ws)  [15.000]
+121.002: (visit_nocheestrellada_ws tiago guernica_ws)  [15.000]
+136.002: (visit_dibejo_ws tiago nocheestrellada_ws)  [20.000]
+151.002: (visit_egruto_ws tiago guernica_ws)  [20.000]
+166.002: (visit_nocheestrellada_ws tiago elgrito_ws)  [15.000]
+
+; Acción final
+168.002: (finish_tarea_library)  [1.000]
+```
+
+Este plan sigue el mismo patrón de acciones que debías realizar para completar el problema:
+
+*   Saludar a un visitante (EMPEZAR DANDO LA BIENBENIDA)
+*   Mover el robot a una ubicación
+*   Explicar una pintura
+*   Recargar la batería
+
+También incluye algunas acciones adicionales como esperar a que los objetos estén disponibles, visitar ciertos lugares y realizar otras acciones de manera aleatoria para mantener el tiempo de espera realista.
+
+Espero que este plan te sea útil. Recuerda que puedes ajustarlo según tus necesidades y objetivos personales. (rolling)  jfisherr   main U:31 ?:2  ❲c❳ base  ~/cuarto/2c/plansis/plansys_ws/src/TFG/planner_ollama  python3 example.py 
+Claro, te proporciono el plan para resolver el problema de PDDL (Planning Domain Definition Language) que has enviado.
+
+**Dominio**
+
+El dominio consiste en un conjunto de conceptos y relaciones entre ellos. En este caso, tenemos los siguientes objetos:
+
+* **Robotes**: Tiago (tiago), monalisa_ws, nocheestrellada_ws, elgrito_ws, dibejo_ws, guernica_ws.
+* **Pinturas**: Monalisa_ws, elgritoWs, dibejoWs, guernicaWs.
+* **Personas**: pers_1.
+
+**Predicaciones**
+
+Se definen las siguientes predicciones:
+
+* `robot_at ?r - robot ?l - location`: El robot se encuentra en la ubicación de tipo `location`.
+* `painting_at ?b - painting ?l - location`: La pintura se encuentra en la ubicación de tipo `location`.
+* `person_at ?p - person ?l - location`: La persona se encuentra en la ubicación de tipo `location`.
+* `explained_painting ?p - location`: Una pintura ha sido explicada.
+* `can_start ?r - robot`: El robot puede comenzar a realizar acciones.
+* `visited ?r - robot ?l - location`: Un robot ha visitado una ubicación.
+
+**Funciones**
+
+Se definen las siguientes funciones:
+
+* `battery ?r - robot`: La batería del robot es de tipo `battery`.
+
+**Durative-Acciones**
+
+Se definen las siguientes acciones durativas:
+
+* `start_welcome`: El robot se desconecta y se desplaza al inicio.
+* `move`: El robot se mueve a una ubicación especificada.
+* `explain_painting`: La pintura se explica.
+* `recharge`: Se recarga la batería del robot.
+* `search_painting`: Busca pinturas en el espacio.
+
+**Objetos**
+
+Se definen los objetos, cada uno con su ubicación y características:
+
+* `home`: Ubicación (tiago)
+* `monalisa_ws`, `nightestrelladaWs`, `elgrito_ws`, `dibejoWs`, `guernicaWs`: Pinturas
+* `pers_1`: Persona
+
+**Init**
+
+Se define el estado inicial del robot:
+
+* Se desconecta tiago de la ubicación `home`.
+* La batería del robot es de 100.
+
+**Goal**
+
+El objetivo es completar las siguientes acciones:
+
+1. Explorar todas las pinturas en el espacio.
+2. Comenzar a explicar una pintura.
+3. Visitar al robot que tiene más pinturas.
+4. Visitar la ubicación `guernicaWs`.
+5. Finizar la explicación de la pintura.
+
+**Plan**
+
+A continuación, te proporciono el plan:
+
+0.000: (start_welcome tiago)  [1.000]
+1.001: (move tiago home dibejo_ws)  [15.000]
+2.002: (explain_painting tiago dibejoWs)  [15.000]
+3.003: (move tiago dibejoWs elgritoWs)  [15.000]
+4.004: (examine tiago)  [15.000]
+5.005: (search_painting tiago elgritoWs)  [15.000]
+6.006: (examine tiago)  [15.000]
+7.007: (move tiago elgritoWs guernicaWs)  [15.000]
+8.008: (finish_explain_painting tiago guernicaWs)  [15.000]
+9.009: (visit tiago guernicaWs)  [15.000]
+
+Espero que esta respuesta te sea útil. ¡Si tienes alguna pregunta o necesitas más ayuda, no dudes en preguntar!
