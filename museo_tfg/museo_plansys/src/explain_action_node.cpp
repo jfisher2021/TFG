@@ -16,11 +16,13 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 
 
 #include "plansys2_executor/ActionExecutorClient.hpp"
+#include "my_interfaces/srv/text_to_speech.hpp"
 
 using namespace std::chrono_literals;
 using std::placeholders::_1;
@@ -32,74 +34,109 @@ public:
   ExplainAction()
   : plansys2::ActionExecutorClient("explain_painting", 1s)
   {
-    success_ = 0.0;
-    retry = 0;
-    // Create a subscription to the LLM request topic
+    gtts_client_ = this->create_client<my_interfaces::srv::TextToSpeech>("tts_service");
   }
-  rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
-  on_activate(const rclcpp_lifecycle::State & state)
-  {
-    pub_llm_ = this->create_publisher<std_msgs::msg::String>(
-      "llm_response", 10);
 
-    // sub_llm_ = this->create_subscription<std_msgs::msg::String>(
-    //   "llm_request", rclcpp::SensorDataQoS(),
-    //   std::bind(&ExplainAction::scan_callback, this, std::placeholders::_1));
+  // rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
+  // on_activate(const rclcpp_lifecycle::State & state)
+  // {
+  //   say_pub_ = this->create_publisher<std_msgs::msg::String>(
+  //     "say_text", 10);
 
-    return ActionExecutorClient::on_activate(state);
-  }
+  //   // sub_llm_ = this->create_subscription<std_msgs::msg::String>(
+  //   //   "llm_request", rclcpp::SensorDataQoS(),
+  //   //   std::bind(&ExplainAction::scan_callback, this, std::placeholders::_1));
+
+  //   return ActionExecutorClient::on_activate(state);
+  // }
 
 
 private:
   void do_work()
   {
-    srand(time(NULL));
-    success_ = static_cast<float>(std::rand())/ static_cast<float>(RAND_MAX);
-    // std::cout << success_ << std::endl;
-    // RCLCPP_INFO(get_logger(), "Detected: %f\n", success_);
+    
     std::string arg_robot = get_arguments()[0];
     std::string drawing = get_arguments()[1];
     // std::cout << "\r\e[K" << std::flush;
-    std::cout << "Explaining with " << arg_robot
+    std::cout << "FOUND!!! Explaining with " << arg_robot
               << " drawing " << drawing << std::endl;
 
     // Here you can process the message and send a response if needed
-    std_msgs::msg::String response;
-    response.data = "Response to: " + drawing;
-    pub_llm_->publish(response);
-    if (success_ > 0.7) {
-      std::cout << "FOUND!!!" << std::endl;
-      std::string python_arg =  "Explicame el siguiente cuadro: " + drawing;
-      std::string command = "ssh dedalo.tsc.urjc.es 'python3 /home/jfisher/tfg/preguntas_sobre_csv.py " + python_arg + "'";
-      std::string result;
-      // system("ls"); // Clear the terminal screen for better visibility
+    std_msgs::msg::String msg;
 
-      char buffer[128];
+    // std::string python_arg =  "Explicame el siguiente cuadro: " + drawing;
+    // std::string command = "ssh dedalo.tsc.urjc.es 'python3 /home/jfisher/tfg/preguntas_sobre_csv.py " + python_arg + "'";
+    // std::string result;
+    // system("ls"); // Clear the terminal screen for better visibility
 
-      FILE* pipe = popen(command.c_str(), "r");
-      if (!pipe) {
-        std::cerr << "Error abriendo el pipe\n";
-        finish(false, 0.0, "explain_painting failed");
-      }
+    // char buffer[128];
 
-      while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-        result += buffer;
-      }
+    // FILE* pipe = popen(command.c_str(), "r");
+    // if (!pipe) {
+    //   std::cerr << "Error abriendo el pipe\n";
+    //   finish(false, 0.0, "explain_painting failed");
+    // }
 
-      pclose(pipe);
-      std::cout << "Salida remota:\n" << result << std::endl;
-      finish(true, 1.0, "explain_painting completed");
-      success_ = 0.0;
-    } else {
-      if (retry >= 5) {
-        finish(false, 0.0, "explain_painting failed");
-        retry = 0;
-        success_ = 0.0;
-      } else {
-        send_feedback(success_, "explain_painting running");
-        retry++;
-      }
+    // while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+    //   result += buffer;
+    // }
+
+    // pclose(pipe);
+
+    std::fstream my_file;
+    std::string ch;
+    my_file.open("/tmp/explicacion_" + drawing, std::ios::in);
+    if (!my_file) {
+      std::cout << "No such file";
     }
+    else {
+
+      std::string line;
+      while (std::getline(my_file, line)) {
+        ch += line + "\n";
+      }
+
+    }
+    my_file.close();
+    
+    std::cout << "Explicacion:\n" << ch << std::endl;
+    // Crear solicitud
+    auto request = std::make_shared<my_interfaces::srv::TextToSpeech::Request>();
+    request->text = ch;
+
+    RCLCPP_INFO(get_logger(), "📢 Enviando solicitud TTS: %s", request->text.c_str());
+
+    // Enviar solicitud
+    auto future = gtts_client_->async_send_request(request);
+    RCLCPP_INFO(get_logger(), "⏳ Esperando respuesta de TTS...");
+
+    // 🔁 Esperar resultado (bloqueante, al estilo HNI)
+    try {
+      auto result = future.get();
+      RCLCPP_INFO(get_logger(), "📢 Respuesta de TTS recibida");
+      if (result->success) {
+        RCLCPP_INFO(get_logger(), "✅ TTS leído con éxito");
+      } else {
+        RCLCPP_WARN(get_logger(), "⚠️ TTS falló: %s", result->debug.c_str());
+      }
+
+      // ✅ Si llegamos aquí, todo OK
+      RCLCPP_INFO(get_logger(), "✅ Finalizando acción...");
+      finish(true, 1.0, "explain_painting completed");
+
+    } catch (const std::exception &e) {
+      RCLCPP_ERROR(get_logger(), "❌ Excepción esperando respuesta de TTS: %s", e.what());
+      finish(false, 0.0, "TTS exception");
+    }
+    
+
+
+    // msg.data = ch;
+    // say_pub_->publish(msg);
+
+    
+    finish(true, 1.0, "explain_painting completed");
+    
 
   }
 
@@ -111,13 +148,13 @@ private:
   //   // Here you can process the message and send a response if needed
   //   std_msgs::msg::String response;
   //   response.data = "Response to: " + msg->data;
-  //   pub_llm_->publish(response);
+  //   say_pub_->publish(response);
   // }
   // rclcpp::Subscription<std_msgs::msg::String>::SharedPtr sub_llm_;
-  rclcpp::Publisher<std_msgs::msg::String>::SharedPtr pub_llm_;
+  rclcpp::Publisher<std_msgs::msg::String>::SharedPtr say_pub_;
+  rclcpp::Client<my_interfaces::srv::TextToSpeech>::SharedPtr gtts_client_;
 
-  float success_;
-  int retry;
+
 };
 
 int main(int argc, char ** argv)

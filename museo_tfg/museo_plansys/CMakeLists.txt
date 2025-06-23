@@ -20,6 +20,7 @@ find_package(plansys2_problem_expert REQUIRED)
 find_package(plansys2_pddl_parser REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 find_package(plansys2_bt_actions REQUIRED)
+find_package(my_interfaces REQUIRED)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -37,7 +38,9 @@ set(dependencies
     plansys2_pddl_parser
     ament_index_cpp
     plansys2_bt_actions
+    my_interfaces
 )
+
 
 include_directories(include)
 
@@ -55,6 +58,9 @@ foreach(bt_plugin ${plugin_libs})
 endforeach()
 
 # ADD THE EXECUTABLES
+
+add_executable(tts_client_node src/tts_client_node.cpp)
+ament_target_dependencies(tts_client_node ${dependencies})
 
 add_executable(move_fake_action_node src/move_fake_action_node.cpp)
 ament_target_dependencies(move_fake_action_node ${dependencies})
@@ -77,6 +83,7 @@ install(DIRECTORY launch pddl behavior_trees_xml config DESTINATION share/${PROJ
 install(TARGETS
   move_fake_action_node
   explain_action_node
+  tts_client_node
   welcome_action_node
   recharge_action_node
   library_controller_node

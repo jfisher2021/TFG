@@ -21,6 +21,7 @@
   <depend>plansys2_problem_expert</depend>
   <depend>plansys2_pddl_parser</depend>
   <depend>ament_index_cpp</depend>
+  <depend>my_interface</depend>
 
 
   <exec_depend>plansys2_bringup</exec_depend>
