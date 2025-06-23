@@ -42,14 +42,11 @@ private:
     std::string arg_to = get_arguments()[1];
     // std::cout << "\r\e[K" << std::flush;
     std::cout << "Recharging with " << arg_robot
-              << " in " << arg_to
-              << " ... ["
-              << std::min(100.0, success_ * 100.0)
-              << "% of accuracy]  " << std::endl;
+              << " in " << arg_to << std::endl;
 
 
     if (success_ > 0.2) {
-      std::cout << "FOUND!!!" << std::endl;
+      std::cout << "RECHARGED!!!" << std::endl;
       finish(true, 1.0, "recharge completed");
       success_ = 0.0;
       std::cout << std::endl;

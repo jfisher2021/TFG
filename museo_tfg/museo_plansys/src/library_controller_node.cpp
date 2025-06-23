@@ -18,7 +18,7 @@ class Controller : public rclcpp::Node
 {
 public:
   Controller()
-  : rclcpp::Node("library_controller_node"),  state_(SELECTING)
+  : rclcpp::Node("library_controller_node"),  state_(PLANNING)
   {
   }
 
@@ -29,9 +29,16 @@ public:
     problem_expert_ = std::make_shared<plansys2::ProblemExpertClient>();
     executor_client_ = std::make_shared<plansys2::ExecutorClient>();
 
-    drawings = {"monalisa", "nocheestrellada", "elgrito", "guernica", "dibejo"};
+    drawings = {
+      "monalisa", "nocheestrellada", "elgrito", "dibejo", "guernica", "la_joven_de_la_perla", "las_meninas",
+      "el_3_de_mayo_de_1808", "el_jardin_de_las_delicias", "las_tres_gracias", "la_rendicion_de_breda",
+      "el_nacimiento_de_venus", "la_creacion_de_adan", "la_ultima_cena", "la_libertad_guiando_al_pueblo",
+      "el_hijo_del_hombre", "american_gothic", "la_persistencia_de_la_memoria", "la_ronda_de_noche",
+      "impresion_sol_naciente", "banistas_en_asnieres", "saturno_devorando_a_su_hijo", "whistlers_mother",
+      "la_gran_ola_de_kanagawa", "el_beso", "autorretrato_con_collar_de_espinas", "el_carnaval_del_arlequin",
+      "nighthawks", "retrato_de_adele_bloch_bauer_i", "campbells_soup_cans", "composition_viii"
+    };
     goals_ = {"(and explained_painting monalisa_ws)", "(and visited tiago monalisa_ws)", "(and visited tiago elgrito_ws)"};
-    RCLCPP_INFO(get_logger(), "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!");
 
     init_knowledge();
 
@@ -62,21 +69,15 @@ public:
   {
     switch (state_)
     {
-    case SELECTING:
+    case PLANNING:
     {
       // End when no goals left
       if (goals_.empty()) {
         state_ = ENDING;
         break;
       }
-      RCLCPP_INFO(get_logger(), "SELECTINGGGGGGGGGGGGGGGGGGGGG");
+      RCLCPP_INFO(get_logger(), "PLANNINGGGGGGGGGGGGGGGGGGGG!!");
 
-      // actual_goal_ = goals_.back();
-      
-      // problem_expert_->setGoal(plansys2::Goal("(and " + actual_goal_ + " )"));
-      // problem_expert_->setGoal(plansys2::Goal("(and (explained_painting monalisa) (explained_painting elgrito) (explained_painting dibejo) (explained_painting guernica) (explained_painting nocheestrellada))"));
-
-      RCLCPP_INFO(get_logger(), "2222222222222222SELLLLLLLLLLLLLLLLLL");
 
 
       auto domain = domain_expert_->getDomain();
@@ -86,7 +87,7 @@ public:
       //     std::cout << plan_item.time << ":\t" << plan_item.action << "\t[" <<
       //       plan_item.duration << "]" << std::endl;
       // }
-      RCLCPP_INFO(get_logger(), "333333333333333sellllllllllllllll!!");
+      RCLCPP_INFO(get_logger(), "WE HAVE PLANNNNNN!!");
 
       // if there is no plan, retry setting it
       if (!plan.has_value()) {
@@ -101,111 +102,46 @@ public:
         break;
       }
 
-      // // Check what type of goal is
-      // if (actual_goal_.find("rubik_solved") != std::string::npos){
-      //   RCLCPP_INFO(get_logger(), "GOAL RUBIK... ");
-      //   state_ = MOVE;
-      // }
-  
-      // if (actual_goal_.find("book_found") != std::string::npos){
-      //   RCLCPP_INFO(get_logger(), "GOAL BOOK... ");
-      //   state_ = EXPLAIN;
-      // }
-
-      // if (actual_goal_.find("person_attended") != std::string::npos){
-      //   RCLCPP_INFO(get_logger(),  "GOAL ATTEND... ");
-      //   state_ = RECHARGE;
-      // }
-
-      state_ = MOVE;
-      RCLCPP_INFO(get_logger(), "444444444444444sellllllllllllllllll!!");
+      state_ = DOING;
+      RCLCPP_INFO(get_logger(), "LESTTTT DOOO ITTTT!!");
 
       break;
     }
-    case MOVE:
+    case DOING:
     {
       // RCLCPP_INFO(get_logger(), "11111111111111111111111111MOVEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!");
 
       if (!executor_client_->execute_and_check_plan()) {  // Plan finished
-        RCLCPP_INFO(get_logger(), "22222222222222222222MOVEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!");
+        RCLCPP_INFO(get_logger(), "IM MOOVIINGGGG!!");
 
         switch (executor_client_->getResult().value().result) {
           case plansys2_msgs::action::ExecutePlan::Result::SUCCESS:
-            RCLCPP_INFO(get_logger(), "RUBIK SOLVED !!");
+            RCLCPP_INFO(get_logger(), "TOUR FINISHEDDD !!");
+            state_ = ENDING;
             // goals_.pop_back();
             break;
 
           case plansys2_msgs::action::ExecutePlan::Result::PREEMPT:
             RCLCPP_INFO(get_logger(), "Plan preempted");
+            state_ = PLANNING;
             break;
 
           case plansys2_msgs::action::ExecutePlan::Result::FAILURE:
             RCLCPP_ERROR(get_logger(), "RUBIK NOT SOLVED");
+            state_ = PLANNING;
             break;
         }
         // problem_expert_->clearGoal();
-        state_ = SELECTING;
-      }
-      break;
-    }
-    case EXPLAIN:
-    {
-      if (!executor_client_->execute_and_check_plan()) {  // Plan finished
-        switch (executor_client_->getResult().value().result) {
-          case plansys2_msgs::action::ExecutePlan::Result::SUCCESS:
-            RCLCPP_INFO(get_logger(), "PERSON ATTENDED !!");
-            goals_.pop_back();
-            break;
-
-          case plansys2_msgs::action::ExecutePlan::Result::PREEMPT:
-            RCLCPP_INFO(get_logger(), "Plan preempted");
-            break;
-
-          case plansys2_msgs::action::ExecutePlan::Result::FAILURE:
-            RCLCPP_ERROR(get_logger(), "NO PERSON ATTENDED");
-          break;
-        }
-        problem_expert_->clearGoal();
-        state_ = SELECTING;
-      }
-      break;
-    }
-    case RECHARGE:
-    {
-      if (!executor_client_->execute_and_check_plan()) {  // Plan finished
-        switch (executor_client_->getResult().value().result) {
-          case plansys2_msgs::action::ExecutePlan::Result::SUCCESS:
-            RCLCPP_INFO(get_logger(), "BOOK FOUND !!");
-            goals_.pop_back();
-            break;
-
-          case plansys2_msgs::action::ExecutePlan::Result::PREEMPT:
-            RCLCPP_INFO(get_logger(), "Plan preempted");
-            break;
-
-          case plansys2_msgs::action::ExecutePlan::Result::FAILURE:
-            RCLCPP_ERROR(get_logger(), "BOOK NOT FOUND");
-
-            // If book is not where it was supposed to,
-            // move it to a new shelf and restart execution
-            if (drawings.empty()) {
-              RCLCPP_INFO(get_logger(), "NO MORE SHELVES TO SEARCH");
-              goals_.pop_back();
-
-            } else { // Change shelf where book is supposed to be at
-              problem_expert_->removePredicate(plansys2::Predicate("(book_at book_1 " + drawings.back() + ")"));
-              drawings.pop_back();
-              problem_expert_->addPredicate(plansys2::Predicate("(book_at book_1 " + drawings.back() + ")"));
-            }
-            break;
-        }
-        problem_expert_->clearGoal();
-        state_ = SELECTING;
+        
       }
       break;
     }
     case ENDING:
-      RCLCPP_INFO(get_logger(), "All goals achieved...");
+      static bool finished = false;
+      if (!finished) {
+        RCLCPP_INFO(get_logger(), "All goals achieved...");
+        finished = true;
+      }
       break;
 
     default:
@@ -214,7 +150,7 @@ public:
   }
 
 private:
-  typedef enum {SELECTING, MOVE, EXPLAIN, RECHARGE, ENDING} StateType;
+  typedef enum {PLANNING, DOING, ENDING} StateType;
   StateType state_;
 
   std::shared_ptr<plansys2::DomainExpertClient> domain_expert_;

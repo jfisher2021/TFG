@@ -14,6 +14,9 @@
 
 
 #include <fstream>
+#include <thread>
+#include <future>
+#include <unordered_map>
 
 #include "plansys2_msgs/msg/plan_item.hpp"
 #include "my_llm_plan_solver/llm_plan_solver.hpp"
@@ -78,6 +81,23 @@ void LLMPlanSolver::configure(
   }
 }
 
+// Función auxiliar para obtener la explicación de un cuadro
+std::string obtener_explicacion(const std::string& cuadro) {
+  // Aquí iría tu llamada al LLM, por ejemplo:
+  RCLCPP_INFO(
+    rclcpp::get_logger("LLMPlanSolver"), "Obteniendo explicación para el cuadro: %s", cuadro.c_str());
+  std::string command = "ssh dedalo.tsc.urjc.es 'python3 /home/jfisher/tfg/preguntas_sobre_csv.py " + cuadro + "'";
+  std::string result;
+  char buffer[128];
+  FILE* pipe = popen(command.c_str(), "r");
+  if (!pipe) return "";
+  while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+    result += buffer;
+  }
+  pclose(pipe);
+  return result;
+}
+
 std::optional<plansys2_msgs::msg::Plan>
 LLMPlanSolver::getPlan(
   const std::string & domain, const std::string & problem,
@@ -135,6 +155,9 @@ LLMPlanSolver::parse_plan_result(const std::string & plan_path)
 
   plansys2_msgs::msg::Plan plan;
 
+  // Mapa para guardar las explicaciones
+  std::unordered_map<std::string, std::future<std::string>> explicaciones_futures;
+
   if (plan_file.is_open()) {
     while (getline(plan_file, line)) {
       std::cout << "XXXXXXXXXXXXXXXXXXLine: " << line << std::endl;
@@ -172,6 +195,14 @@ LLMPlanSolver::parse_plan_result(const std::string & plan_path)
         item.time = std::stof(time);
         item.action = action;
         item.duration = std::stof(duration);
+        // if (item.action.find("explain") != std::string::npos) {
+        //   // Extrae solo el nombre del cuadro (por ejemplo: "monalisa")
+        //   size_t last_space = item.action.find_last_of(' ');
+        //   size_t last_paren = item.action.find(')', last_space);
+        //   std::string cuadro = item.action.substr(last_space + 1, last_paren - last_space - 1);
+        //   // Lanza el hilo y guarda el future
+        //   explicaciones_futures[cuadro] = std::async(std::launch::async, obtener_explicacion, cuadro);
+        // }
 
         plan.items.push_back(item);
         std::cout << "UUUUUUUUUUUUUUUUUUUUUUUUUUUUParsed item: " << item.action << " at time " << item.time << " with duration " << item.duration << std::endl;
@@ -179,6 +210,15 @@ LLMPlanSolver::parse_plan_result(const std::string & plan_path)
     }
     plan_file.close();
   }
+
+  // // Espera a que todas las explicaciones estén listas y guárdalas donde quieras
+  // for (auto& [cuadro, fut] : explicaciones_futures) {
+  //   std::string explicacion = fut.get();
+  //   // Puedes guardar la explicación en disco o en memoria, por ejemplo:
+  //   std::ofstream out("/tmp/explicacion_" + cuadro);
+  //   out << explicacion;
+  //   out.close();
+  // }
 
   if (solution && !plan.items.empty()) {
     return plan;

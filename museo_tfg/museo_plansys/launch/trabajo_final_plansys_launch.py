@@ -89,6 +89,27 @@ def generate_launch_description():
         name='welcome_action_node',
         output='screen',
         parameters=[])
+    
+    tts_service_cmd = Node(
+        package='my_python_pkg',
+        executable='tts_service',
+        name='tts_server',
+        output='screen',
+        parameters=[])
+    
+    stt_service_cmd = Node(
+        package='my_python_pkg',
+        executable='stt_service',
+        name='stt_server',
+        output='screen',
+        parameters=[])
+    
+    tts_client_cmd = Node(
+        package='museo_plansys',
+        executable='tts_client_node',
+        name='tts_client',
+        output='screen',
+        parameters=[])
 
     # Create the launch description and populate
     ld = LaunchDescription()
@@ -101,6 +122,9 @@ def generate_launch_description():
     ld.add_action(welcome_cmd)
     ld.add_action(explain_cmd)
     ld.add_action(move_fake)
+    ld.add_action(tts_service_cmd)
+    ld.add_action(stt_service_cmd)
+    # ld.add_action(tts_client_cmd)
 
     # ld.add_action(move_cmd)
 
