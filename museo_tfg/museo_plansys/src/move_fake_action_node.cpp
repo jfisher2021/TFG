@@ -21,10 +21,10 @@
 
 using namespace std::chrono_literals;
 
-class ExplainAction : public plansys2::ActionExecutorClient
+class MoveFakeAction : public plansys2::ActionExecutorClient
 {
 public:
-  ExplainAction()
+  MoveFakeAction()
   : plansys2::ActionExecutorClient("move", 1s)
   {
     success_ = 0.0;
@@ -71,7 +71,7 @@ private:
 int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
-  auto node = std::make_shared<ExplainAction>();
+  auto node = std::make_shared<MoveFakeAction>();
 
   node->set_parameter(rclcpp::Parameter("action_name", "move"));
   node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);

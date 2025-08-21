@@ -1,0 +1,8 @@
+<root BTCPP_format="4" main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+    <Sequence name="root_sequence">
+      <ExplainPainting name="explain_action" robot="{arg0}" painting="{arg1}" explanation="{explanation}"/>
+      <TTSAction name="ttsaction" text="{explanation}"/>
+    </Sequence>
+  </BehaviorTree>
+</root>

@@ -50,6 +50,12 @@ include_directories(include)
 # add_library(plansys2_move_bt_node SHARED src/behavior_tree_nodes/Move.cpp)
 # list(APPEND plugin_libs plansys2_move_bt_node)
 
+# Add the explain BT nodes
+add_library(explain_bt_node SHARED src/behavior_tree_nodes/ExplainPainting.cpp)
+list(APPEND plugin_libs explain_bt_node)
+
+add_library(tts_bt_node SHARED src/behavior_tree_nodes/TTSAction.cpp)
+list(APPEND plugin_libs tts_bt_node)
 
 # ADD THE DEPENDENCIES
 foreach(bt_plugin ${plugin_libs})
@@ -65,8 +71,8 @@ ament_target_dependencies(tts_client_node ${dependencies})
 add_executable(move_fake_action_node src/move_fake_action_node.cpp)
 ament_target_dependencies(move_fake_action_node ${dependencies})
 
-add_executable(explain_action_node src/explain_action_node.cpp)
-ament_target_dependencies(explain_action_node ${dependencies})
+# add_executable(explain_action_node src/explain_action_node.cpp)
+# ament_target_dependencies(explain_action_node ${dependencies})
 
 add_executable(recharge_action_node src/recharge_action_node.cpp)
 ament_target_dependencies(recharge_action_node ${dependencies})
@@ -82,7 +88,7 @@ install(DIRECTORY launch pddl behavior_trees_xml config DESTINATION share/${PROJ
 
 install(TARGETS
   move_fake_action_node
-  explain_action_node
+  # explain_action_node
   tts_client_node
   welcome_action_node
   recharge_action_node

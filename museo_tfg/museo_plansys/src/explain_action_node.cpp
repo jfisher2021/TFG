@@ -31,6 +31,7 @@ using std::placeholders::_1;
 class ExplainAction : public plansys2::ActionExecutorClient
 {
 public:
+  std::cout << "QQQQQQQQQQQQQQQQQQQQQQQQQQ:\n" << ch << std::endl;
   ExplainAction()
   : plansys2::ActionExecutorClient("explain_painting", 1s)
   {
@@ -54,7 +55,8 @@ public:
 private:
   void do_work()
   {
-    
+    std::cout << "QQQQQQQQQQQQQQQQQQQQQQQQQQ:\n" << ch << std::endl;
+
     std::string arg_robot = get_arguments()[0];
     std::string drawing = get_arguments()[1];
     // std::cout << "\r\e[K" << std::flush;
@@ -85,7 +87,7 @@ private:
 
     std::fstream my_file;
     std::string ch;
-    my_file.open("/tmp/explicacion_" + drawing, std::ios::in);
+    my_file.open("/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/museo_tfg/museo_plansys/explicacion_respuestas/" + drawing, std::ios::in);
     if (!my_file) {
       std::cout << "No such file";
     }
@@ -159,6 +161,8 @@ private:
 
 int main(int argc, char ** argv)
 {
+  std::cout << "QQQQQQQQQQQQQQQQQQQQQQQQQQ:\n" << ch << std::endl;
+
   rclcpp::init(argc, argv);
   auto node = std::make_shared<ExplainAction>();
 

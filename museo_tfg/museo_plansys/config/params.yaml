@@ -2,11 +2,19 @@ move:
   ros__parameters:
     plugins:
       - plansys2_move_bt_node
-    waypoints: ["monalisa", "nocheestrellada", "elgrito", "guernica", "dibejo", "home"]
+    waypoints: ["monalisa", "nocheestrellada", "elgrito", "guernica", "maestro_aprendiz", "home"]
     waypoint_coords:
       home: [0.031197331845760345, -0.06925294548273087, 0.0]
-      dibejo: [-2.529934883117676, 6.416292667388916, 0.0]
+      maestro_aprendiz: [-2.529934883117676, 6.416292667388916, 0.0]
       monalisa: [0.5127873420715332, -1.433525800704956, 0.0]
       nocheestrellada: [0.45655569434165955, -4.743329048156738, 0.0]
       elgrito: [-1.9434707164764404, -4.742434024810791, 0.0]
       guernica: [-1.826885461807251, -1.4296108484268188, 0.0]
+
+explain_painting:
+  ros__parameters:
+    plugins:
+      - explain_bt_node
+      - tts_bt_node
+    bt_xml_file: "explain.xml"
+

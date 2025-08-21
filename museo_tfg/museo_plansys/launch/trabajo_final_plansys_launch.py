@@ -62,7 +62,7 @@ def generate_launch_description():
     #       }
     #     ])
     # Specify the actions
-
+    
     move_fake = Node(
         package='museo_plansys',
         executable='move_fake_action_node',
@@ -76,13 +76,24 @@ def generate_launch_description():
         name='recharge_action_node',
         output='screen',
         parameters=[])
-        
+    
+    # Reemplazamos el nodo de explain por una acción BT
     explain_cmd = Node(
-        package='museo_plansys',
-        executable='explain_action_node',
-        name='explain_action_node',
+        package='plansys2_bt_actions',
+        executable='bt_action_node',
+        name='explain_painting',
+        namespace=namespace,
         output='screen',
-        parameters=[])
+        parameters=[
+          pkg_dir + '/config/params.yaml',
+          {
+            'action_name': 'explain_painting',
+            'publisher_port': 13,
+            'server_port': 14,
+            'bt_xml_file': pkg_dir + '/behavior_trees_xml/explain.xml'
+          }
+        ])
+        
     welcome_cmd = Node(
         package='museo_plansys',
         executable='welcome_action_node',
