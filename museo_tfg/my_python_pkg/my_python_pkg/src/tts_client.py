@@ -53,7 +53,12 @@ def main(args=None):
     #res = gtts_client.get_clock().sleep_for(Duration(seconds=sleep_for))
     #print("atteso 60 secondi")
     
-    text="HOLA MUNDO";
+    import sys as _sys
+    if _sys.argv[1:]:
+        text = " ".join(_sys.argv[1:])
+    else:
+        text = "HOLA MUNDO NUevo"
+    print(text)
     response = gtts_client.send_request(text)
     print(response.debug)
     gtts_client.get_logger().info(
