@@ -9,7 +9,7 @@ int main(int argc, char** argv) {
   }
   // std::string python_arg = argv[1];
   std::string python_arg =  "Dame 5 cuadros aleatorios";
-  std::string command = "ssh dedalo.tsc.urjc.es 'python3 /home/jfisher/tfg/probando_cuadros.py " + python_arg + "'";
+  std::string command = "ssh dedalo.tsc.urjc.es 'python3 /home/jfisher/tfg/tfg_ollama/probando_cuadros.py " + python_arg + "'";
   std::string result;
   // system("ls"); // Clear the terminal screen for better visibility
   std::cout << "Ejecutando comando remoto: " << command << std::endl;

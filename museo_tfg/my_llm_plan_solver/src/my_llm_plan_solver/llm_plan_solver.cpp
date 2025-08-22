@@ -86,7 +86,7 @@ std::string obtener_explicacion(const std::string& cuadro) {
   // Aquí iría tu llamada al LLM, por ejemplo:
   RCLCPP_INFO(
     rclcpp::get_logger("LLMPlanSolver"), "Obteniendo explicación para el cuadro: %s", cuadro.c_str());
-  std::string command = "ssh dedalo.tsc.urjc.es 'python3 /home/jfisher/tfg/preguntas_sobre_csv.py " + cuadro + "'";
+  std::string command = "ssh dedalo.tsc.urjc.es '/home/jfisher/miniconda3/bin/python /home/jfisher/tfg/tfg_ollama/preguntas_sobre_csv.py " + cuadro + "'";
   std::string result;
   char buffer[128];
   FILE* pipe = popen(command.c_str(), "r");
@@ -110,36 +110,36 @@ LLMPlanSolver::getPlan(
     return {};
   }
   const auto & output_dir = output_dir_maybe.value();
-  RCLCPP_DEBUG(
-    lc_node_->get_logger(), "Writing planning results to %s.", output_dir.string().c_str());
+  // RCLCPP_DEBUG(
+  //   lc_node_->get_logger(), "Writing planning results to %s.", output_dir.string().c_str());
 
-  std::string python_arg =  "Explicame el siguiente cuadro: " ;
-  std::string command = "ssh dedalo.tsc.urjc.es 'python3 /home/jfisher/tfg/copy_example.py " + python_arg + "'";
-  std::string result;
-  // system("ls"); // Clear the terminal screen for better visibility
+  // std::string python_arg =  "Explicame el siguiente cuadro: " ;
+  // std::string command = "ssh dedalo.tsc.urjc.es '/home/jfisher/miniconda3/bin/python /home/jfisher/tfg/tfg_ollama/copy_example.py " + python_arg + "'";
+  // std::string result;
+  // // system("ls"); // Clear the terminal screen for better visibility
 
-  char buffer[128];
+  // char buffer[128];
 
-  FILE* pipe = popen(command.c_str(), "r");
-  if (!pipe) {
-    std::cerr << "Error abriendo el pipe\n";
-    return {};
-  }
+  // FILE* pipe = popen(command.c_str(), "r");
+  // if (!pipe) {
+  //   std::cerr << "Error abriendo el pipe\n";
+  //   return {};
+  // }
 
-  while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-    result += buffer;
-  }
+  // while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+  //   result += buffer;
+  // }
 
-  pclose(pipe);
-  std::cout << "Salida remota:\n" << result << std::endl;
-  std::ofstream plan_out("/tmp/plan");
-  if (plan_out.is_open()) {
-    plan_out << result;
-    plan_out.close();
-  } else {
-    std::cerr << "No se pudo abrir /tmp/plan para escribir la salida remota\n";
-    return {};
-  }
+  // pclose(pipe);
+  // std::cout << "Salida remota:\n" << result << std::endl;
+  // std::ofstream plan_out("/tmp/plan");
+  // if (plan_out.is_open()) {
+  //   plan_out << result;
+  //   plan_out.close();
+  // } else {
+  //   std::cerr << "No se pudo abrir /tmp/plan para escribir la salida remota\n";
+  //   return {};
+  // }
   const auto plan_file_path = output_dir / std::filesystem::path("plan");
 
   return parse_plan_result(plan_file_path.string());

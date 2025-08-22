@@ -65,7 +65,7 @@ private:
     std_msgs::msg::String msg;
 
     // std::string python_arg =  "Explicame el siguiente cuadro: " + drawing;
-    // std::string command = "ssh dedalo.tsc.urjc.es 'python3 /home/jfisher/tfg/preguntas_sobre_csv.py " + python_arg + "'";
+    // std::string command = "ssh dedalo.tsc.urjc.es 'python3 /home/jfisher/tfg/tfg_ollama/preguntas_sobre_csv.py " + python_arg + "'";
     // std::string result;
     // system("ls"); // Clear the terminal screen for better visibility
 
@@ -85,7 +85,7 @@ private:
 
     std::fstream my_file;
     std::string ch;
-    my_file.open("/tmp/explicacion_" + drawing, std::ios::in);
+    my_file.open("/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/museo_tfg/museo_plansys/explicacion_respuestas/" + drawing + ".txt", std::ios::in);
     if (!my_file) {
       std::cout << "No such file";
     }
