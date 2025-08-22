@@ -43,8 +43,8 @@ prompt = f"""
     I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
 
     0.000: (start_welcome tiago) [1.000]
-    1.001: (move tiago home dibejo) [15.000]
-    16.002: (move tiago dibejo elgrito) [15.000]
+    1.001: (move tiago home maestro_aprendiz) [15.000]
+    16.002: (move tiago maestro_aprendiz elgrito) [15.000]
     31.002: (explain_painting tiago elgrito) [15.000]
     46.002: (move tiago elgrito guernica) [15.000]
     ...
@@ -137,7 +137,7 @@ prompt = f"""
     (:domain library_domain)
 
     (:objects
-   home monalisa nocheestrellada elgrito dibejo guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+   home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
   el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
   la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
   la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
@@ -174,10 +174,10 @@ prompt = f"""
         (visited tiago elgrito)
         (visited tiago guernica)
         (visited tiago nocheestrellada)
-        (visited tiago dibejo)
+        (visited tiago maestro_aprendiz)
 
         (explained_painting monalisa)
-        (explained_painting dibejo)
+        (explained_painting maestro_aprendiz)
         (explained_painting guernica)
         
     
@@ -185,9 +185,9 @@ prompt = f"""
         )
     PLAN:
     0.000: (start_welcome tiago)  [1.000]
-    1.001: (move tiago home dibejo)  [15.000]
-    16.002: (explain_painting tiago dibejo)  [15.000]
-    31.002: (move tiago dibejo guernica)  [15.000]
+    1.001: (move tiago home maestro_aprendiz)  [15.000]
+    16.002: (explain_painting tiago maestro_aprendiz)  [15.000]
+    31.002: (move tiago maestro_aprendiz guernica)  [15.000]
     46.002: (explain_painting tiago guernica)  [15.000]
     61.002: (move tiago guernica home)  [15.000]
     76.002: (recharge tiago home)  [5.000]
@@ -206,10 +206,10 @@ prompt = f"""
 
         (visited tiago monalisa)
         (visited tiago guernica)
-        (visited tiago dibejo)
+        (visited tiago maestro_aprendiz)
 
         (explained_painting monalisa)
-        (explained_painting dibejo)
+        (explained_painting maestro_aprendiz)
         (explained_painting guernica)
         (explained_painting nocheestrellada)
         (explained_painting elgrito)
@@ -220,9 +220,9 @@ prompt = f"""
         
     PLAN:
     0.000: (start_welcome tiago)  [1.000]
-    1.001: (move tiago home dibejo)  [15.000]
-    16.002: (explain_painting tiago dibejo)  [15.000]
-    31.002: (move tiago dibejo elgrito)  [15.000]
+    1.001: (move tiago home maestro_aprendiz)  [15.000]
+    16.002: (explain_painting tiago maestro_aprendiz)  [15.000]
+    31.002: (move tiago maestro_aprendiz elgrito)  [15.000]
     46.002: (explain_painting tiago elgrito)  [15.000]
     61.002: (move tiago elgrito home)  [15.000]
     76.002: (recharge tiago home)  [5.000]
@@ -243,14 +243,14 @@ prompt = f"""
     (visited tiago nocheestrellada)
     (explained_painting monalisa)
     (explained_painting elgrito)
-    (explained_painting dibejo)
+    (explained_painting maestro_aprendiz)
     (explained_painting guernica)
 
     BAD PLAN:
     0.000: (start_welcome tiago) [1.000]
-    1.001: (move tiago home dibejo) [15.000]
-    16.002: (explain_painting tiago dibejo) [15.000]
-    31.002: (move tiago dibejo elgrito) [15.000]
+    1.001: (move tiago home maestro_aprendiz) [15.000]
+    16.002: (explain_painting tiago maestro_aprendiz) [15.000]
+    31.002: (move tiago maestro_aprendiz elgrito) [15.000]
     46.002: (explain_painting tiago elgrito) [15.000]
     61.002: (move tiago elgrito guernica) [15.000]
     76.002: (explain_painting tiago guernica) [15.000]
@@ -280,8 +280,8 @@ prompt = f"""
     REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
 
     0.000: (start_welcome tiago) [1.000]
-    1.001: (move tiago home dibejo) [15.000]
-    16.002: (move tiago dibejo elgrito) [15.000]
+    1.001: (move tiago home maestro_aprendiz) [15.000]
+    16.002: (move tiago maestro_aprendiz elgrito) [15.000]
     31.002: (explain_painting tiago elgrito) [15.000]
     46.002: (move tiago elgrito guernica) [15.000]
 
@@ -314,8 +314,8 @@ print(response['response'])
 ################################ PLAN REAL ######################################
 
 # 0.000: (start_welcome tiago)  [1.000]
-# 1.001: (move tiago home dibejo)  [15.000]
-# 16.002: (move tiago dibejo elgrito)  [15.000]
+# 1.001: (move tiago home maestro_aprendiz)  [15.000]
+# 16.002: (move tiago maestro_aprendiz elgrito)  [15.000]
 # 31.002: (explain_painting tiago elgrito)  [15.000]
 # 46.002: (move tiago elgrito guernica)  [15.000]
 # 61.002: (explain_painting tiago guernica)  [15.000]

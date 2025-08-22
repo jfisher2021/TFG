@@ -13,8 +13,8 @@ You are a planner for PDDL and I only want you to give me the execution plan. Yo
 I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
 
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
 31.002: (explain_painting tiago elgrito) [15.000]
 46.002: (move tiago elgrito guernica) [15.000]
 ...
@@ -107,7 +107,7 @@ problem:
 (:domain library_domain)
 
 (:objects
- home monalisa nocheestrellada elgrito dibejo guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+ home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
   el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
   la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
   la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
@@ -137,8 +137,8 @@ Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, yo
 REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
 
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
 31.002: (explain_painting tiago elgrito) [15.000]
 46.002: (move tiago elgrito guernica) [15.000]
 
@@ -177,8 +177,8 @@ You are a planner for PDDL and I only want you to give me the execution plan. Yo
 I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
 
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
 31.002: (explain_painting tiago elgrito) [15.000]
 46.002: (move tiago elgrito guernica) [15.000]
 ...
@@ -271,7 +271,7 @@ problem:
 (:domain library_domain)
 
 (:objects
-  home monalisa nocheestrellada elgrito dibejo guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+  home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
   el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
   la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
   la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
@@ -295,7 +295,7 @@ problem:
     (visited tiago nocheestrellada)
     (explained_painting monalisa)
     (explained_painting elgrito)
-    (explained_painting dibejo)
+    (explained_painting maestro_aprendiz)
     (explained_painting guernica)
     (explained_painting la_joven_de_la_perla)
     (explained_painting las_meninas)
@@ -312,8 +312,8 @@ Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, yo
 REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
 
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
 31.002: (explain_painting tiago elgrito) [15.000]
 46.002: (move tiago elgrito guernica) [15.000]
 
@@ -334,16 +334,16 @@ The most efficient use of a single battery charge is to perform a sequence of ac
 
 The plan is structured into three full recharge cycles and a final trip to complete the goals.
 
-*   **Trip 1:** The robot travels from `home` to `dibejo` and then to `elgrito`. It explains the paintings at both locations because `(explained_painting dibejo)` and `(explained_painting elgrito)` are goals. After these actions, the battery is at 40. The robot moves back to `home`, arriving with 20 battery, and must recharge.
+*   **Trip 1:** The robot travels from `home` to `maestro_aprendiz` and then to `elgrito`. It explains the paintings at both locations because `(explained_painting maestro_aprendiz)` and `(explained_painting elgrito)` are goals. After these actions, the battery is at 40. The robot moves back to `home`, arriving with 20 battery, and must recharge.
 *   **Trip 2:** After recharging to 100, the robot travels to `guernica` and `la_joven_de_la_perla`. It explains both paintings as they are required by the goal state. It then returns to `home` with 20 battery and recharges again.
 *   **Trip 3:** The robot travels to `las_meninas` and `el_3_de_mayo_de_1808`, explaining both paintings to satisfy their respective goals. It returns to `home` for its final recharge.
 *   **Final Trip:** The robot uses its last full charge to complete the remaining goals. It travels to `el_jardin_de_las_delicias` and `monalisa`, explaining both as required. Finally, it moves to `nocheestrellada` to satisfy the last `visited` goal. The plan concludes here as all goals have been met.
 
 PLAN:
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.001: (explain_painting tiago dibejo) [15.000]
-31.001: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.001: (explain_painting tiago maestro_aprendiz) [15.000]
+31.001: (move tiago maestro_aprendiz elgrito) [15.000]
 46.001: (explain_painting tiago elgrito) [15.000]
 61.001: (move tiago elgrito home) [15.000]
 76.001: (recharge tiago home) [5.000]
@@ -380,8 +380,8 @@ You are a planner for PDDL and I only want you to give me the execution plan. Yo
 I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
 
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
 31.002: (explain_painting tiago elgrito) [15.000]
 46.002: (move tiago elgrito guernica) [15.000]
 ...
@@ -474,7 +474,7 @@ problem:
 (:domain library_domain)
 
 (:objects
-  home monalisa nocheestrellada elgrito dibejo guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+  home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
   el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
   la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
   la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
@@ -498,7 +498,7 @@ problem:
     (visited tiago nocheestrellada)
     (explained_painting monalisa)
     (explained_painting elgrito)
-    (explained_painting dibejo)
+    (explained_painting maestro_aprendiz)
     (explained_painting guernica)
     (explained_painting la_joven_de_la_perla)
     (explained_painting las_meninas)
@@ -515,8 +515,8 @@ Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, yo
 REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
 
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
 31.002: (explain_painting tiago elgrito) [15.000]
 46.002: (move tiago elgrito guernica) [15.000]
 
@@ -537,16 +537,16 @@ The most efficient use of a single battery charge is to perform a sequence of ac
 
 The plan is structured into three full recharge cycles and a final trip to complete the goals.
 
-*   **Trip 1:** The robot travels from `home` to `dibejo` and then to `elgrito`. It explains the paintings at both locations because `(explained_painting dibejo)` and `(explained_painting elgrito)` are goals. After these actions, the battery is at 40. The robot moves back to `home`, arriving with 20 battery, and must recharge.
+*   **Trip 1:** The robot travels from `home` to `maestro_aprendiz` and then to `elgrito`. It explains the paintings at both locations because `(explained_painting maestro_aprendiz)` and `(explained_painting elgrito)` are goals. After these actions, the battery is at 40. The robot moves back to `home`, arriving with 20 battery, and must recharge.
 *   **Trip 2:** After recharging to 100, the robot travels to `guernica` and `la_joven_de_la_perla`. It explains both paintings as they are required by the goal state. It then returns to `home` with 20 battery and recharges again.
 *   **Trip 3:** The robot travels to `las_meninas` and `el_3_de_mayo_de_1808`, explaining both paintings to satisfy their respective goals. It returns to `home` for its final recharge.
 *   **Final Trip:** The robot uses its last full charge to complete the remaining goals. It travels to `el_jardin_de_las_delicias` and `monalisa`, explaining both as required. Finally, it moves to `nocheestrellada` to satisfy the last `visited` goal. The plan concludes here as all goals have been met.
 
 PLAN:
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.001: (explain_painting tiago dibejo) [15.000]
-31.001: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.001: (explain_painting tiago maestro_aprendiz) [15.000]
+31.001: (move tiago maestro_aprendiz elgrito) [15.000]
 46.001: (explain_painting tiago elgrito) [15.000]
 61.001: (move tiago elgrito home) [15.000]
 76.001: (recharge tiago home) [5.000]
@@ -583,8 +583,8 @@ You are a planner for PDDL and I only want you to give me the execution plan. Yo
 I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
 
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
 31.002: (explain_painting tiago elgrito) [15.000]
 46.002: (move tiago elgrito guernica) [15.000]
 ...
@@ -677,7 +677,7 @@ problem:
 (:domain library_domain)
 
 (:objects
-  home monalisa nocheestrellada elgrito dibejo guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+  home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
   el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
   la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
   la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
@@ -701,7 +701,7 @@ problem:
     (visited tiago nocheestrellada)
     (explained_painting monalisa)
     (explained_painting elgrito)
-    (explained_painting dibejo)
+    (explained_painting maestro_aprendiz)
     (explained_painting guernica)
     (explained_painting la_joven_de_la_perla)
     (explained_painting las_meninas)
@@ -718,8 +718,8 @@ Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, yo
 REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
 
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
 31.002: (explain_painting tiago elgrito) [15.000]
 46.002: (move tiago elgrito guernica) [15.000]
 
@@ -742,7 +742,7 @@ With a full 100 battery, the robot can perform a sequence like: `move` (to 80), 
 
 The plan is structured into four main trips:
 
-1.  **First Trip:** The robot starts with 100 battery. It travels to `dibejo` and explains it (a goal). Then it travels to `elgrito`, visits it (a goal), and explains it (another goal). With 40 battery left, it's not enough to visit another location and return, so it must return to `home`. It arrives with 20 battery, which is critically low. A recharge is necessary to continue the mission. The robot recharges back to 100.
+1.  **First Trip:** The robot starts with 100 battery. It travels to `maestro_aprendiz` and explains it (a goal). Then it travels to `elgrito`, visits it (a goal), and explains it (another goal). With 40 battery left, it's not enough to visit another location and return, so it must return to `home`. It arrives with 20 battery, which is critically low. A recharge is necessary to continue the mission. The robot recharges back to 100.
 
 2.  **Second Trip:** With a full battery, the robot repeats the efficient cycle. It visits and explains `guernica` (fulfilling two goals), then moves to `la_joven_de_la_perla` and explains it (a goal). Again, it returns to `home` with 20 battery and must recharge to 100.
 
@@ -754,9 +754,9 @@ This plan successfully completes all goals using the minimum of three recharges,
 
 PLAN:
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (explain_painting tiago dibejo) [15.000]
-31.003: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (explain_painting tiago maestro_aprendiz) [15.000]
+31.003: (move tiago maestro_aprendiz elgrito) [15.000]
 46.004: (explain_painting tiago elgrito) [15.000]
 61.005: (move tiago elgrito home) [15.000]
 76.006: (recharge tiago home) [5.000]

@@ -14,8 +14,8 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nNow I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN,\
     \ NOTHING ELSE.\n\ndominio :\n\"\n(define (domain library_domain)\n\n(:requirements\
@@ -42,18 +42,18 @@ conversation:
     \ (robot_at ?r ?wp))\n    (over all (charger_at ?wp))\n  )\n  :effect (and (at\
     \ end (assign (battery ?r) 100)))\n)\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n\
     (:domain library_domain)\n\n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws\
-    \ dibejo_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
+    \ Maestro_aprendiz_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
     \ tiago home)\n  (initial_state tiago)\n  (= (battery tiago) 100)\n  (charger_at\
     \ home)\n)\n\n(:goal\n  (and\n    (visited tiago monalisa_ws)\n    (visited tiago\
     \ elgrito_ws)\n    (visited tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n\
     \    (explained_painting monalisa_ws)\n    (explained_painting elgrito_ws)\n \
-    \   (explained_painting dibejo_ws)\n    (explained_painting guernica_ws)\n  \n\
+    \   (explained_painting Maestro_aprendiz_ws)\n    (explained_painting guernica_ws)\n  \n\
     \  )\n)\n\"\n\n\nThe most important thing in the plan is that you consider the\
     \ battery.\nStarting with 100, moving consumes 20, and explaining consumes 10.\
     \ Therefore, you must recharge the robot before the battery runs out. If you have\
     \ 20 battery, the action must be MOVE TO HOME to recharge.\n\nREMEMBER, THE OUTPUT\
     \ MUST ALWAYS HAVE THIS FORMAT.\n\n0.000: (start_welcome tiago) [1.000]\n1.001:\
-    \ (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    \ (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
@@ -68,25 +68,25 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
     \ the drawing and if it was in the goal or not. \n\nBut at the end do:\n\nPLAN:\
     \ \n(AND GIVE THE PLAN WITH CORRECT FORMAT)\n\n"
 - role: assistant
-  content: "0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home dibejo_ws)\
-    \ [15.000]  \n16.002: (explain_painting tiago dibejo_ws) [15.000]  \n31.002: (move\
-    \ tiago dibejo_ws elgrito_ws) [15.000]  \n46.002: (explain_painting tiago elgrito_ws)\
+  content: "0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home Maestro_aprendiz_ws)\
+    \ [15.000]  \n16.002: (explain_painting tiago Maestro_aprendiz_ws) [15.000]  \n31.002: (move\
+    \ tiago Maestro_aprendiz_ws elgrito_ws) [15.000]  \n46.002: (explain_painting tiago elgrito_ws)\
     \ [15.000]  \n61.002: (move tiago elgrito_ws home) [15.000]  \n76.003: (recharge\
     \ tiago home) [5.000]  \n81.003: (move tiago home guernica_ws) [15.000]  \n96.004:\
     \ (explain_painting tiago guernica_ws) [15.000]  \n111.004: (move tiago guernica_ws\
@@ -190,7 +190,7 @@ conversation:
   content: "**Validation Results:**  \nThe plan is **invalid** due to battery misuse,\
     \ incorrect action sequencing, and improper recharging locations.  \n\n**Step-by-Step\
     \ Explanation:**  \n\n1. **Battery Misuse:**  \n   - After the first move (home\
-    \ → dibejo_ws), the battery drops to 80.  \n   - Explaining at dibejo_ws consumes\
+    \ → Maestro_aprendiz_ws), the battery drops to 80.  \n   - Explaining at Maestro_aprendiz_ws consumes\
     \ 10 more, leaving 70.  \n   - Moving to elgrito_ws consumes 20 more, leaving\
     \ 50.  \n   - Explaining at elgrito_ws consumes 10 more, leaving 40.  \n   - Moving\
     \ back to home consumes 20 more, leaving 20.  \n   - **Issue:** The robot attempts\
@@ -205,9 +205,9 @@ conversation:
     \ nocheestrellada_ws.  \n\n3. **Improper Recharging Locations:**  \n   - The problem\
     \ states that only `home` has a charger, but the plan assumes other locations\
     \ can recharge, which is incorrect.  \n\n**Corrected Plan:**  \nFINAL PLAN:  \n\
-    0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home dibejo_ws) [15.000]\
-    \  \n16.002: (explain_painting tiago dibejo_ws) [15.000]  \n31.002: (move tiago\
-    \ dibejo_ws elgrito_ws) [15.000]  \n46.002: (explain_painting tiago elgrito_ws)\
+    0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\
+    \  \n16.002: (explain_painting tiago Maestro_aprendiz_ws) [15.000]  \n31.002: (move tiago\
+    \ Maestro_aprendiz_ws elgrito_ws) [15.000]  \n46.002: (explain_painting tiago elgrito_ws)\
     \ [15.000]  \n61.002: (move tiago elgrito_ws home) [15.000]  \n76.003: (recharge\
     \ tiago home) [5.000]  \n81.003: (move tiago home guernica_ws) [15.000]  \n96.004:\
     \ (explain_painting tiago guernica_ws) [15.000]  \n111.004: (move tiago guernica_ws\
@@ -231,8 +231,8 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nNow I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN,\
     \ NOTHING ELSE.\n\ndominio :\n\"\n(define (domain library_domain)\n\n(:requirements\
@@ -259,18 +259,18 @@ conversation:
     \ (robot_at ?r ?wp))\n    (over all (charger_at ?wp))\n  )\n  :effect (and (at\
     \ end (assign (battery ?r) 100)))\n)\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n\
     (:domain library_domain)\n\n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws\
-    \ dibejo_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
+    \ Maestro_aprendiz_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
     \ tiago home)\n  (initial_state tiago)\n  (= (battery tiago) 100)\n  (charger_at\
     \ home)\n)\n\n(:goal\n  (and\n    (visited tiago monalisa_ws)\n    (visited tiago\
     \ elgrito_ws)\n    (visited tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n\
     \    (explained_painting monalisa_ws)\n    (explained_painting elgrito_ws)\n \
-    \   (explained_painting dibejo_ws)\n    (explained_painting guernica_ws)\n  \n\
+    \   (explained_painting Maestro_aprendiz_ws)\n    (explained_painting guernica_ws)\n  \n\
     \  )\n)\n\"\n\n\nThe most important thing in the plan is that you consider the\
     \ battery.\nStarting with 100, moving consumes 20, and explaining consumes 10.\
     \ Therefore, you must recharge the robot before the battery runs out. If you have\
     \ 20 battery, the action must be MOVE TO HOME to recharge.\n\nREMEMBER, THE OUTPUT\
     \ MUST ALWAYS HAVE THIS FORMAT.\n\n0.000: (start_welcome tiago) [1.000]\n1.001:\
-    \ (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    \ (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
@@ -285,16 +285,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -306,7 +306,7 @@ conversation:
     \ efficiently. Let's start by looking at the problem.\n\nThe initial state has\
     \ Tiago at home with a full battery (100). The charger is at home. The goal requires\
     \ visiting four locations: monalisa_ws, elgrito_ws, guernica_ws, and nocheestrellada_ws.\
-    \ Also, the explained_painting must be done at monalisa_ws, elgrito_ws, dibejo_ws,\
+    \ Also, the explained_painting must be done at monalisa_ws, elgrito_ws, Maestro_aprendiz_ws,\
     \ and guernica_ws.\n\nSo first, the robot needs to move from home to these locations.\
     \ Each move costs 20 battery, each explanation 10. Since the battery starts at\
     \ 100, the robot can do about 5 moves (5*20=100) but that's only moves. However,\
@@ -315,64 +315,64 @@ conversation:
     \ The plan should minimize recharges by grouping tasks in a single battery cycle\
     \ if possible.\n\nLet me think of the order of locations. The goal requires visiting\
     \ four locations and explaining four paintings. But some explained paintings are\
-    \ at locations that are not in the visited list (like dibejo_ws). Wait, the goal\
+    \ at locations that are not in the visited list (like Maestro_aprendiz_ws). Wait, the goal\
     \ says visited must be monalisa, elgrito, guernica, nocheestrellada. But explained\
-    \ paintings are at monalisa, elgrito, dibejo, guernica. So dibejo_ws is not in\
+    \ paintings are at monalisa, elgrito, maestro_aprendiz, guernica. So Maestro_aprendiz_ws is not in\
     \ the visited list, but needs to have its painting explained. Wait, but the visited\
     \ predicate is (visited ?r ?l). The goal requires visiting four locations, but\
-    \ dibejo isn't among them. However, the explained_painting is at dibejo_ws, so\
+    \ maestro_aprendiz isn't among them. However, the explained_painting is at Maestro_aprendiz_ws, so\
     \ Tiago must go there to explain it even though he doesn't need to \"visit\" it\
     \ for the goal. Wait, but the visited predicate in the goal is (visited tiago\
-    \ monalisa_ws) etc. So dibejo_ws is not required to be visited. Wait, the problem's\
+    \ monalisa_ws) etc. So Maestro_aprendiz_ws is not required to be visited. Wait, the problem's\
     \ goal has:\n\n(visited tiago monalisa_ws)\n(visited tiago elgrito_ws)\n(visited\
     \ tiago guernica_ws)\n(visited tiago nocheestrellada_ws)\n\nSo those four must\
     \ be visited. The explained_painting requires four locations: monalisa, elgrito,\
-    \ dibejo, guernica. So dibejo_ws is a location that must be visited to explain\
+    \ maestro_aprendiz, guernica. So Maestro_aprendiz_ws is a location that must be visited to explain\
     \ the painting, even though it's not part of the visited list. Wait, no. The explained_painting\
     \ action requires that the robot is at that location. So to explain the painting\
-    \ at dibejo_ws, Tiago must be there. Therefore, he must move to dibejo_ws. But\
-    \ the goal does not require visiting dibejo_ws, but he still needs to go there\
-    \ to explain the painting. Therefore, dibejo_ws must be visited as part of the\
+    \ at Maestro_aprendiz_ws, Tiago must be there. Therefore, he must move to Maestro_aprendiz_ws. But\
+    \ the goal does not require visiting Maestro_aprendiz_ws, but he still needs to go there\
+    \ to explain the painting. Therefore, Maestro_aprendiz_ws must be visited as part of the\
     \ plan.\n\nWait, looking at the problem's goal:\n\n(visited tiago monalisa_ws)\n\
     (visited tiago elgrito_ws)\n(visited tiago guernica_ws)\n(visited tiago nocheestrellada_ws)\n\
     (explained_painting monalisa_ws)\n(explained_painting elgrito_ws)\n(explained_painting\
-    \ dibejo_ws)\n(explained_painting guernica_ws)\n\nSo the explained painting at\
-    \ dibejo_ws is part of the goal. Therefore, Tiago must go to dibejo_ws to explain\
-    \ the painting there. Therefore, he must visit dibejo_ws. But the goal's visited\
-    \ list doesn't include dibejo_ws. Wait, no. The visited predicate is (visited\
+    \ Maestro_aprendiz_ws)\n(explained_painting guernica_ws)\n\nSo the explained painting at\
+    \ Maestro_aprendiz_ws is part of the goal. Therefore, Tiago must go to Maestro_aprendiz_ws to explain\
+    \ the painting there. Therefore, he must visit Maestro_aprendiz_ws. But the goal's visited\
+    \ list doesn't include Maestro_aprendiz_ws. Wait, no. The visited predicate is (visited\
     \ ?r ?l), so the goal requires that Tiago has visited those four locations. But\
     \ the explained_painting requires that the action was performed at those four\
-    \ locations. So, to explain the painting at dibejo_ws, Tiago must be there. Therefore,\
-    \ he must move to dibejo_ws, which means he will have visited it. So in the problem's\
-    \ goal, the visited list doesn't include dibejo_ws, but since he must be there\
+    \ locations. So, to explain the painting at Maestro_aprendiz_ws, Tiago must be there. Therefore,\
+    \ he must move to Maestro_aprendiz_ws, which means he will have visited it. So in the problem's\
+    \ goal, the visited list doesn't include Maestro_aprendiz_ws, but since he must be there\
     \ to explain the painting, he will have visited it. Wait, but the goal doesn't\
-    \ mention (visited tiago dibejo_ws). Therefore, even though he goes there to explain\
+    \ mention (visited tiago Maestro_aprendiz_ws). Therefore, even though he goes there to explain\
     \ the painting, he will have visited it, but the goal doesn't require it. However,\
     \ the problem's goal may include that implicitly. Wait, no. The goal's visited\
-    \ list includes four locations, and dibejo is not among them. Therefore, the robot\
-    \ can go to dibejo_ws as part of the plan, but doesn't need to have that in the\
+    \ list includes four locations, and maestro_aprendiz is not among them. Therefore, the robot\
+    \ can go to Maestro_aprendiz_ws as part of the plan, but doesn't need to have that in the\
     \ visited list. However, since he must be there to explain the painting, he will\
     \ have visited it, but the goal doesn't require that. But the problem's goal requires\
     \ that the explained_painting is done there. So in any case, the robot must visit\
-    \ dibejo_ws.\n\nSo the locations that need to be visited are home (starting point),\
-    \ dibejo_ws (to explain painting), monalisa_ws, elgrito_ws, guernica_ws, and nocheestrellada_ws.\
+    \ Maestro_aprendiz_ws.\n\nSo the locations that need to be visited are home (starting point),\
+    \ Maestro_aprendiz_ws (to explain painting), monalisa_ws, elgrito_ws, guernica_ws, and nocheestrellada_ws.\
     \ Wait, the goal requires visiting nocheestrellada_ws. So the robot must go there\
     \ as well.\n\nSo total locations to visit (including home at the start):\n\n-\
-    \ home (start)\n- dibejo_ws (explain)\n- monalisa_ws (visit and explain)\n- elgrito_ws\
+    \ home (start)\n- Maestro_aprendiz_ws (explain)\n- monalisa_ws (visit and explain)\n- elgrito_ws\
     \ (visit and explain)\n- guernica_ws (visit and explain)\n- nocheestrellada_ws\
     \ (visit)\n\nBut how to route this efficiently? Let's see the battery. Each move\
     \ takes 20, each explain 10. So each explain plus a move back would take 30. But\
     \ the robot must plan the order of locations to minimize battery usage and recharges.\n\
     \nStarting with 100 battery. Let's outline possible steps:\n\n1. Start_welcome\
-    \ (1 sec, battery not used)\n2. Move from home to dibejo_ws: battery 80\n3. Explain\
-    \ dibejo_ws: battery 70\nBut then, how to proceed. From dibejo, moving to next\
+    \ (1 sec, battery not used)\n2. Move from home to Maestro_aprendiz_ws: battery 80\n3. Explain\
+    \ Maestro_aprendiz_ws: battery 70\nBut then, how to proceed. From maestro_aprendiz, moving to next\
     \ location, say monalisa_ws: 70-20=50. Then explain: 40. Then move, etc.\n\nAlternatively,\
-    \ after explaining dibejo, move to another location. But how to arrange all the\
+    \ after explaining maestro_aprendiz, move to another location. But how to arrange all the\
     \ moves and explains.\n\nBut the robot must visit all four locations (monalisa_ws,\
     \ elgrito_ws, guernica_ws, nocheestrellada_ws) and explain at four locations (including\
-    \ dibejo_ws). So the robot must make multiple moves. Let's calculate how much\
-    \ battery is used.\n\nAssuming the robot does:\n\nstart (100)\nmove home -> dibejo\
-    \ (20 used, 80 left)\nexplain dibejo (10 used, 70 left)\nmove dibejo -> monalisa\
+    \ Maestro_aprendiz_ws). So the robot must make multiple moves. Let's calculate how much\
+    \ battery is used.\n\nAssuming the robot does:\n\nstart (100)\nmove home -> maestro_aprendiz\
+    \ (20 used, 80 left)\nexplain maestro_aprendiz (10 used, 70 left)\nmove maestro_aprendiz -> monalisa\
     \ (20 used, 50 left)\nexplain monalisa (10 used, 40 left)\nmove monalisa -> elgrito\
     \ (20 used, 20 left)\nexplain elgrito (10 used, 10 left)\nAt this point, battery\
     \ is 10. Need to recharge. So move to home (but each move is 15s duration, but\
@@ -386,10 +386,10 @@ conversation:
     \ 20, which he doesn't have. So he needs to recharge.\n\nBut the recharge can\
     \ only happen at home. So he needs to go back to home when battery is low.\n\n\
     But the problem is that the robot must visit all locations and explain all paintings.\
-    \ Let's think of the order:\n\nOption 1: Start at home, go to dibejo_ws, explain.\
+    \ Let's think of the order:\n\nOption 1: Start at home, go to Maestro_aprendiz_ws, explain.\
     \ Then go to monalisa_ws, explain. Then go to elgrito_ws, explain. Then go to\
     \ guernica_ws, explain. Then go to nocheestrellada_ws. Then return home to recharge?\
-    \ But battery would be:\n\nStart: 100\nmove home -> dibejo: 80\nexplain dibejo:\
+    \ But battery would be:\n\nStart: 100\nmove home -> maestro_aprendiz: 80\nexplain maestro_aprendiz:\
     \ 70\nmove to monalisa: 50\nexplain monalisa:40\nmove to elgrito: 20\nexplain\
     \ elgrito:10\nmove to guernica: 0 (can't do this, since move needs 20)\nWait,\
     \ battery after explain elgrito is 10. Then he can't move to guernica. So he needs\
@@ -403,7 +403,7 @@ conversation:
     \ Alternatively, group the actions so that each recharge covers as many actions\
     \ as possible.\n\nAnother approach: The robot can do up to 5 moves (5*20=100)\
     \ or combinations. But with explains, each explain allows 10 less.\n\nSo possible\
-    \ steps:\n\nStart, move to dibejo, explain: uses 30 (move 20, explain 10). Battery\
+    \ steps:\n\nStart, move to maestro_aprendiz, explain: uses 30 (move 20, explain 10). Battery\
     \ 70.\n\nThen move to monalisa (20), explain (10): 40 left.\n\nThen move to elgrito\
     \ (20), explain (10): 10 left.\n\nAt this point, battery is 10. He can't move\
     \ anymore. So he must recharge here. But he's at elgrito_ws, which doesn't have\
@@ -420,7 +420,7 @@ conversation:
     \ 30-20=10. But he needs to return home? Or is the goal only to have visited it?\
     \ No, he can end the plan at nocheestrellada, but then he hasn't completed all\
     \ explains.\n\nWait, the explains needed are guernica. So in this plan:\n\nFirst\
-    \ cycle:\n\nstart, move to dibejo, explain: 70\n\nmove to monalisa, explain: 40\n\
+    \ cycle:\n\nstart, move to maestro_aprendiz, explain: 70\n\nmove to monalisa, explain: 40\n\
     \nmove to home: 20\n\nrecharge: 100\n\nSecond cycle:\n\nmove to elgrito, explain:\
     \ 80-10=70\n\nmove to guernica, explain: 70-20-10=40\n\nmove to nocheestrellada:\
     \ 20 left.\n\nThen move back to home: 20-20=0. But need to recharge again? No,\
@@ -428,24 +428,24 @@ conversation:
     \ So after moving to nocheestrellada, he can end there, but he must have visited\
     \ it. So in that scenario:\n\nAfter guernica, battery is 40. Move to nocheestrellada\
     \ (20, left 20). Now visited all four required locations (monalisa, elgrito, guernica,\
-    \ nocheestrellada), and explained all four (dibejo, monalisa, elgrito, guernica).\
+    \ nocheestrellada), and explained all four (maestro_aprendiz, monalisa, elgrito, guernica).\
     \ So that's the plan. But how many recharges are needed?\n\nIn this case, two\
     \ recharges? Wait, no. The recharge is only possible at home, so after the first\
-    \ cycle (dibejo, monalisa, back home), he recharges (which is a separate action).\
+    \ cycle (maestro_aprendiz, monalisa, back home), he recharges (which is a separate action).\
     \ Then the second cycle (elgrito, guernica, nocheestrellada). So recharge count\
     \ is once.\n\nBut each recharge requires going back home, which takes time. Let's\
-    \ see:\n\nStart:\n\nstart_welcome (battery 100)\n\nmove home -> dibejo_ws (80)\n\
-    \nexplain dibejo (70)\n\nmove dibejo -> monalisa (50)\n\nexplain monalisa (40)\n\
+    \ see:\n\nStart:\n\nstart_welcome (battery 100)\n\nmove home -> Maestro_aprendiz_ws (80)\n\
+    \nexplain maestro_aprendiz (70)\n\nmove maestro_aprendiz -> monalisa (50)\n\nexplain monalisa (40)\n\
     \nmove monalisa -> home (20)\n\nrecharge (battery back to 100)\n\nmove home ->\
     \ elgrito_ws (80)\n\nexplain elgrito (70)\n\nmove elgrito -> guernica (50)\n\n\
     explain guernica (40)\n\nmove guernica -> nocheestrellada (20)\n\nNow, the goal\
     \ is satisfied: all four locations visited, all four explained. So this plan requires\
-    \ one recharge.\n\nBattery usage:\n\nFirst cycle: moves: home-dibejo (20), dibejo-monalisa\
+    \ one recharge.\n\nBattery usage:\n\nFirst cycle: moves: home-maestro_aprendiz (20), maestro_aprendiz-monalisa\
     \ (20), monalisa-home (20), plus two explains (10 each). Total 20*3 + 10*2 = 80.\
-    \ So battery drops to 100-60=40? Wait, initial calculation:\n\nAfter home-dibejo:\
-    \ 80\n\ndibejo explain:70\n\nmonalisa move:50\n\nmonalisa explain:40\n\nhome move:20\n\
+    \ So battery drops to 100-60=40? Wait, initial calculation:\n\nAfter home-maestro_aprendiz:\
+    \ 80\n\nMaestro_aprendiz explain:70\n\nmonalisa move:50\n\nmonalisa explain:40\n\nhome move:20\n\
     \nSo recharge when at home with 20.\n\nWait, battery after each step:\n\nStart:\
-    \ 100\n\nmove home-dibejo: 80\n\nexplain:70\n\nmove dibejo-monalisa:50\n\nexplain\
+    \ 100\n\nmove home-maestro_aprendiz: 80\n\nexplain:70\n\nmove maestro_aprendiz-monalisa:50\n\nexplain\
     \ monalisa:40\n\nmove monalisa-home:20\n\nAt home with 20 battery. Then recharge:\
     \ battery back to 100.\n\nSecond cycle:\n\nmove home-elgrito: 80\n\nexplain:70\n\
     \nmove elgrito-guernica:50\n\nexplain:40\n\nmove guernica-nocheestrellada:20\n\
@@ -455,18 +455,18 @@ conversation:
     \ order:\n\nStart:\n\nmove home -> nocheestrellada (to visit it), but that would\
     \ use battery. But no need to explain it. So no need to stay there.\n\nBut the\
     \ goal requires visiting it, so the robot must be there. So he has to move there.\n\
-    \nAlternatively, plan:\n\nmove home -> dibejo_ws, explain (70)\n\nmove dibejo\
+    \nAlternatively, plan:\n\nmove home -> Maestro_aprendiz_ws, explain (70)\n\nmove maestro_aprendiz\
     \ -> elgrito_ws, explain (50)\n\nmove elgrito -> monalisa, explain (30)\n\nmove\
     \ monalisa -> guernica, explain (10)\n\nAt this point, battery is 10. Then move\
     \ guernica -> nocheestrellada requires 20, but battery is 10, can't.\n\nSo need\
     \ to recharge. But battery is 10 at monalisa after explaining guernica? Wait:\n\
-    \nWait:\n\nStart: 100\n\nmove home-dibejo:80\n\nexplain:70\n\nmove dibejo-elgrito:50\n\
+    \nWait:\n\nStart: 100\n\nmove home-maestro_aprendiz:80\n\nexplain:70\n\nmove maestro_aprendiz-elgrito:50\n\
     \nexplain:40\n\nmove elgrito-monalisa:20\n\nexplain:10\n\nmove monalisa-guernica:\
     \ (requires 20, but battery is 10. Can't do it. So can't proceed.\n\nSo this order\
     \ fails.\n\nSo the first plan with one recharge seems feasible.\n\nBut what about\
     \ the number of steps and the order. Let's outline the plan:\n\n1. start_welcome\
-    \ (duration 1s, battery 100)\n2. move home -> dibejo_ws (duration 15s, battery\
-    \ 80)\n3. explain dibejo (duration 15s, battery 70)\n4. move dibejo -> monalisa\
+    \ (duration 1s, battery 100)\n2. move home -> Maestro_aprendiz_ws (duration 15s, battery\
+    \ 80)\n3. explain maestro_aprendiz (duration 15s, battery 70)\n4. move maestro_aprendiz -> monalisa\
     \ (15s, battery 50)\n5. explain monalisa (15s, battery 40)\n6. move monalisa ->\
     \ home (15s, battery 20)\n7. recharge at home (duration time, battery back to\
     \ 100)\n8. move home -> elgrito (15s, battery 80)\n9. explain elgrito (15s, battery\
@@ -474,7 +474,7 @@ conversation:
     \ battery 40)\n12. move guernica -> nocheestrellada (15s, battery 20)\n13. done.\n\
     \nThis satisfies all goals:\n\n- visited monalisa_ws (step 4-5)\n- visited elgrito_ws\
     \ (step 8-9)\n- visited guernica_ws (step 10-11)\n- visited nocheestrellada_ws\
-    \ (step 12)\n- explained dibejo (step3)\n- explained monalisa (step5)\n- explained\
+    \ (step 12)\n- explained maestro_aprendiz (step3)\n- explained monalisa (step5)\n- explained\
     \ elgrito (step9)\n- explained guernica (step11)\n\nWait, but the explained painting\
     \ at guernica is covered. And nocheestrellada is visited. So this works.\n\nBut\
     \ what about the recharge step. How is that modeled? The recharge happens when\
@@ -486,43 +486,43 @@ conversation:
     \ could involve visiting nocheestrellada earlier. But the key is to minimize recharges.\n\
     \nIn this plan, only one recharge is needed.\n\nAnother possible plan:\n\nStart,\
     \ move to monalisa, explain there. Then to elgrito, explain. Then to guernica,\
-    \ explain. Then to dibejo, explain. Then to nocheestrellada. But battery would\
+    \ explain. Then to maestro_aprendiz, explain. Then to nocheestrellada. But battery would\
     \ deplete similarly.\n\nBut regardless, the recharge is needed once. So this seems\
     \ manageable.\n\nTherefore, the plan would involve:\n\nstart_welcome\n\nmove home\
-    \ -> dibejo_ws\n\nexplain dibejo\n\nmove dibejo -> monalisa\n\nexplain monalisa\n\
+    \ -> Maestro_aprendiz_ws\n\nexplain maestro_aprendiz\n\nmove maestro_aprendiz -> monalisa\n\nexplain monalisa\n\
     \nmove monalisa -> home\n\nrecharge\n\nmove home -> elgrito\n\nexplain elgrito\n\
     \nmove elgrito -> guernica\n\nexplain guernica\n\nmove guernica -> nocheestrellada\n\
     \ndone.\n\nThis requires one recharge.\n\nBut the problem's initial example might\
     \ have a different order, but this seems valid.\n\nNow, the question is to output\
     \ the plan in the required format.\n\nEach step should be in order, with the action\
     \ name and parameters.\n\nSo the plan would be:\n\nstart_welcome.\n\nBut the initial\
-    \ state is at home. The first action is move to dibejo_ws.\n\nWait, the initial\
-    \ location is home, so the first action is move (home, dibejo_ws).\n\nThen explain\
-    \ dibejo_ws.\n\nThen move to monalisa.\n\nThen explain monalisa.\n\nThen move\
+    \ state is at home. The first action is move to Maestro_aprendiz_ws.\n\nWait, the initial\
+    \ location is home, so the first action is move (home, Maestro_aprendiz_ws).\n\nThen explain\
+    \ Maestro_aprendiz_ws.\n\nThen move to monalisa.\n\nThen explain monalisa.\n\nThen move\
     \ home.\n\nRecharge.\n\nMove to elgrito.\n\nExplain elgrito.\n\nMove to guernica.\n\
     \nExplain guernica.\n\nMove to nocheestrellada.\n\nThus, the plan.\n\nBut in the\
     \ problem's actions, the explain action is explain(location), which requires being\
     \ at that location.\n\nSo each move must precede the explain.\n\nSo the plan steps:\n\
-    \n1. move home dibejo_ws\n\n2. explain dibejo_ws\n\n3. move dibejo_ws monalisa_ws\n\
+    \n1. move home Maestro_aprendiz_ws\n\n2. explain Maestro_aprendiz_ws\n\n3. move Maestro_aprendiz_ws monalisa_ws\n\
     \n4. explain monalisa_ws\n\n5. move monalisa_ws home\n\n6. recharge home\n\n7.\
     \ move home elgrito_ws\n\n8. explain elgrito_ws\n\n9. move elgrito_ws guernica_ws\n\
     \n10. explain guernica_ws\n\n11. move guernica_ws nocheestrellada_ws\n\nAll steps\
     \ completed.\n\nNow, check if all goals are met:\n\nVisited locations:\n\nmonalisa_ws\
     \ (steps 3-4)\n\nelgrito_ws (7-8)\n\nguernica_ws (9-10)\n\nnocheestrellada_ws\
-    \ (11)\n\nExplains:\n\ndibejo_ws (2)\n\nmonalisa_ws (4)\n\nelgrito_ws (8)\n\n\
+    \ (11)\n\nExplains:\n\nMaestro_aprendiz_ws (2)\n\nmonalisa_ws (4)\n\nelgrito_ws (8)\n\n\
     guernica_ws (10)\n\nAll four explains done.\n\nBattery:\n\nAfter each step:\n\n\
-    1. move home dibejo_ws: 100-20=80\n\n2. explain: 80-10=70\n\n3. move: 70-20=50\n\
+    1. move home Maestro_aprendiz_ws: 100-20=80\n\n2. explain: 80-10=70\n\n3. move: 70-20=50\n\
     \n4. explain: 50-10=40\n\n5. move:40-20=20\n\n6. recharge: 100\n\n7. move:100-20=80\n\
     \n8. explain:70\n\n9. move:70-20=50\n\n10. explain:50-10=40\n\n11. move:40-20=20.\n\
     \nAt end, battery 20.\n\nNo step has battery below zero.\n\nYes, this works.\n\
     \nSo the plan is valid.\n```json\n{\n  \"plan\": [\n    [\"move\", \"home\", \"\
-    dibejo_ws\"],\n    [\"explain\", \"dibejo_ws\"],\n    [\"move\", \"dibejo_ws\"\
+    Maestro_aprendiz_ws\"],\n    [\"explain\", \"Maestro_aprendiz_ws\"],\n    [\"move\", \"Maestro_aprendiz_ws\"\
     , \"monalisa_ws\"],\n    [\"explain\", \"monalisa_ws\"],\n    [\"move\", \"monalisa_ws\"\
     , \"home\"],\n    [\"recharge\", \"home\"],\n    [\"move\", \"home\", \"elgrito_ws\"\
     ],\n    [\"explain\", \"elgrito_ws\"],\n    [\"move\", \"elgrito_ws\", \"guernica_ws\"\
     ],\n    [\"explain\", \"guernica_ws\"],\n    [\"move\", \"guernica_ws\", \"nocheestrellada_ws\"\
-    ]\n  ]\n}\n```json\n{\n  \"plan\": [\n    [\"move\", \"home\", \"dibejo_ws\"],\n\
-    \    [\"explain\", \"dibejo_ws\"],\n    [\"move\", \"dibejo_ws\", \"monalisa_ws\"\
+    ]\n  ]\n}\n```json\n{\n  \"plan\": [\n    [\"move\", \"home\", \"Maestro_aprendiz_ws\"],\n\
+    \    [\"explain\", \"Maestro_aprendiz_ws\"],\n    [\"move\", \"Maestro_aprendiz_ws\", \"monalisa_ws\"\
     ],\n    [\"explain\", \"monalisa_ws\"],\n    [\"move\", \"monalisa_ws\", \"home\"\
     ],\n    [\"recharge\", \"home\"],\n    [\"move\", \"home\", \"elgrito_ws\"],\n\
     \    [\"explain\", \"elgrito_ws\"],\n    [\"move\", \"elgrito_ws\", \"guernica_ws\"\
@@ -623,8 +623,8 @@ conversation:
 - role: assistant
   content: "**Validation Results:**  \nThe provided plan is **invalid** due to battery\
     \ misuse and incorrect format.  \n\n**Step-by-Step Explanation:**  \n1. **Battery\
-    \ Misuse:**  \n   - After the first move action (home → dibejo_ws), the battery\
-    \ drops to 80 (100 - 20).  \n   - The next move (dibejo_ws → elgrito_ws) consumes\
+    \ Misuse:**  \n   - After the first move action (home → Maestro_aprendiz_ws), the battery\
+    \ drops to 80 (100 - 20).  \n   - The next move (Maestro_aprendiz_ws → elgrito_ws) consumes\
     \ another 20, leaving 60.  \n   - Explaining at elgrito_ws consumes 10, leaving\
     \ 50.  \n   - Moving to guernica_ws consumes 20, leaving 30.  \n   - However,\
     \ the plan does not account for battery constraints before each action, especially\
@@ -633,8 +633,8 @@ conversation:
     \ (all actions show [15.000], but recharge should be [5.000]).  \n\n3. **Missing\
     \ Recharge:**  \n   - The robot must return to home (charger location) when the\
     \ battery is low, but this is not included in the plan.  \n\n**Corrected Plan:**\
-    \  \n```  \n0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home dibejo_ws)\
-    \ [15.000]  \n16.001: (move tiago dibejo_ws elgrito_ws) [15.000]  \n31.001: (explain_painting\
+    \  \n```  \n0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home Maestro_aprendiz_ws)\
+    \ [15.000]  \n16.001: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]  \n31.001: (explain_painting\
     \ tiago elgrito_ws) [15.000]  \n46.001: (move tiago elgrito_ws guernica_ws) [15.000]\
     \  \n61.001: (explain_painting tiago guernica_ws) [15.000]  \n76.001: (move tiago\
     \ guernica_ws home) [15.000]  \n91.001: (recharge tiago home) [5.000]  \n96.001:\
@@ -642,7 +642,7 @@ conversation:
     \ [15.000]  \n126.001: (move tiago monalisa_ws nocheestrellada_ws) [15.000]  \n\
     141.001: (explain_painting tiago nocheestrellada_ws) [15.000]  \n```  \n\nFINAL\
     \ PLAN:  \n```  \n0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home\
-    \ dibejo_ws) [15.000]  \n16.001: (move tiago dibejo_ws elgrito_ws) [15.000]  \n\
+    \ Maestro_aprendiz_ws) [15.000]  \n16.001: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]  \n\
     31.001: (explain_painting tiago elgrito_ws) [15.000]  \n46.001: (move tiago elgrito_ws\
     \ guernica_ws) [15.000]  \n61.001: (explain_painting tiago guernica_ws) [15.000]\
     \  \n76.001: (move tiago guernica_ws home) [15.000]  \n91.001: (recharge tiago\
@@ -666,8 +666,8 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nNow I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN,\
     \ NOTHING ELSE.\n\ndominio :\n\"\n(define (domain library_domain)\n\n(:requirements\
@@ -694,18 +694,18 @@ conversation:
     \ (robot_at ?r ?wp))\n    (over all (charger_at ?wp))\n  )\n  :effect (and (at\
     \ end (assign (battery ?r) 100)))\n)\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n\
     (:domain library_domain)\n\n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws\
-    \ dibejo_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
+    \ Maestro_aprendiz_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
     \ tiago home)\n  (initial_state tiago)\n  (= (battery tiago) 100)\n  (charger_at\
     \ home)\n)\n\n(:goal\n  (and\n    (visited tiago monalisa_ws)\n    (visited tiago\
     \ elgrito_ws)\n    (visited tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n\
     \    (explained_painting monalisa_ws)\n    (explained_painting elgrito_ws)\n \
-    \   (explained_painting dibejo_ws)\n    (explained_painting guernica_ws)\n  \n\
+    \   (explained_painting Maestro_aprendiz_ws)\n    (explained_painting guernica_ws)\n  \n\
     \  )\n)\n\"\n\n\nThe most important thing in the plan is that you consider the\
     \ battery.\nStarting with 100, moving consumes 20, and explaining consumes 10.\
     \ Therefore, you must recharge the robot before the battery runs out. If you have\
     \ 20 battery, the action must be MOVE TO HOME to recharge.\n\nREMEMBER, THE OUTPUT\
     \ MUST ALWAYS HAVE THIS FORMAT.\n\n0.000: (start_welcome tiago) [1.000]\n1.001:\
-    \ (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    \ (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
@@ -720,16 +720,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -737,15 +737,15 @@ conversation:
     \ \n(AND GIVE THE PLAN WITH CORRECT FORMAT)\n\n"
 - role: assistant
   content: "### Plan to Achieve All Goals\n\nThe goal is to have the robot visit **four\
-    \ specific locations** (Dibejo, Elgrito, Guernica, and Nocheestrellada), and explain\
-    \ **four specific paintings** (at Dibejo, Elgrito, Guernica, and Monalisa). The\
+    \ specific locations** (maestro_aprendiz, Elgrito, Guernica, and Nocheestrellada), and explain\
+    \ **four specific paintings** (at maestro_aprendiz, Elgrito, Guernica, and Monalisa). The\
     \ robot starts at **Home** with **100 battery**, and each **move** consumes **20\
     \ battery**, while each **explanation** consumes **10 battery**. The only place\
     \ to recharge is at **Home**.\n\n---\n\n### Step-by-Step Plan\n\n1. **Start Welcome**\
-    \  \n   - Time: 1 second  \n   - Battery: 100  \n\n2. **Move from Home → Dibejo**\
+    \  \n   - Time: 1 second  \n   - Battery: 100  \n\n2. **Move from Home → maestro_aprendiz**\
     \  \n   - Action: Move  \n   - Battery used: 20  \n   - Battery remaining: 80\
-    \  \n\n3. **Explain painting at Dibejo**  \n   - Action: Explain  \n   - Battery\
-    \ used: 10  \n   - Battery remaining: 70  \n\n4. **Move from Dibejo → Elgrito**\
+    \  \n\n3. **Explain painting at maestro_aprendiz**  \n   - Action: Explain  \n   - Battery\
+    \ used: 10  \n   - Battery remaining: 70  \n\n4. **Move from maestro_aprendiz → Elgrito**\
     \  \n   - Action: Move  \n   - Battery used: 20  \n   - Battery remaining: 50\
     \  \n\n5. **Explain painting at Elgrito**  \n   - Action: Explain  \n   - Battery\
     \ used: 10  \n   - Battery remaining: 40  \n\n6. **Move from Elgrito → Home**\
@@ -760,8 +760,8 @@ conversation:
     \  - Battery used: 10  \n    - Battery remaining: 40  \n\n12. **Move from Monalisa\
     \ → Nocheestrellada**  \n    - Action: Move  \n    - Battery used: 20  \n    -\
     \ Battery remaining: 20  \n\n---\n\n### Summary of Achieved Goals\n\n- **Visited\
-    \ Locations**:\n  - Dibejo (Step 2)\n  - Elgrito (Step 4)\n  - Guernica (Step\
-    \ 8)\n  - Nocheestrellada (Step 12)\n\n- **Explained Paintings**:\n  - Dibejo\
+    \ Locations**:\n  - maestro_aprendiz (Step 2)\n  - Elgrito (Step 4)\n  - Guernica (Step\
+    \ 8)\n  - Nocheestrellada (Step 12)\n\n- **Explained Paintings**:\n  - maestro_aprendiz\
     \ (Step 3)\n  - Elgrito (Step 5)\n  - Guernica (Step 9)\n  - Monalisa (Step 11)\n\
     \n- **Battery Management**:\n  - The robot never runs out of battery.\n  - A recharge\
     \ at Home (Step 7) ensures sufficient energy for the second half of the mission.\n\
@@ -854,8 +854,8 @@ conversation:
 - role: assistant
   content: "### Validation Results:\n\n**Plan is Invalid.**  \n**Format is Incorrect.**\
     \  \n\n---\n\n### Step-by-Step Explanation of Issues:\n\n1. **Battery Mismanagement**:\
-    \  \n   - After moving from **Home → Dibejo**, the battery is 80.  \n   - Explaining\
-    \ at Dibejo reduces it to 70.  \n   - Moving from **Dibejo → Elgrito** reduces\
+    \  \n   - After moving from **Home → maestro_aprendiz**, the battery is 80.  \n   - Explaining\
+    \ at maestro_aprendiz reduces it to 70.  \n   - Moving from **maestro_aprendiz → Elgrito** reduces\
     \ it to 50.  \n   - Explaining at Elgrito reduces it to 40.  \n   - **Issue**:\
     \ Moving from **Elgrito → Home** requires 20 battery, leaving 20. This is correct,\
     \ but the recharge action is unnecessary here because the robot still has enough\
@@ -869,8 +869,8 @@ conversation:
     \ (e.g., `16.002` should be `16.000`).  \n   - Actions like `(recharge tiago home)`\
     \ should have a duration of `[5.000]`, not `[15.000]`.  \n\n---\n\n### Corrected\
     \ Plan:\n\n**FINAL PLAN:**\n\n0.000: (start_welcome tiago) [1.000]  \n1.001: (move\
-    \ tiago home dibejo_ws) [15.000]  \n16.001: (explain_painting tiago dibejo_ws)\
-    \ [15.000]  \n31.001: (move tiago dibejo_ws elgrito_ws) [15.000]  \n46.001: (explain_painting\
+    \ tiago home Maestro_aprendiz_ws) [15.000]  \n16.001: (explain_painting tiago Maestro_aprendiz_ws)\
+    \ [15.000]  \n31.001: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]  \n46.001: (explain_painting\
     \ tiago elgrito_ws) [15.000]  \n61.001: (move tiago elgrito_ws guernica_ws) [15.000]\
     \  \n76.001: (explain_painting tiago guernica_ws) [15.000]  \n91.001: (move tiago\
     \ guernica_ws home) [15.000]  \n96.001: (move tiago monalisa) [15.000]\n97.001:\
@@ -932,8 +932,8 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nNow I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN,\
     \ NOTHING ELSE.\n\ndominio :\n\"\n(define (domain library_domain)\n\n(:requirements\
@@ -960,18 +960,18 @@ conversation:
     \ (robot_at ?r ?wp))\n    (over all (charger_at ?wp))\n  )\n  :effect (and (at\
     \ end (assign (battery ?r) 100)))\n)\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n\
     (:domain library_domain)\n\n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws\
-    \ dibejo_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
+    \ Maestro_aprendiz_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
     \ tiago home)\n  (initial_state tiago)\n  (= (battery tiago) 100)\n  (charger_at\
     \ home)\n)\n\n(:goal\n  (and\n    (visited tiago monalisa_ws)\n    (visited tiago\
     \ elgrito_ws)\n    (visited tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n\
     \    (explained_painting monalisa_ws)\n    (explained_painting elgrito_ws)\n \
-    \   (explained_painting dibejo_ws)\n    (explained_painting guernica_ws)\n  \n\
+    \   (explained_painting Maestro_aprendiz_ws)\n    (explained_painting guernica_ws)\n  \n\
     \  )\n)\n\"\n\n\nThe most important thing in the plan is that you consider the\
     \ battery.\nStarting with 100, moving consumes 20, and explaining consumes 10.\
     \ Therefore, you must recharge the robot before the battery runs out. If you have\
     \ 20 battery, the action must be MOVE TO HOME to recharge.\n\nREMEMBER, THE OUTPUT\
     \ MUST ALWAYS HAVE THIS FORMAT.\n\n0.000: (start_welcome tiago) [1.000]\n1.001:\
-    \ (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    \ (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
@@ -986,16 +986,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -1005,18 +1005,18 @@ conversation:
   content: "The robot’s plan to complete all tasks is **incomplete** because it fails\
     \ to account for the need to **recharge** before the battery is fully depleted.\
     \ Let’s break down the key issue and how to address it.\n\n---\n\n### **Problem\
-    \ Summary**\n\nThe robot must:\n- Visit **five locations**: dibejo_ws, elgrito_ws,\
+    \ Summary**\n\nThe robot must:\n- Visit **five locations**: Maestro_aprendiz_ws, elgrito_ws,\
     \ guernica_ws, monalisa_ws, and nocheestrellada_ws.\n- **Explain** at four of\
-    \ these: dibejo_ws, elgrito_ws, guernica_ws, and monalisa_ws.\n- **Visit** nocheestrellada_ws\
+    \ these: Maestro_aprendiz_ws, elgrito_ws, guernica_ws, and monalisa_ws.\n- **Visit** nocheestrellada_ws\
     \ (no explanation required).\n\nEach **move** consumes **20 units of battery**,\
     \ and each **explanation** consumes **10 units**. The battery starts at **100\
-    \ units**.\n\n---\n\n### **Initial Plan and Battery Usage**\n\n1. **Start → dibejo_ws**\
-    \ (move: -20) → Battery: 80  \n2. **Explain dibejo_ws** (explain: -10) → Battery:\
-    \ 70  \n3. **dibejo_ws → elgrito_ws** (move: -20) → Battery: 50  \n4. **Explain\
+    \ units**.\n\n---\n\n### **Initial Plan and Battery Usage**\n\n1. **Start → Maestro_aprendiz_ws**\
+    \ (move: -20) → Battery: 80  \n2. **Explain Maestro_aprendiz_ws** (explain: -10) → Battery:\
+    \ 70  \n3. **Maestro_aprendiz_ws → elgrito_ws** (move: -20) → Battery: 50  \n4. **Explain\
     \ elgrito_ws** (explain: -10) → Battery: 40  \n5. **elgrito_ws → guernica_ws**\
     \ (move: -20) → Battery: 20  \n6. **Explain guernica_ws** (explain: -10) → Battery:\
     \ 10  \n\nAt this point, the battery is **10 units**, and the robot has only **visited\
-    \ dibejo_ws, elgrito_ws, and guernica_ws**, and **explained** at those three.\
+    \ Maestro_aprendiz_ws, elgrito_ws, and guernica_ws**, and **explained** at those three.\
     \ It still needs to:\n- Visit **monalisa_ws** and **nocheestrellada_ws**\n- Explain\
     \ at **monalisa_ws**\n\nBut with only **10 units left**, it cannot make even a\
     \ single move (which costs 20 units). Therefore, the robot is **stranded** and\
@@ -1025,9 +1025,9 @@ conversation:
     \ the robot **cannot proceed further** without recharging. The initial plan assumes\
     \ the robot can continue indefinitely, which is not the case in reality.\n\n---\n\
     \n### **Corrected Plan with Recharging**\n\nHere’s a revised plan that includes\
-    \ a **recharge** to ensure the robot can complete all tasks:\n\n1. **Start → dibejo_ws**\
-    \ (move: -20) → Battery: 80  \n2. **Explain dibejo_ws** (explain: -10) → Battery:\
-    \ 70  \n3. **dibejo_ws → elgrito_ws** (move: -20) → Battery: 50  \n4. **Explain\
+    \ a **recharge** to ensure the robot can complete all tasks:\n\n1. **Start → Maestro_aprendiz_ws**\
+    \ (move: -20) → Battery: 80  \n2. **Explain Maestro_aprendiz_ws** (explain: -10) → Battery:\
+    \ 70  \n3. **Maestro_aprendiz_ws → elgrito_ws** (move: -20) → Battery: 50  \n4. **Explain\
     \ elgrito_ws** (explain: -10) → Battery: 40  \n5. **elgrito_ws → guernica_ws**\
     \ (move: -20) → Battery: 20  \n6. **Explain guernica_ws** (explain: -10) → Battery:\
     \ 10  \n7. **guernica_ws → home** (move: -20) → Battery: **0** (but move is still\
@@ -1137,7 +1137,7 @@ conversation:
     \ recharging when necessary, leading to battery depletion before completing all\
     \ tasks.  \n\n2. **Failure to Meet Goals**:  \n   - The goal requires visiting\
     \ `monalisa_ws`, `elgrito_ws`, `guernica_ws`, and `nocheestrellada_ws`, and explaining\
-    \ at `monalisa_ws`, `elgrito_ws`, `dibejo_ws`, and `guernica_ws`.  \n   - The\
+    \ at `monalisa_ws`, `elgrito_ws`, `Maestro_aprendiz_ws`, and `guernica_ws`.  \n   - The\
     \ provided plan does not ensure all required locations are visited or tasks completed.\
     \  \n\n3. **Incorrect Action Sequencing**:  \n   Actions like moving to a location\
     \ or performing explanations may be out of order, leading to inefficiencies or\
@@ -1169,8 +1169,8 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nNow I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN,\
     \ NOTHING ELSE.\n\ndominio :\n\"\n(define (domain library_domain)\n\n(:requirements\
@@ -1197,18 +1197,18 @@ conversation:
     \ (robot_at ?r ?wp))\n    (over all (charger_at ?wp))\n  )\n  :effect (and (at\
     \ end (assign (battery ?r) 100)))\n)\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n\
     (:domain library_domain)\n\n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws\
-    \ dibejo_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
+    \ Maestro_aprendiz_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
     \ tiago home)\n  (initial_state tiago)\n  (= (battery tiago) 100)\n  (charger_at\
     \ home)\n)\n\n(:goal\n  (and\n    (visited tiago monalisa_ws)\n    (visited tiago\
     \ elgrito_ws)\n    (visited tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n\
     \    (explained_painting monalisa_ws)\n    (explained_painting elgrito_ws)\n \
-    \   (explained_painting dibejo_ws)\n    (explained_painting guernica_ws)\n  \n\
+    \   (explained_painting Maestro_aprendiz_ws)\n    (explained_painting guernica_ws)\n  \n\
     \  )\n)\n\"\n\n\nThe most important thing in the plan is that you consider the\
     \ battery.\nStarting with 100, moving consumes 20, and explaining consumes 10.\
     \ Therefore, you must recharge the robot before the battery runs out. If you have\
     \ 20 battery, the action must be MOVE TO HOME to recharge.\n\nREMEMBER, THE OUTPUT\
     \ MUST ALWAYS HAVE THIS FORMAT.\n\n0.000: (start_welcome tiago) [1.000]\n1.001:\
-    \ (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    \ (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
@@ -1223,25 +1223,25 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
     \ the drawing and if it was in the goal or not. \n\nBut at the end do:\n\nPLAN:\
     \ \n(AND GIVE THE PLAN WITH CORRECT FORMAT)\n\n"
 - role: assistant
-  content: "0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home dibejo_ws)\
-    \ [15.000]  \n16.002: (explain_painting tiago dibejo_ws) [15.000]  \n31.002: (move\
-    \ tiago dibejo_ws elgrito_ws) [15.000]  \n46.002: (explain_painting tiago elgrito_ws)\
+  content: "0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home Maestro_aprendiz_ws)\
+    \ [15.000]  \n16.002: (explain_painting tiago Maestro_aprendiz_ws) [15.000]  \n31.002: (move\
+    \ tiago Maestro_aprendiz_ws elgrito_ws) [15.000]  \n46.002: (explain_painting tiago elgrito_ws)\
     \ [15.000]  \n61.002: (move tiago elgrito_ws home) [15.000]  \n76.002: (recharge\
     \ tiago home) [5.000]  \n81.003: (move tiago home guernica_ws) [15.000]  \n96.003:\
     \ (explain_painting tiago guernica_ws) [15.000]  \n111.003: (move tiago guernica_ws\
@@ -1335,11 +1335,11 @@ conversation:
   content: "**Validation Results:**  \nThe provided plan is **invalid** due to battery\
     \ misuse, unnecessary actions, and failure to meet all goals.  \n\n**Step-by-Step\
     \ Explanation of Issues:**  \n\n1. **Battery Misuse:**  \n   - After the first\
-    \ two moves (home → dibejo_ws → elgrito_ws), the battery drops to 60. Explaining\
+    \ two moves (home → Maestro_aprendiz_ws → elgrito_ws), the battery drops to 60. Explaining\
     \ `elgrito_ws` reduces it to 50, but then moving back to home (battery drop to\
     \ 30) and recharging is unnecessary at this point.  \n   - The plan wastes energy\
     \ by returning to home multiple times for recharging without optimizing battery\
-    \ usage.  \n\n2. **Unnecessary Actions:**  \n   - `dibejo_ws` is explained but\
+    \ usage.  \n\n2. **Unnecessary Actions:**  \n   - `Maestro_aprendiz_ws` is explained but\
     \ not part of the goal, wasting battery (10 units).  \n   - Returning to home\
     \ after explaining `monalisa_ws` and before visiting `nocheestrellada_ws` is redundant.\
     \  \n\n3. **Goals Not Met:**  \n   - `nocheestrellada_ws` is visited but not explained,\
@@ -1371,8 +1371,8 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nNow I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN,\
     \ NOTHING ELSE.\n\ndominio :\n\"\n(define (domain library_domain)\n\n(:requirements\
@@ -1399,18 +1399,18 @@ conversation:
     \ (robot_at ?r ?wp))\n    (over all (charger_at ?wp))\n  )\n  :effect (and (at\
     \ end (assign (battery ?r) 100)))\n)\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n\
     (:domain library_domain)\n\n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws\
-    \ dibejo_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
+    \ Maestro_aprendiz_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
     \ tiago home)\n  (initial_state tiago)\n  (= (battery tiago) 100)\n  (charger_at\
     \ home)\n)\n\n(:goal\n  (and\n    (visited tiago monalisa_ws)\n    (visited tiago\
     \ elgrito_ws)\n    (visited tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n\
     \    (explained_painting monalisa_ws)\n    (explained_painting elgrito_ws)\n \
-    \   (explained_painting dibejo_ws)\n    (explained_painting guernica_ws)\n  \n\
+    \   (explained_painting Maestro_aprendiz_ws)\n    (explained_painting guernica_ws)\n  \n\
     \  )\n)\n\"\n\n\nThe most important thing in the plan is that you consider the\
     \ battery.\nStarting with 100, moving consumes 20, and explaining consumes 10.\
     \ Therefore, you must recharge the robot before the battery runs out. If you have\
     \ 20 battery, the action must be MOVE TO HOME to recharge.\n\nREMEMBER, THE OUTPUT\
     \ MUST ALWAYS HAVE THIS FORMAT.\n\n0.000: (start_welcome tiago) [1.000]\n1.001:\
-    \ (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    \ (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
@@ -1425,16 +1425,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -1447,9 +1447,9 @@ conversation:
 
     1. **0:00-1:00**: Initialize with `start_welcome`.
 
-    2. **1:00-16:00**: Move from home to Dibejo WS, battery drops to 80.
+    2. **1:00-16:00**: Move from home to maestro_aprendiz WS, battery drops to 80.
 
-    3. **16:00-31:00**: Explain at Dibejo WS, battery now 70.
+    3. **16:00-31:00**: Explain at maestro_aprendiz WS, battery now 70.
 
     4. **31:00-46:00**: Return to home, battery reduces by 20 to 50.
 
@@ -1565,19 +1565,19 @@ conversation:
 - role: assistant
   content: "### Validation Results:\n\n**Plan Validity:** Invalid  \n**Format Correctness:**\
     \ Incorrect  \n\n### Step-by-Step Explanation of Issues:\n\n1. **Battery Constraints\
-    \ Violation:**\n   - After moving from `home` to `dibejo_ws`, the battery drops\
-    \ to 80. Explaining at `dibejo_ws` reduces it further to 70, but returning to\
+    \ Violation:**\n   - After moving from `home` to `Maestro_aprendiz_ws`, the battery drops\
+    \ to 80. Explaining at `Maestro_aprendiz_ws` reduces it further to 70, but returning to\
     \ `home` consumes another 20 units, leaving 50. Recharging is unnecessary here\
     \ as the battery is sufficient for subsequent actions.\n   - The plan includes\
     \ redundant recharges and movements that waste battery and time.\n\n2. **Unnecessary\
-    \ Actions:**\n   - Explaining at `dibejo_ws` is not part of the goal, so this\
+    \ Actions:**\n   - Explaining at `Maestro_aprendiz_ws` is not part of the goal, so this\
     \ action is unnecessary.\n   - Visiting `monalisa_ws` and `nocheestrellada_ws`\
     \ without explaining them does not fulfill the goal requirements for these locations.\n\
     \n3. **Incorrect Format:**\n   - Times are not strictly increasing (e.g., 16.002\
     \ should be 16.001 after 1.000).\n   - Durations are incorrectly represented in\
     \ some actions (should be consistent with domain definitions).\n\n4. **Goal Coverage:**\n\
-    \   - The goal requires explaining at `monalisa_ws`, `elgrito_ws`, `dibejo_ws`,\
-    \ and `guernica_ws`. However, the plan only explains at `dibejo_ws` and `elgrito_ws`,\
+    \   - The goal requires explaining at `monalisa_ws`, `elgrito_ws`, `Maestro_aprendiz_ws`,\
+    \ and `guernica_ws`. However, the plan only explains at `Maestro_aprendiz_ws` and `elgrito_ws`,\
     \ missing `monalisa_ws` and `guernica_ws`.\n\n### Corrected Plan:\n\nFINAL PLAN:\n\
     ```\n0.000: (start_welcome tiago) [1.000]\n1.001: (move tiago home elgrito_ws)\
     \ [15.000]  \n16.001: (explain_painting tiago elgrito_ws) [15.000]  \n31.001:\
@@ -1585,8 +1585,8 @@ conversation:
     \ guernica_ws) [15.000]  \n61.001: (move tiago guernica_ws home) [15.000]  \n\
     76.001: (recharge tiago home) [5.000]  \n81.001: (move tiago home monalisa_ws)\
     \ [15.000]  \n96.001: (explain_painting tiago monalisa_ws) [15.000]  \n111.001:\
-    \ (move tiago monalisa_ws dibejo_ws) [15.000]  \n126.001: (explain_painting tiago\
-    \ dibejo_ws) [15.000]\n```"
+    \ (move tiago monalisa_ws Maestro_aprendiz_ws) [15.000]  \n126.001: (explain_painting tiago\
+    \ Maestro_aprendiz_ws) [15.000]\n```"
 model_sequence:
 - deepseek-r1:32b
 - llama4:latest
@@ -1603,8 +1603,8 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nNow I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN,\
     \ NOTHING ELSE.\n\ndominio :\n\"\n(define (domain library_domain)\n\n(:requirements\
@@ -1631,18 +1631,18 @@ conversation:
     \ (robot_at ?r ?wp))\n    (over all (charger_at ?wp))\n  )\n  :effect (and (at\
     \ end (assign (battery ?r) 100)))\n)\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n\
     (:domain library_domain)\n\n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws\
-    \ dibejo_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
+    \ Maestro_aprendiz_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
     \ tiago home)\n  (initial_state tiago)\n  (= (battery tiago) 100)\n  (charger_at\
     \ home)\n)\n\n(:goal\n  (and\n    (visited tiago monalisa_ws)\n    (visited tiago\
     \ elgrito_ws)\n    (visited tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n\
     \    (explained_painting monalisa_ws)\n    (explained_painting elgrito_ws)\n \
-    \   (explained_painting dibejo_ws)\n    (explained_painting guernica_ws)\n  \n\
+    \   (explained_painting Maestro_aprendiz_ws)\n    (explained_painting guernica_ws)\n  \n\
     \  )\n)\n\"\n\n\nThe most important thing in the plan is that you consider the\
     \ battery.\nStarting with 100, moving consumes 20, and explaining consumes 10.\
     \ Therefore, you must recharge the robot before the battery runs out. If you have\
     \ 20 battery, the action must be MOVE TO HOME to recharge.\n\nREMEMBER, THE OUTPUT\
     \ MUST ALWAYS HAVE THIS FORMAT.\n\n0.000: (start_welcome tiago) [1.000]\n1.001:\
-    \ (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    \ (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
@@ -1657,16 +1657,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -1675,7 +1675,7 @@ conversation:
 - role: assistant
   content: "To address all requirements efficiently, here's the step-by-step plan:\n\
     \n1. **Start Welcome**: Initiate the session.\n   - **Time**: 0.000 – 1.000 seconds\n\
-    \   - **Battery**: 100%\n\n2. **Move to dibejo_ws**: Proceed from home to explain\
+    \   - **Battery**: 100%\n\n2. **Move to Maestro_aprendiz_ws**: Proceed from home to explain\
     \ there.\n   - **Time**: 1.001 – 16.001 seconds\n   - **Battery**: 80% (after\
     \ moving)\n\n3. **Move to elgrito_ws**: Next destination for explanation.\n  \
     \ - **Time**: 16.002 – 31.002 seconds\n   - **Battery**: 60%\n\n4. **Explain at\
@@ -1689,13 +1689,13 @@ conversation:
     \ to full capacity.\n   - **Time**: 91.005 – 96.005 seconds\n   - **Battery**:\
     \ 100%\n\n9. **Move to nocheestrellada_ws**: Visit the required location.\n  \
     \ - **Time**: 96.006 – 111.006 seconds\n   - **Battery**: 80%\n\n10. **Explain\
-    \ at dibejo_ws**: Final explanation task.\n    - **Time**: 111.007 – 126.007 seconds\n\
+    \ at Maestro_aprendiz_ws**: Final explanation task.\n    - **Time**: 111.007 – 126.007 seconds\n\
     \    - **Battery**: 70% (after explaining)\n\nThis plan ensures all required visits\
     \ and explanations are completed with necessary battery management.\n\n**Answer:**\n\
     \nThe optimized step-by-step plan is:\n\n1. Start the welcome session.\n2. Move\
-    \ to dibejo_ws, then to elgrito_ws.\n3. Explain at elgrito_ws.\n4. Proceed to\
+    \ to Maestro_aprendiz_ws, then to elgrito_ws.\n3. Explain at elgrito_ws.\n4. Proceed to\
     \ guernica_ws, explain there.\n5. Return home to recharge.\n6. Visit nocheestrellada_ws\
-    \ and finally explain at dibejo_ws.\n\nThe sequence is:\n\n$\\boxed{\\text{startwelcome,\
+    \ and finally explain at Maestro_aprendiz_ws.\n\nThe sequence is:\n\n$\\boxed{\\text{startwelcome,\
     \ movedib, moveelg, explaigel, moveguer, explguer, movehome, recharg, movenoche,\
     \ expldib}}$"
 - role: user
@@ -1786,17 +1786,17 @@ conversation:
     \ Times are not strictly increasing (e.g., \"31.002\" appears twice).  \n   -\
     \ Durations do not match the domain definition (should be `[15.000]` for `move`\
     \ and `explain_painting`, and `[5.000]` for `recharge`).  \n\n2. **Battery Mismanagement**:\
-    \  \n   - After moving from `home` to `dibejo_ws` (battery: 80), the robot cannot\
+    \  \n   - After moving from `home` to `Maestro_aprendiz_ws` (battery: 80), the robot cannot\
     \ move again without recharging, but it moves to `elgrito_ws` (requires 20 battery).\
     \  \n   - Explaining at `elgrito_ws` and subsequent actions further deplete the\
     \ battery without addressing recharge needs.  \n\n3. **Unnecessary Actions**:\
-    \  \n   - Explaining at locations not in the goal (e.g., `dibejo_ws`).  \n   -\
+    \  \n   - Explaining at locations not in the goal (e.g., `Maestro_aprendiz_ws`).  \n   -\
     \ Missing explanations for required paintings (e.g., `monalisa_ws`, `nocheestrellada_ws`).\
     \  \n\n4. **Goal Coverage**:  \n   - Missing visits to `monalisa_ws` and `nocheestrellada_ws`.\
     \  \n   - Missing explanations for `monalisa_ws` and `nocheestrellada_ws`.  \n\
     \n**Corrected Plan:**  \n\n```plaintext\n0.000: (start_welcome tiago) [1.000]\
-    \  \n1.001: (move tiago home dibejo_ws) [15.000]  \n16.001: (explain_painting\
-    \ tiago dibejo_ws) [15.000]  \n31.001: (move tiago dibejo_ws elgrito_ws) [15.000]\
+    \  \n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]  \n16.001: (explain_painting\
+    \ tiago Maestro_aprendiz_ws) [15.000]  \n31.001: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\
     \  \n46.001: (explain_painting tiago elgrito_ws) [15.000]  \n61.001: (move tiago\
     \ elgrito_ws guernica_ws) [15.000]  \n76.001: (explain_painting tiago guernica_ws)\
     \ [15.000]  \n91.001: (move tiago guernica_ws home) [15.000]  \n106.001: (recharge\
@@ -1871,8 +1871,8 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nNow I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN,\
     \ NOTHING ELSE.\n\ndominio :\n\"\n(define (domain library_domain)\n\n(:requirements\
@@ -1899,18 +1899,18 @@ conversation:
     \ (robot_at ?r ?wp))\n    (over all (charger_at ?wp))\n  )\n  :effect (and (at\
     \ end (assign (battery ?r) 100)))\n)\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n\
     (:domain library_domain)\n\n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws\
-    \ dibejo_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
+    \ Maestro_aprendiz_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
     \ tiago home)\n  (initial_state tiago)\n  (= (battery tiago) 100)\n  (charger_at\
     \ home)\n)\n\n(:goal\n  (and\n    (visited tiago monalisa_ws)\n    (visited tiago\
     \ elgrito_ws)\n    (visited tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n\
     \    (explained_painting monalisa_ws)\n    (explained_painting elgrito_ws)\n \
-    \   (explained_painting dibejo_ws)\n    (explained_painting guernica_ws)\n  \n\
+    \   (explained_painting Maestro_aprendiz_ws)\n    (explained_painting guernica_ws)\n  \n\
     \  )\n)\n\"\n\n\nThe most important thing in the plan is that you consider the\
     \ battery.\nStarting with 100, moving consumes 20, and explaining consumes 10.\
     \ Therefore, you must recharge the robot before the battery runs out. If you have\
     \ 20 battery, the action must be MOVE TO HOME to recharge.\n\nREMEMBER, THE OUTPUT\
     \ MUST ALWAYS HAVE THIS FORMAT.\n\n0.000: (start_welcome tiago) [1.000]\n1.001:\
-    \ (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    \ (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
@@ -1925,16 +1925,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -1942,8 +1942,8 @@ conversation:
     \ \n(AND GIVE THE PLAN WITH CORRECT FORMAT)\n\n"
 - role: assistant
   content: "PLAN:  \n0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home\
-    \ dibejo_ws) [15.000]  \n16.002: (explain_painting tiago dibejo_ws) [15.000] \
-    \ \n31.002: (move tiago dibejo_ws elgrito_ws) [15.000]  \n46.002: (explain_painting\
+    \ Maestro_aprendiz_ws) [15.000]  \n16.002: (explain_painting tiago Maestro_aprendiz_ws) [15.000] \
+    \ \n31.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]  \n46.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]  \n61.002: (move tiago elgrito_ws home) [15.000]\
     \  \n76.002: (recharge tiago home) [5.000]  \n81.002: (move tiago home monalisa_ws)\
     \ [15.000]  \n96.002: (explain_painting tiago monalisa_ws) [15.000]  \n111.002:\
@@ -2037,7 +2037,7 @@ conversation:
   content: "**Validation Results:**  \n- **Format Correctness:** The provided plan\
     \ has minor formatting issues (e.g., missing leading zeros in times and incorrect\
     \ spacing).  \n- **Validity:** The plan is invalid due to the following issues:\
-    \  \n  1. Unnecessary actions (e.g., explaining `dibejo_ws` when it’s not required\
+    \  \n  1. Unnecessary actions (e.g., explaining `Maestro_aprendiz_ws` when it’s not required\
     \ in the goal).  \n  2. Missing goals (e.g., visiting `nocheestrellada_ws` and\
     \ explaining `monalisa_ws`, `elgrito_ws`, `guernica_ws`).  \n  3. Incorrect battery\
     \ management (recharging too early without necessity).  \n\n**Corrected Plan:**\
@@ -2048,7 +2048,7 @@ conversation:
     \ [15.000]  \n76.002: (move tiago nocheestrellada_ws home) [15.000]  \n91.002:\
     \ (recharge tiago home) [5.000]  \n96.003: (move tiago home guernica_ws) [15.000]\
     \  \n111.003: (explain_painting tiago guernica_ws) [15.000]  \n126.003: (move\
-    \ tiago guernica_ws dibejo_ws) [15.000]  \n141.003: (explain_painting tiago dibejo_ws)\
+    \ tiago guernica_ws Maestro_aprendiz_ws) [15.000]  \n141.003: (explain_painting tiago Maestro_aprendiz_ws)\
     \ [15.000]"
 model_sequence:
 - qwen3:235b
@@ -2066,8 +2066,8 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nNow I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN,\
     \ NOTHING ELSE.\n\ndominio :\n\"\n(define (domain library_domain)\n\n(:requirements\
@@ -2094,18 +2094,18 @@ conversation:
     \ (robot_at ?r ?wp))\n    (over all (charger_at ?wp))\n  )\n  :effect (and (at\
     \ end (assign (battery ?r) 100)))\n)\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n\
     (:domain library_domain)\n\n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws\
-    \ dibejo_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
+    \ Maestro_aprendiz_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
     \ tiago home)\n  (initial_state tiago)\n  (= (battery tiago) 100)\n  (charger_at\
     \ home)\n)\n\n(:goal\n  (and\n    (visited tiago monalisa_ws)\n    (visited tiago\
     \ elgrito_ws)\n    (visited tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n\
     \    (explained_painting monalisa_ws)\n    (explained_painting elgrito_ws)\n \
-    \   (explained_painting dibejo_ws)\n    (explained_painting guernica_ws)\n  \n\
+    \   (explained_painting Maestro_aprendiz_ws)\n    (explained_painting guernica_ws)\n  \n\
     \  )\n)\n\"\n\n\nThe most important thing in the plan is that you consider the\
     \ battery.\nStarting with 100, moving consumes 20, and explaining consumes 10.\
     \ Therefore, you must recharge the robot before the battery runs out. If you have\
     \ 20 battery, the action must be MOVE TO HOME to recharge.\n\nREMEMBER, THE OUTPUT\
     \ MUST ALWAYS HAVE THIS FORMAT.\n\n0.000: (start_welcome tiago) [1.000]\n1.001:\
-    \ (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    \ (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
@@ -2120,16 +2120,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -2137,9 +2137,9 @@ conversation:
     \ \n(AND GIVE THE PLAN WITH CORRECT FORMAT)\n\n"
 - role: assistant
   content: "**Plan to Achieve All Goals:**\n\n1. **(start_welcome)**  \n   *Duration:*\
-    \ 1s  \n   *Battery:* 100 → 100  \n\n2. **(move home dibejo_ws)**  \n   *Duration:*\
-    \ 15s  \n   *Battery:* 100 → **80**  \n\n3. **(explain dibejo_ws)**  \n   *Duration:*\
-    \ 1s  \n   *Battery:* 80 → **70**  \n\n4. **(move dibejo_ws elgrito_ws)**  \n\
+    \ 1s  \n   *Battery:* 100 → 100  \n\n2. **(move home Maestro_aprendiz_ws)**  \n   *Duration:*\
+    \ 15s  \n   *Battery:* 100 → **80**  \n\n3. **(explain Maestro_aprendiz_ws)**  \n   *Duration:*\
+    \ 1s  \n   *Battery:* 80 → **70**  \n\n4. **(move Maestro_aprendiz_ws elgrito_ws)**  \n\
     \   *Duration:* 15s  \n   *Battery:* 70 → **50**  \n\n5. **(explain elgrito_ws)**\
     \  \n   *Duration:* 1s  \n   *Battery:* 50 → **40**  \n\n6. **(move elgrito_ws\
     \ home)**  \n   *Duration:* 15s  \n   *Battery:* 40 → **20**  \n\n7. **(recharge)**\
@@ -2150,8 +2150,8 @@ conversation:
     \ **(explain monalisa_ws)**  \n    *Duration:* 1s  \n    *Battery:* 50 → **40**\
     \  \n\n12. **(move monalisa_ws nocheestrellada_ws)**  \n    *Duration:* 15s  \n\
     \    *Battery:* 40 → **20**  \n\n**Final State:**  \n- **Visited Locations:**\
-    \ home, dibejo_ws, elgrito_ws, guernica_ws, monalisa_ws, nocheestrellada_ws  \n\
-    - **Explained Paintings:** dibejo_ws, elgrito_ws, guernica_ws, monalisa_ws  \n\
+    \ home, Maestro_aprendiz_ws, elgrito_ws, guernica_ws, monalisa_ws, nocheestrellada_ws  \n\
+    - **Explained Paintings:** Maestro_aprendiz_ws, elgrito_ws, guernica_ws, monalisa_ws  \n\
     - **Battery:** 20 (insufficient for further actions, but all goals are achieved).\
     \  \n\n**Explanation:**  \n- The plan ensures all required paintings are explained\
     \ and locations are visited.  \n- Recharging at home midway prevents battery depletion.\
@@ -2243,8 +2243,8 @@ conversation:
 - role: assistant
   content: "**Validation Results:**  \n**Invalid Plan.**  \n**Incorrect Format.**\
     \  \n\n**Step-by-Step Explanation of Issues:**  \n\n1. **Battery Mismanagement:**\
-    \  \n   - After the first move (home → dibejo_ws), battery drops to 80.  \n  \
-    \ - Explaining dibejo_ws consumes 10, leaving 70.  \n   - Moving to elgrito_ws\
+    \  \n   - After the first move (home → Maestro_aprendiz_ws), battery drops to 80.  \n  \
+    \ - Explaining Maestro_aprendiz_ws consumes 10, leaving 70.  \n   - Moving to elgrito_ws\
     \ consumes 20, leaving 50.  \n   - Explaining elgrito_ws consumes 10, leaving\
     \ 40.  \n   - **Issue:** Moving to home with 40 battery is unnecessary and inefficient.\
     \ The robot should continue tasks without returning unless absolutely required.\
@@ -2255,9 +2255,9 @@ conversation:
     \  \n\n4. **Format Errors:**  \n   - Durations for `explain_painting` and `move`\
     \ should be 15, not 1 or 1s.  \n   - Times are incorrectly formatted (e.g., \"\
     0.00\" instead of \"0.000\").  \n\n**Corrected Plan:**  \n\n```plaintext\n0.000:\
-    \ (start_welcome tiago) [1.000]  \n1.001: (move tiago home dibejo_ws) [15.000]\
-    \  \n16.002: (explain_painting tiago dibejo_ws) [15.000]  \n31.002: (move tiago\
-    \ dibejo_ws elgrito_ws) [15.000]  \n46.002: (explain_painting tiago elgrito_ws)\
+    \ (start_welcome tiago) [1.000]  \n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\
+    \  \n16.002: (explain_painting tiago Maestro_aprendiz_ws) [15.000]  \n31.002: (move tiago\
+    \ Maestro_aprendiz_ws elgrito_ws) [15.000]  \n46.002: (explain_painting tiago elgrito_ws)\
     \ [15.000]  \n61.002: (move tiago elgrito_ws guernica_ws) [15.000]  \n76.002:\
     \ (explain_painting tiago guernica_ws) [15.000]  \n91.002: (move tiago guernica_ws\
     \ home) [15.000]  \n106.003: (recharge tiago home) [5.000]  \n111.004: (move tiago\
@@ -2299,8 +2299,8 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nNow I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN,\
     \ NOTHING ELSE.\n\ndominio :\n\"\n(define (domain library_domain)\n\n(:requirements\
@@ -2327,18 +2327,18 @@ conversation:
     \ (robot_at ?r ?wp))\n    (over all (charger_at ?wp))\n  )\n  :effect (and (at\
     \ end (assign (battery ?r) 100)))\n)\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n\
     (:domain library_domain)\n\n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws\
-    \ dibejo_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
+    \ Maestro_aprendiz_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
     \ tiago home)\n  (initial_state tiago)\n  (= (battery tiago) 100)\n  (charger_at\
     \ home)\n)\n\n(:goal\n  (and\n    (visited tiago monalisa_ws)\n    (visited tiago\
     \ elgrito_ws)\n    (visited tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n\
     \    (explained_painting monalisa_ws)\n    (explained_painting elgrito_ws)\n \
-    \   (explained_painting dibejo_ws)\n    (explained_painting guernica_ws)\n  \n\
+    \   (explained_painting Maestro_aprendiz_ws)\n    (explained_painting guernica_ws)\n  \n\
     \  )\n)\n\"\n\n\nThe most important thing in the plan is that you consider the\
     \ battery.\nStarting with 100, moving consumes 20, and explaining consumes 10.\
     \ Therefore, you must recharge the robot before the battery runs out. If you have\
     \ 20 battery, the action must be MOVE TO HOME to recharge.\n\nREMEMBER, THE OUTPUT\
     \ MUST ALWAYS HAVE THIS FORMAT.\n\n0.000: (start_welcome tiago) [1.000]\n1.001:\
-    \ (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    \ (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
@@ -2353,16 +2353,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -2372,8 +2372,8 @@ conversation:
   content: "To efficiently achieve all the objectives while managing battery life,\
     \ follow this structured plan:\n\n1. **Initialization**: Start at home (0-1 units).\n\
     2. **Move to Monalisa WS**:\n   - Time: 1-16\n   - Battery after move: 80%\n \
-    \  - Explain painting (16-31), battery drops to 70%.\n3. **Proceed to Dibejo WS**:\n\
-    \   - Move from Monalisa to Dibejo (31-46)\n   - Battery after move: 50%\n   -\
+    \  - Explain painting (16-31), battery drops to 70%.\n3. **Proceed to maestro_aprendiz WS**:\n\
+    \   - Move from Monalisa to maestro_aprendiz (31-46)\n   - Battery after move: 50%\n   -\
     \ Explain painting (46-61), battery at 40%.\n4. **Return to Home for Recharge**:\n\
     \   - Move back home (61-76)\n   - Battery after move: 20%\n   - Recharge (76-81),\
     \ restoring to full battery.\n5. **Visit Elgrito WS**:\n   - Move from home to\
@@ -2471,16 +2471,16 @@ conversation:
     \ due to battery misuse, incorrect preconditions, and unnecessary actions. It\
     \ also fails to cover all goals specified in the problem.  \n\n**Step-by-Step\
     \ Explanation of Issues:**  \n\n1. **Battery Mismanagement**:  \n   - After moving\
-    \ from `home` to `dibejo_ws`, the robot has 80 battery units. Explaining at `dibejo_ws`\
-    \ reduces it to 70, but `dibejo_ws` is not in the goal for explanation. This action\
-    \ is unnecessary and wastes battery.  \n   - Moving from `dibejo_ws` to `elgrito_ws`\
+    \ from `home` to `Maestro_aprendiz_ws`, the robot has 80 battery units. Explaining at `Maestro_aprendiz_ws`\
+    \ reduces it to 70, but `Maestro_aprendiz_ws` is not in the goal for explanation. This action\
+    \ is unnecessary and wastes battery.  \n   - Moving from `Maestro_aprendiz_ws` to `elgrito_ws`\
     \ reduces battery to 50, then explaining at `elgrito_ws` drops it to 40. However,\
     \ the robot later moves to `guernica_ws`, reducing battery to 20, which is insufficient\
     \ for further actions without recharging.  \n\n2. **Unnecessary Actions**:  \n\
-    \   - Explaining at `dibejo_ws` is not required by the goal, wasting battery and\
+    \   - Explaining at `Maestro_aprendiz_ws` is not required by the goal, wasting battery and\
     \ time.  \n   - The plan does not visit `nocheestrellada_ws`, which is part of\
     \ the goal.  \n\n3. **Incorrect Preconditions**:  \n   - The robot attempts to\
-    \ explain paintings at locations (`dibejo_ws`) not specified in the goal, violating\
+    \ explain paintings at locations (`Maestro_aprendiz_ws`) not specified in the goal, violating\
     \ the problem's requirements.  \n\n4. **Missing Goals**:  \n   - The plan does\
     \ not visit `nocheestrellada_ws` or explain paintings at all required locations\
     \ (`monalisa_ws`, `elgrito_ws`, `guernica_ws`).  \n\n**Corrected and Valid Plan:**\
@@ -2492,8 +2492,8 @@ conversation:
     \ [15.000]  \n96.004: (explain_painting tiago guernica_ws) [15.000]  \n111.004:\
     \ (move tiago guernica_ws nocheestrellada_ws) [15.000]  \n126.005: (move tiago\
     \ nocheestrellada_ws home) [15.000]  \n141.005: (recharge tiago home) [5.000]\
-    \  \n146.006: (move tiago home dibejo_ws) [15.000]  \n161.007: (explain_painting\
-    \ tiago dibejo_ws) [15.000]"
+    \  \n146.006: (move tiago home Maestro_aprendiz_ws) [15.000]  \n161.007: (explain_painting\
+    \ tiago Maestro_aprendiz_ws) [15.000]"
 model_sequence:
 - command-a:latest
 - llama4:latest
@@ -2510,8 +2510,8 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nNow I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN,\
     \ NOTHING ELSE.\n\ndominio :\n\"\n(define (domain library_domain)\n\n(:requirements\
@@ -2538,18 +2538,18 @@ conversation:
     \ (robot_at ?r ?wp))\n    (over all (charger_at ?wp))\n  )\n  :effect (and (at\
     \ end (assign (battery ?r) 100)))\n)\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n\
     (:domain library_domain)\n\n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws\
-    \ dibejo_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
+    \ Maestro_aprendiz_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
     \ tiago home)\n  (initial_state tiago)\n  (= (battery tiago) 100)\n  (charger_at\
     \ home)\n)\n\n(:goal\n  (and\n    (visited tiago monalisa_ws)\n    (visited tiago\
     \ elgrito_ws)\n    (visited tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n\
     \    (explained_painting monalisa_ws)\n    (explained_painting elgrito_ws)\n \
-    \   (explained_painting dibejo_ws)\n    (explained_painting guernica_ws)\n  \n\
+    \   (explained_painting Maestro_aprendiz_ws)\n    (explained_painting guernica_ws)\n  \n\
     \  )\n)\n\"\n\n\nThe most important thing in the plan is that you consider the\
     \ battery.\nStarting with 100, moving consumes 20, and explaining consumes 10.\
     \ Therefore, you must recharge the robot before the battery runs out. If you have\
     \ 20 battery, the action must be MOVE TO HOME to recharge.\n\nREMEMBER, THE OUTPUT\
     \ MUST ALWAYS HAVE THIS FORMAT.\n\n0.000: (start_welcome tiago) [1.000]\n1.001:\
-    \ (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    \ (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
@@ -2564,16 +2564,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -2581,8 +2581,8 @@ conversation:
     \ \n(AND GIVE THE PLAN WITH CORRECT FORMAT)\n\n"
 - role: assistant
   content: "PLAN:  \n0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home\
-    \ dibejo_ws) [15.000]  \n16.002: (explain_painting tiago dibejo_ws) [15.000] \
-    \ \n31.002: (move tiago dibejo_ws elgrito_ws) [15.000]  \n46.002: (explain_painting\
+    \ Maestro_aprendiz_ws) [15.000]  \n16.002: (explain_painting tiago Maestro_aprendiz_ws) [15.000] \
+    \ \n31.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]  \n46.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]  \n61.002: (move tiago elgrito_ws home) [15.000]\
     \  \n76.003: (recharge tiago home) [5.000]  \n81.003: (move tiago home guernica_ws)\
     \ [15.000]  \n96.004: (explain_painting tiago guernica_ws) [15.000]  \n111.004:\
@@ -2676,8 +2676,8 @@ conversation:
 - role: assistant
   content: "**Validation Results:**  \n**Invalid Plan**  \n**Incorrect Format**  \n\
     \n**Step-by-Step Explanation of Issues:**  \n\n1. **Battery Mismanagement:** \
-    \ \n   - After the first move (home → dibejo_ws), battery = 80.  \n   - Explaining\
-    \ dibejo_ws consumes 10, leaving 70.  \n   - Moving to elgrito_ws consumes 20,\
+    \ \n   - After the first move (home → Maestro_aprendiz_ws), battery = 80.  \n   - Explaining\
+    \ Maestro_aprendiz_ws consumes 10, leaving 70.  \n   - Moving to elgrito_ws consumes 20,\
     \ leaving 50.  \n   - Explaining elgrito_ws consumes 10, leaving 40.  \n   - **Issue:**\
     \ Moving back to home consumes 20, leaving 20. Recharging at this point is unnecessary\
     \ because the robot still has enough battery for another action.  \n\n2. **Unnecessary\
@@ -2689,8 +2689,8 @@ conversation:
     \ (e.g., 76.003 after 76.002).  \n   - Recharge duration is incorrectly set to\
     \ 5.000 instead of 5, and start times are inconsistently formatted.  \n\n**Corrected\
     \ Plan:**  \nFINAL PLAN:  \n0.000: (start_welcome tiago) [1.000]  \n1.001: (move\
-    \ tiago home dibejo_ws) [15.000]  \n16.001: (explain_painting tiago dibejo_ws)\
-    \ [15.000]  \n31.001: (move tiago dibejo_ws elgrito_ws) [15.000]  \n46.001: (explain_painting\
+    \ tiago home Maestro_aprendiz_ws) [15.000]  \n16.001: (explain_painting tiago Maestro_aprendiz_ws)\
+    \ [15.000]  \n31.001: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]  \n46.001: (explain_painting\
     \ tiago elgrito_ws) [15.000]  \n61.001: (move tiago elgrito_ws guernica_ws) [15.000]\
     \  \n76.001: (explain_painting tiago guernica_ws) [15.000]  \n91.001: (move tiago\
     \ guernica_ws home) [15.000]  \n106.002: (recharge tiago home) [5.000]  \n111.002:\
@@ -2713,8 +2713,8 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nNow I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN,\
     \ NOTHING ELSE.\n\ndominio :\n\"\n(define (domain library_domain)\n\n(:requirements\
@@ -2741,18 +2741,18 @@ conversation:
     \ (robot_at ?r ?wp))\n    (over all (charger_at ?wp))\n  )\n  :effect (and (at\
     \ end (assign (battery ?r) 100)))\n)\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n\
     (:domain library_domain)\n\n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws\
-    \ dibejo_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
+    \ Maestro_aprendiz_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
     \ tiago home)\n  (initial_state tiago)\n  (= (battery tiago) 100)\n  (charger_at\
     \ home)\n)\n\n(:goal\n  (and\n    (visited tiago monalisa_ws)\n    (visited tiago\
     \ elgrito_ws)\n    (visited tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n\
     \    (explained_painting monalisa_ws)\n    (explained_painting elgrito_ws)\n \
-    \   (explained_painting dibejo_ws)\n    (explained_painting guernica_ws)\n  \n\
+    \   (explained_painting Maestro_aprendiz_ws)\n    (explained_painting guernica_ws)\n  \n\
     \  )\n)\n\"\n\n\nThe most important thing in the plan is that you consider the\
     \ battery.\nStarting with 100, moving consumes 20, and explaining consumes 10.\
     \ Therefore, you must recharge the robot before the battery runs out. If you have\
     \ 20 battery, the action must be MOVE TO HOME to recharge.\n\nREMEMBER, THE OUTPUT\
     \ MUST ALWAYS HAVE THIS FORMAT.\n\n0.000: (start_welcome tiago) [1.000]\n1.001:\
-    \ (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    \ (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
@@ -2767,16 +2767,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -2787,9 +2787,9 @@ conversation:
     \ [15.000]  \n16.002: (explain_painting tiago monalisa_ws) [15.000]  \n31.002:\
     \ (move tiago monalisa_ws elgrito_ws) [15.000]  \n46.002: (explain_painting tiago\
     \ elgrito_ws) [15.000]  \n61.002: (move tiago elgrito_ws home) [15.000]  \n76.003:\
-    \ (recharge tiago home) [5.000]  \n81.003: (move tiago home dibejo_ws) [15.000]\
-    \  \n96.004: (explain_painting tiago dibejo_ws) [15.000]  \n111.004: (move tiago\
-    \ dibejo_ws guernica_ws) [15.000]  \n126.004: (explain_painting tiago guernica_ws)\
+    \ (recharge tiago home) [5.000]  \n81.003: (move tiago home Maestro_aprendiz_ws) [15.000]\
+    \  \n96.004: (explain_painting tiago Maestro_aprendiz_ws) [15.000]  \n111.004: (move tiago\
+    \ Maestro_aprendiz_ws guernica_ws) [15.000]  \n126.004: (explain_painting tiago guernica_ws)\
     \ [15.000]  \n141.004: (move tiago guernica_ws nocheestrellada_ws) [15.000]  \n\
     156.004: (move tiago nocheestrellada_ws home) [15.000]  \n171.005: (recharge tiago\
     \ home) [5.000]  \n176.005: (move tiago home elgrito_ws) [15.000]  \n191.006:\
@@ -2900,8 +2900,8 @@ conversation:
     \ home) [5.000]  \n81.003: (move tiago home monalisa_ws) [15.000]  \n96.004: (explain_painting\
     \ tiago monalisa_ws) [15.000]  \n111.004: (move tiago monalisa_ws elgrito_ws)\
     \ [15.000]  \n126.004: (explain_painting tiago elgrito_ws) [15.000]  \n141.004:\
-    \ (move tiago elgrito_ws dibejo_ws) [15.000]  \n156.004: (explain_painting tiago\
-    \ dibejo_ws) [15.000]  \n171.004: (move tiago dibejo_ws guernica_ws) [15.000]\
+    \ (move tiago elgrito_ws Maestro_aprendiz_ws) [15.000]  \n156.004: (explain_painting tiago\
+    \ Maestro_aprendiz_ws) [15.000]  \n171.004: (move tiago Maestro_aprendiz_ws guernica_ws) [15.000]\
     \  \n186.004: (explain_painting tiago guernica_ws) [15.000]"
 model_sequence:
 - command-a:latest
@@ -2919,8 +2919,8 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nNow I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN,\
     \ NOTHING ELSE.\n\ndominio :\n\"\n(define (domain library_domain)\n\n(:requirements\
@@ -2947,18 +2947,18 @@ conversation:
     \ (robot_at ?r ?wp))\n    (over all (charger_at ?wp))\n  )\n  :effect (and (at\
     \ end (assign (battery ?r) 100)))\n)\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n\
     (:domain library_domain)\n\n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws\
-    \ dibejo_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
+    \ Maestro_aprendiz_ws guernica_ws - location\n  tiago - robot\n)\n\n(:init\n  (robot_at\
     \ tiago home)\n  (initial_state tiago)\n  (= (battery tiago) 100)\n  (charger_at\
     \ home)\n)\n\n(:goal\n  (and\n    (visited tiago monalisa_ws)\n    (visited tiago\
     \ elgrito_ws)\n    (visited tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n\
     \    (explained_painting monalisa_ws)\n    (explained_painting elgrito_ws)\n \
-    \   (explained_painting dibejo_ws)\n    (explained_painting guernica_ws)\n  \n\
+    \   (explained_painting Maestro_aprendiz_ws)\n    (explained_painting guernica_ws)\n  \n\
     \  )\n)\n\"\n\n\nThe most important thing in the plan is that you consider the\
     \ battery.\nStarting with 100, moving consumes 20, and explaining consumes 10.\
     \ Therefore, you must recharge the robot before the battery runs out. If you have\
     \ 20 battery, the action must be MOVE TO HOME to recharge.\n\nREMEMBER, THE OUTPUT\
     \ MUST ALWAYS HAVE THIS FORMAT.\n\n0.000: (start_welcome tiago) [1.000]\n1.001:\
-    \ (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    \ (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
@@ -2973,16 +2973,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -2990,8 +2990,8 @@ conversation:
     \ \n(AND GIVE THE PLAN WITH CORRECT FORMAT)\n\n"
 - role: assistant
   content: "PLAN:  \n0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home\
-    \ dibejo_ws) [15.000]  \n16.002: (explain_painting tiago dibejo_ws) [15.000] \
-    \ \n31.002: (move tiago dibejo_ws elgrito_ws) [15.000]  \n46.002: (explain_painting\
+    \ Maestro_aprendiz_ws) [15.000]  \n16.002: (explain_painting tiago Maestro_aprendiz_ws) [15.000] \
+    \ \n31.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]  \n46.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]  \n61.002: (move tiago elgrito_ws home) [15.000]\
     \  \n76.002: (recharge tiago home) [5.000]  \n81.002: (move tiago home monalisa_ws)\
     \ [15.000]  \n96.002: (explain_painting tiago monalisa_ws) [15.000]  \n111.002:\
@@ -3085,8 +3085,8 @@ conversation:
   content: "**Validation Results:**  \nThe provided plan is **invalid** due to several\
     \ issues related to battery constraints, unnecessary actions, and goal coverage.\
     \ Below are the step-by-step explanations of why it is incorrect:  \n\n1. **Battery\
-    \ Mismanagement**:  \n   - After moving from `home` to `dibejo_ws` (battery: 80),\
-    \ explaining `dibejo_ws` reduces battery to 70.  \n   - Moving to `elgrito_ws`\
+    \ Mismanagement**:  \n   - After moving from `home` to `Maestro_aprendiz_ws` (battery: 80),\
+    \ explaining `Maestro_aprendiz_ws` reduces battery to 70.  \n   - Moving to `elgrito_ws`\
     \ reduces battery to 50, then explaining `elgrito_ws` reduces it to 40.  \n  \
     \ - Moving back to `home` reduces battery to 20, but the robot does not recharge\
     \ immediately, which is inefficient and unnecessary.  \n   - After recharging\
@@ -3095,12 +3095,12 @@ conversation:
     \ moving back to `home` reduces it to 30. Recharging is unnecessary here since\
     \ the robot still has enough battery for subsequent actions.  \n   - Final move\
     \ to `guernica_ws` and explain are valid but inefficient due to prior recharges.\
-    \  \n\n2. **Unnecessary Actions**:  \n   - The plan includes explaining `dibejo_ws`,\
+    \  \n\n2. **Unnecessary Actions**:  \n   - The plan includes explaining `Maestro_aprendiz_ws`,\
     \ which is not in the goal.  \n   - Recharging at 141.002 is unnecessary as the\
     \ robot still has sufficient battery for the remaining actions.  \n\n3. **Goal\
     \ Coverage**:  \n   - The goal requires visiting `monalisa_ws`, `elgrito_ws`,\
     \ `guernica_ws`, and `nocheestrellada_ws`, and explaining paintings at all locations\
-    \ except `nocheestrellada_ws`. The plan incorrectly explains `dibejo_ws` instead\
+    \ except `nocheestrellada_ws`. The plan incorrectly explains `Maestro_aprendiz_ws` instead\
     \ of focusing on the required goals.  \n\n**Corrected Plan:**  \nFINAL PLAN: \
     \ \n0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home elgrito_ws)\
     \ [15.000]  \n16.002: (explain_painting tiago elgrito_ws) [15.000]  \n31.002:\
@@ -3119,7 +3119,7 @@ conversation:
     \ the domain and the problem. The only output I expect from you is the execution\
     \ plan, as a set of actions, with their start times and durations. The structure\
     \ of the plan should be the following:\n\n0.000: (start_welcome tiago) [1.000]\n\
-    1.001: (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n...\nNow I will provide the domain and\
     \ the problem. ONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\ndominio :\n\"\n(define\
@@ -3146,19 +3146,19 @@ conversation:
     \ (at start (<= (battery ?r) 100))\n    (over all (robot_at ?r ?wp))\n    (over\
     \ all (charger_at ?wp))\n  )\n  :effect (and (at end (assign (battery ?r) 100)))\n\
     )\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n(:domain library_domain)\n\
-    \n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws dibejo_ws guernica_ws\
+    \n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws Maestro_aprendiz_ws guernica_ws\
     \ - location\n  tiago - robot\n)\n\n(:init\n  (robot_at tiago home)\n  (initial_state\
     \ tiago)\n  (= (battery tiago) 100)\n  (charger_at home)\n)\n\n(:goal\n  (and\n\
     \    (visited tiago monalisa_ws)\n    (visited tiago elgrito_ws)\n    (visited\
     \ tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n    (explained_painting\
-    \ monalisa_ws)\n    (explained_painting elgrito_ws)\n    (explained_painting dibejo_ws)\n\
+    \ monalisa_ws)\n    (explained_painting elgrito_ws)\n    (explained_painting Maestro_aprendiz_ws)\n\
     \    (explained_painting guernica_ws)\n  \n  )\n)\n\"\n\n\nThe most important\
     \ thing in the plan is that you consider the battery.\nStarting with 100, moving\
     \ consumes 20, and explaining consumes 10. Therefore, you must recharge the robot\
     \ before the battery runs out. If you have 20 battery, the action must be MOVE\
     \ TO HOME to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\
-    \n0.000: (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \n0.000: (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
   content: "You are a planner for PDDL and I only want you to give me the execution\
@@ -3172,16 +3172,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -3189,8 +3189,8 @@ conversation:
     \ \n(AND GIVE THE PLAN WITH CORRECT FORMAT)\n\n"
 - role: assistant
   content: "PLAN:  \n0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home\
-    \ dibejo_ws) [15.000]  \n16.002: (explain_painting tiago dibejo_ws) [15.000] \
-    \ \n31.002: (move tiago dibejo_ws elgrito_ws) [15.000]  \n46.002: (explain_painting\
+    \ Maestro_aprendiz_ws) [15.000]  \n16.002: (explain_painting tiago Maestro_aprendiz_ws) [15.000] \
+    \ \n31.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]  \n46.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]  \n61.002: (move tiago elgrito_ws home) [15.000]\
     \  \n76.003: (recharge tiago home) [5.000]  \n81.004: (move tiago home guernica_ws)\
     \ [15.000]  \n96.005: (explain_painting tiago guernica_ws) [15.000]  \n111.005:\
@@ -3283,7 +3283,7 @@ conversation:
   content: "**Validation Results:**  \nThe provided plan is **invalid** due to battery\
     \ misuse, incorrect formatting, unnecessary actions, and failure to meet all goals.\
     \ Below are the issues identified step by step:  \n\n1. **Battery Misuse**:  \n\
-    \   - After moving from `home` to `dibejo_ws` (battery: 80), explaining `dibejo_ws`\
+    \   - After moving from `home` to `Maestro_aprendiz_ws` (battery: 80), explaining `Maestro_aprendiz_ws`\
     \ reduces battery to 70.  \n   - Moving to `elgrito_ws` further reduces battery\
     \ to 50.  \n   - Explaining `elgrito_ws` reduces battery to 40.  \n   - Moving\
     \ back to `home` reduces battery to 20, but the robot attempts to recharge at\
@@ -3294,8 +3294,8 @@ conversation:
     \ as it is not part of the goal.  \n\n4. **Goals Not Met**:  \n   - The plan does\
     \ not visit or explain `monalisa_ws`, which is required by the goal.  \n\n**Corrected\
     \ Plan:**  \nFINAL PLAN:  \n0.000: (start_welcome tiago) [1.000]  \n1.001: (move\
-    \ tiago home dibejo_ws) [15.000]  \n16.002: (explain_painting tiago dibejo_ws)\
-    \ [15.000]  \n31.002: (move tiago dibejo_ws elgrito_ws) [15.000]  \n46.002: (explain_painting\
+    \ tiago home Maestro_aprendiz_ws) [15.000]  \n16.002: (explain_painting tiago Maestro_aprendiz_ws)\
+    \ [15.000]  \n31.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]  \n46.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]  \n61.002: (move tiago elgrito_ws guernica_ws) [15.000]\
     \  \n76.002: (explain_painting tiago guernica_ws) [15.000]  \n91.002: (move tiago\
     \ guernica_ws home) [15.000]  \n106.003: (recharge tiago home) [5.000]  \n111.003:\
@@ -3311,7 +3311,7 @@ conversation:
     \ the domain and the problem. The only output I expect from you is the execution\
     \ plan, as a set of actions, with their start times and durations. The structure\
     \ of the plan should be the following:\n\n0.000: (start_welcome tiago) [1.000]\n\
-    1.001: (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n...\nNow I will provide the domain and\
     \ the problem. ONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\ndominio :\n\"\n(define\
@@ -3338,19 +3338,19 @@ conversation:
     \ (at start (<= (battery ?r) 100))\n    (over all (robot_at ?r ?wp))\n    (over\
     \ all (charger_at ?wp))\n  )\n  :effect (and (at end (assign (battery ?r) 100)))\n\
     )\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n(:domain library_domain)\n\
-    \n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws dibejo_ws guernica_ws\
+    \n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws Maestro_aprendiz_ws guernica_ws\
     \ - location\n  tiago - robot\n)\n\n(:init\n  (robot_at tiago home)\n  (initial_state\
     \ tiago)\n  (= (battery tiago) 100)\n  (charger_at home)\n)\n\n(:goal\n  (and\n\
     \    (visited tiago monalisa_ws)\n    (visited tiago elgrito_ws)\n    (visited\
     \ tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n    (explained_painting\
-    \ monalisa_ws)\n    (explained_painting elgrito_ws)\n    (explained_painting dibejo_ws)\n\
+    \ monalisa_ws)\n    (explained_painting elgrito_ws)\n    (explained_painting Maestro_aprendiz_ws)\n\
     \    (explained_painting guernica_ws)\n  \n  )\n)\n\"\n\n\nThe most important\
     \ thing in the plan is that you consider the battery.\nStarting with 100, moving\
     \ consumes 20, and explaining consumes 10. Therefore, you must recharge the robot\
     \ before the battery runs out. If you have 20 battery, the action must be MOVE\
     \ TO HOME to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\
-    \n0.000: (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \n0.000: (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
   content: "You are a planner for PDDL and I only want you to give me the execution\
@@ -3364,16 +3364,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -3381,8 +3381,8 @@ conversation:
     \ \n(AND GIVE THE PLAN WITH CORRECT FORMAT)\n\n"
 - role: assistant
   content: "PLAN:  \n0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home\
-    \ dibejo_ws) [15.000]  \n16.002: (explain_painting tiago dibejo_ws) [15.000] \
-    \ \n31.002: (move tiago dibejo_ws elgrito_ws) [15.000]  \n46.002: (explain_painting\
+    \ Maestro_aprendiz_ws) [15.000]  \n16.002: (explain_painting tiago Maestro_aprendiz_ws) [15.000] \
+    \ \n31.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]  \n46.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]  \n61.002: (move tiago elgrito_ws home) [15.000]\
     \  \n76.002: (recharge tiago home) [5.000]  \n81.002: (move tiago home monalisa_ws)\
     \ [15.000]  \n96.002: (explain_painting tiago monalisa_ws) [15.000]  \n111.002:\
@@ -3476,12 +3476,12 @@ conversation:
   content: "**Validation Results:**  \n- **Plan Validity:** Invalid (battery misuse,\
     \ unnecessary actions, goals not fully covered).  \n- **Format Correctness:**\
     \ Format is correct, but the plan itself is invalid.  \n\n**Step-by-Step Explanation\
-    \ of Issues:**  \n1. **Unnecessary Actions:**  \n   - Explaining `dibejo_ws` and\
+    \ of Issues:**  \n1. **Unnecessary Actions:**  \n   - Explaining `Maestro_aprendiz_ws` and\
     \ `elgrito_ws` before recharging is unnecessary since they are not in the goal.\
     \  \n   - Moving to `nocheestrellada_ws` without explaining it first is incorrect,\
     \ as the goal requires explaining paintings at visited locations.  \n\n2. **Battery\
-    \ Misuse:**  \n   - After moving from `home` to `dibejo_ws` (battery: 80), explaining\
-    \ `dibejo_ws` reduces battery to 70.  \n   - Moving to `elgrito_ws` reduces battery\
+    \ Misuse:**  \n   - After moving from `home` to `Maestro_aprendiz_ws` (battery: 80), explaining\
+    \ `Maestro_aprendiz_ws` reduces battery to 70.  \n   - Moving to `elgrito_ws` reduces battery\
     \ to 50, then explaining it reduces battery to 40.  \n   - Moving back to `home`\
     \ reduces battery to 20, but recharging is unnecessary at this point since the\
     \ robot still has enough battery for further actions.  \n\n3. **Goals Not Covered:**\
@@ -3493,8 +3493,8 @@ conversation:
     \  \n46.002: (explain_painting tiago elgrito_ws) [15.000]  \n61.002: (move tiago\
     \ elgrito_ws guernica_ws) [15.000]  \n76.002: (explain_painting tiago guernica_ws)\
     \ [15.000]  \n91.002: (move tiago guernica_ws home) [15.000]  \n106.002: (recharge\
-    \ tiago home) [5.000]  \n111.002: (move tiago home dibejo_ws) [15.000]  \n126.002:\
-    \ (explain_painting tiago dibejo_ws) [15.000]  \n141.002: (move tiago dibejo_ws\
+    \ tiago home) [5.000]  \n111.002: (move tiago home Maestro_aprendiz_ws) [15.000]  \n126.002:\
+    \ (explain_painting tiago Maestro_aprendiz_ws) [15.000]  \n141.002: (move tiago Maestro_aprendiz_ws\
     \ nocheestrellada_ws) [15.000]  \n156.002: (explain_painting tiago nocheestrellada_ws)\
     \ [15.000]"
 model_sequence:
@@ -3507,7 +3507,7 @@ conversation:
     \ the domain and the problem. The only output I expect from you is the execution\
     \ plan, as a set of actions, with their start times and durations. The structure\
     \ of the plan should be the following:\n\n0.000: (start_welcome tiago) [1.000]\n\
-    1.001: (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n...\nNow I will provide the domain and\
     \ the problem. ONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\ndominio :\n\"\n(define\
@@ -3534,19 +3534,19 @@ conversation:
     \ (at start (<= (battery ?r) 100))\n    (over all (robot_at ?r ?wp))\n    (over\
     \ all (charger_at ?wp))\n  )\n  :effect (and (at end (assign (battery ?r) 100)))\n\
     )\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n(:domain library_domain)\n\
-    \n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws dibejo_ws guernica_ws\
+    \n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws Maestro_aprendiz_ws guernica_ws\
     \ - location\n  tiago - robot\n)\n\n(:init\n  (robot_at tiago home)\n  (initial_state\
     \ tiago)\n  (= (battery tiago) 100)\n  (charger_at home)\n)\n\n(:goal\n  (and\n\
     \    (visited tiago monalisa_ws)\n    (visited tiago elgrito_ws)\n    (visited\
     \ tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n    (explained_painting\
-    \ monalisa_ws)\n    (explained_painting elgrito_ws)\n    (explained_painting dibejo_ws)\n\
+    \ monalisa_ws)\n    (explained_painting elgrito_ws)\n    (explained_painting Maestro_aprendiz_ws)\n\
     \    (explained_painting guernica_ws)\n  \n  )\n)\n\"\n\n\nThe most important\
     \ thing in the plan is that you consider the battery.\nStarting with 100, moving\
     \ consumes 20, and explaining consumes 10. Therefore, you must recharge the robot\
     \ before the battery runs out. If you have 20 battery, the action must be MOVE\
     \ TO HOME to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\
-    \n0.000: (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \n0.000: (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
   content: "You are a planner for PDDL and I only want you to give me the execution\
@@ -3560,16 +3560,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -3577,8 +3577,8 @@ conversation:
     \ \n(AND GIVE THE PLAN WITH CORRECT FORMAT)\n\n"
 - role: assistant
   content: "PLAN:  \n0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home\
-    \ dibejo_ws) [15.000]  \n16.002: (explain_painting tiago dibejo_ws) [15.000] \
-    \ \n31.002: (move tiago dibejo_ws elgrito_ws) [15.000]  \n46.002: (explain_painting\
+    \ Maestro_aprendiz_ws) [15.000]  \n16.002: (explain_painting tiago Maestro_aprendiz_ws) [15.000] \
+    \ \n31.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]  \n46.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]  \n61.002: (move tiago elgrito_ws home) [15.000]\
     \  \n76.002: (recharge tiago home) [5.000]  \n81.002: (move tiago home guernica_ws)\
     \ [15.000]  \n96.002: (explain_painting tiago guernica_ws) [15.000]  \n111.002:\
@@ -3673,8 +3673,8 @@ conversation:
 - role: assistant
   content: "**Validation Results:**  \n- **Plan Validity:** Invalid  \n- **Format\
     \ Correctness:** Incorrect  \n\n**Step-by-Step Explanation of Issues:**  \n\n\
-    1. **Battery Mismanagement:**  \n   - After the first move from `home` to `dibejo_ws`\
-    \ (battery: 80), explaining `dibejo_ws` reduces battery to 70.  \n   - Moving\
+    1. **Battery Mismanagement:**  \n   - After the first move from `home` to `Maestro_aprendiz_ws`\
+    \ (battery: 80), explaining `Maestro_aprendiz_ws` reduces battery to 70.  \n   - Moving\
     \ to `elgrito_ws` then reduces battery to 50, and explaining `elgrito_ws` reduces\
     \ it to 40.  \n   - Moving back to `home` at this point is unnecessary since the\
     \ robot still has enough battery for further actions.  \n   - The recharge at\
@@ -3689,8 +3689,8 @@ conversation:
     \ after 81.002).  \n   - Durations for `explain_painting` and `move` actions are\
     \ correct but misaligned due to premature recharging and unnecessary movements.\
     \  \n\n**Corrected Plan:**  \nFINAL PLAN:  \n0.000: (start_welcome tiago) [1.000]\
-    \  \n1.001: (move tiago home dibejo_ws) [15.000]  \n16.002: (explain_painting\
-    \ tiago dibejo_ws) [15.000]  \n31.002: (move tiago dibejo_ws elgrito_ws) [15.000]\
+    \  \n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]  \n16.002: (explain_painting\
+    \ tiago Maestro_aprendiz_ws) [15.000]  \n31.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\
     \  \n46.002: (explain_painting tiago elgrito_ws) [15.000]  \n61.002: (move tiago\
     \ elgrito_ws guernica_ws) [15.000]  \n76.002: (explain_painting tiago guernica_ws)\
     \ [15.000]  \n91.002: (move tiago guernica_ws monalisa_ws) [15.000]  \n106.002:\
@@ -3708,7 +3708,7 @@ conversation:
     \ the domain and the problem. The only output I expect from you is the execution\
     \ plan, as a set of actions, with their start times and durations. The structure\
     \ of the plan should be the following:\n\n0.000: (start_welcome tiago) [1.000]\n\
-    1.001: (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n...\nNow I will provide the domain and\
     \ the problem. ONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\ndominio :\n\"\n(define\
@@ -3735,19 +3735,19 @@ conversation:
     \ (at start (<= (battery ?r) 100))\n    (over all (robot_at ?r ?wp))\n    (over\
     \ all (charger_at ?wp))\n  )\n  :effect (and (at end (assign (battery ?r) 100)))\n\
     )\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n(:domain library_domain)\n\
-    \n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws dibejo_ws guernica_ws\
+    \n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws Maestro_aprendiz_ws guernica_ws\
     \ - location\n  tiago - robot\n)\n\n(:init\n  (robot_at tiago home)\n  (initial_state\
     \ tiago)\n  (= (battery tiago) 100)\n  (charger_at home)\n)\n\n(:goal\n  (and\n\
     \    (visited tiago monalisa_ws)\n    (visited tiago elgrito_ws)\n    (visited\
     \ tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n    (explained_painting\
-    \ monalisa_ws)\n    (explained_painting elgrito_ws)\n    (explained_painting dibejo_ws)\n\
+    \ monalisa_ws)\n    (explained_painting elgrito_ws)\n    (explained_painting Maestro_aprendiz_ws)\n\
     \    (explained_painting guernica_ws)\n  \n  )\n)\n\"\n\n\nThe most important\
     \ thing in the plan is that you consider the battery.\nStarting with 100, moving\
     \ consumes 20, and explaining consumes 10. Therefore, you must recharge the robot\
     \ before the battery runs out. If you have 20 battery, the action must be MOVE\
     \ TO HOME to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\
-    \n0.000: (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \n0.000: (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
   content: "You are a planner for PDDL and I only want you to give me the execution\
@@ -3761,16 +3761,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -3783,10 +3783,10 @@ conversation:
 
     1. **Start at Home**: Begin by welcoming (time 0-1).
 
-    2. **Move to Dibejo_ws**: Travel from home to Dibejo_ws (15 units), arriving with
+    2. **Move to Maestro_aprendiz_ws**: Travel from home to Maestro_aprendiz_ws (15 units), arriving with
     80% battery.
 
-    3. **Explain Dibejo_ws Painting**: Use 10% battery, leaving 70%.
+    3. **Explain Maestro_aprendiz_ws Painting**: Use 10% battery, leaving 70%.
 
     4. **Travel to Elgrito_ws**: Move there (15 units), ending with 50% battery.
 
@@ -3898,7 +3898,7 @@ conversation:
 - role: assistant
   content: "**Goal of the Plan:**  \nThe goal is to ensure that the robot visits `monalisa_ws`,\
     \ `elgrito_ws`, `guernica_ws`, and `nocheestrellada_ws`, and explains the paintings\
-    \ at `monalisa_ws`, `elgrito_ws`, `dibejo_ws`, and `guernica_ws`.\n\n**Goal Completion\
+    \ at `monalisa_ws`, `elgrito_ws`, `Maestro_aprendiz_ws`, and `guernica_ws`.\n\n**Goal Completion\
     \ Check:**  \nThe provided plan does not visit `nocheestrellada_ws` or explain\
     \ the painting at `monalisa_ws`. Therefore, the goal is **not completed**.\n\n\
     **Plan Validity and Format Check:**  \nThe plan is **invalid** due to:  \n1. Missing\
@@ -3906,16 +3906,16 @@ conversation:
     \  \n2. Incorrect battery management (e.g., no recharge when necessary).  \n3.\
     \ Incorrect format (missing leading zeros in time stamps).  \n\n**Corrected Plan:**\
     \  \n```plaintext\n0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago\
-    \ home dibejo_ws) [15.000]  \n16.001: (explain_painting tiago dibejo_ws) [15.000]\
-    \  \n31.001: (move tiago dibejo_ws elgrito_ws) [15.000]  \n46.001: (explain_painting\
+    \ home Maestro_aprendiz_ws) [15.000]  \n16.001: (explain_painting tiago Maestro_aprendiz_ws) [15.000]\
+    \  \n31.001: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]  \n46.001: (explain_painting\
     \ tiago elgrito_ws) [15.000]  \n61.001: (move tiago elgrito_ws home) [15.000]\
     \  \n76.001: (recharge tiago home) [5.000]  \n81.001: (move tiago home guernica_ws)\
     \ [15.000]  \n96.001: (explain_painting tiago guernica_ws) [15.000]  \n111.001:\
     \ (move tiago guernica_ws monalisa_ws) [15.000]  \n126.001: (explain_painting\
     \ tiago monalisa_ws) [15.000]  \n141.001: (move tiago monalisa_ws nocheestrellada_ws)\
     \ [15.000]  \n\nFINAL PLAN:\n0.000: (start_welcome tiago) [1.000]  \n1.001: (move\
-    \ tiago home dibejo_ws) [15.000]  \n16.001: (explain_painting tiago dibejo_ws)\
-    \ [15.000]  \n31.001: (move tiago dibejo_ws elgrito_ws) [15.000]  \n46.001: (explain_painting\
+    \ tiago home Maestro_aprendiz_ws) [15.000]  \n16.001: (explain_painting tiago Maestro_aprendiz_ws)\
+    \ [15.000]  \n31.001: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]  \n46.001: (explain_painting\
     \ tiago elgrito_ws) [15.000]  \n61.001: (move tiago elgrito_ws home) [15.000]\
     \  \n76.001: (recharge tiago home) [5.000]  \n81.001: (move tiago home guernica_ws)\
     \ [15.000]  \n96.001: (explain_painting tiago guernica_ws) [15.000]  \n111.001:\
@@ -3932,7 +3932,7 @@ conversation:
     \ the domain and the problem. The only output I expect from you is the execution\
     \ plan, as a set of actions, with their start times and durations. The structure\
     \ of the plan should be the following:\n\n0.000: (start_welcome tiago) [1.000]\n\
-    1.001: (move tiago home dibejo_ws) [15.000]\n16.002: (move tiago dibejo_ws elgrito_ws)\
+    1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n16.002: (move tiago Maestro_aprendiz_ws elgrito_ws)\
     \ [15.000]\n31.002: (explain_painting tiago elgrito_ws) [15.000]\n46.002: (move\
     \ tiago elgrito_ws guernica_ws) [15.000]\n...\nNow I will provide the domain and\
     \ the problem. ONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\ndominio :\n\"\n(define\
@@ -3959,19 +3959,19 @@ conversation:
     \ (at start (<= (battery ?r) 100))\n    (over all (robot_at ?r ?wp))\n    (over\
     \ all (charger_at ?wp))\n  )\n  :effect (and (at end (assign (battery ?r) 100)))\n\
     )\n\"\n\nproblem:\n\"\n(define (problem library_problem)\n(:domain library_domain)\n\
-    \n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws dibejo_ws guernica_ws\
+    \n(:objects\n  home monalisa_ws nocheestrellada_ws elgrito_ws Maestro_aprendiz_ws guernica_ws\
     \ - location\n  tiago - robot\n)\n\n(:init\n  (robot_at tiago home)\n  (initial_state\
     \ tiago)\n  (= (battery tiago) 100)\n  (charger_at home)\n)\n\n(:goal\n  (and\n\
     \    (visited tiago monalisa_ws)\n    (visited tiago elgrito_ws)\n    (visited\
     \ tiago guernica_ws)\n    (visited tiago nocheestrellada_ws)\n    (explained_painting\
-    \ monalisa_ws)\n    (explained_painting elgrito_ws)\n    (explained_painting dibejo_ws)\n\
+    \ monalisa_ws)\n    (explained_painting elgrito_ws)\n    (explained_painting Maestro_aprendiz_ws)\n\
     \    (explained_painting guernica_ws)\n  \n  )\n)\n\"\n\n\nThe most important\
     \ thing in the plan is that you consider the battery.\nStarting with 100, moving\
     \ consumes 20, and explaining consumes 10. Therefore, you must recharge the robot\
     \ before the battery runs out. If you have 20 battery, the action must be MOVE\
     \ TO HOME to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\
-    \n0.000: (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \n0.000: (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n"
 - role: user
   content: "You are a planner for PDDL and I only want you to give me the execution\
@@ -3985,16 +3985,16 @@ conversation:
     \nI will provide you with the domain and the problem. The only output I expect\
     \ from you is the execution plan, as a set of actions, with their start times\
     \ and durations. The structure of the plan should be the following:\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     ...\nONLY RESPOND WITH THE PLAN, NOTHING ELSE.\n\nThe most important thing in\
     \ the plan is that you consider the battery.\nStarting with 100, moving consumes\
     \ 20, and explaining consumes 10. Therefore, you must recharge the robot before\
     \ the battery runs out. If you have 20 battery, the action must be MOVE TO HOME\
     \ to recharge.\n\nREMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.\n\n0.000:\
-    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home dibejo_ws) [15.000]\n\
-    16.002: (move tiago dibejo_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
+    \ (start_welcome tiago) [1.000]\n1.001: (move tiago home Maestro_aprendiz_ws) [15.000]\n\
+    16.002: (move tiago Maestro_aprendiz_ws elgrito_ws) [15.000]\n31.002: (explain_painting\
     \ tiago elgrito_ws) [15.000]\n46.002: (move tiago elgrito_ws guernica_ws) [15.000]\n\
     \n\nGive me de step by step explanation of when you should recharge de robot,\
     \ when you are planning and explaining a painting,\ntell me why you are explaining\
@@ -4007,10 +4007,10 @@ conversation:
 
     1. **Start Welcome**: Time 0-1 minutes, Battery 100%.
 
-    2. **Move Home → Dibejo_ws**: Arrive at 16.002, Battery 80%. Explain Dibejo_ws:
+    2. **Move Home → Maestro_aprendiz_ws**: Arrive at 16.002, Battery 80%. Explain Maestro_aprendiz_ws:
     Ends at 31.002, Battery 70%.
 
-    3. **Move Dibejo_ws → Elgrito_ws**: Arrive at 46.002, Battery 50%. Explain Elgrito_ws:
+    3. **Move Maestro_aprendiz_ws → Elgrito_ws**: Arrive at 46.002, Battery 50%. Explain Elgrito_ws:
     Ends at 61.002, Battery 40%.
 
     4. **Return Home to Recharge**: Move Elgrito_ws → Home, arrive at 76.002, Battery
@@ -4117,12 +4117,12 @@ conversation:
 - role: assistant
   content: "**Goal of the Plan:**  \nThe goal is to ensure that the robot visits the\
     \ locations `monalisa_ws`, `elgrito_ws`, `guernica_ws`, and `nocheestrellada_ws`,\
-    \ and explains the paintings at `monalisa_ws`, `elgrito_ws`, `dibejo_ws`, and\
+    \ and explains the paintings at `monalisa_ws`, `elgrito_ws`, `Maestro_aprendiz_ws`, and\
     \ `guernica_ws`.  \n\n**Validation Results:**  \nThe provided plan is **invalid**\
     \ due to battery misuse, incorrect action sequencing, and unnecessary actions.\
     \ Specifically:  \n\n1. **Battery Mismanagement**: The robot attempts to move\
     \ or explain paintings without sufficient battery at certain points.  \n2. **Unnecessary\
-    \ Actions**: Explaining `dibejo_ws` is not part of the goal, yet it is included\
+    \ Actions**: Explaining `Maestro_aprendiz_ws` is not part of the goal, yet it is included\
     \ in the plan.  \n3. **Missing Goal Coverage**: The plan does not visit `monalisa_ws`\
     \ or explain its painting, which are required by the goal.  \n4. **Incorrect Format**:\
     \ The plan does not strictly adhere to the required format (e.g., missing leading\
@@ -4136,7 +4136,7 @@ conversation:
     \ home nocheestrellada_ws) [15.000]  \n96.001: (explain_painting tiago nocheestrellada_ws)\
     \ [15.000]  \n111.001: (move tiago nocheestrellada_ws monalisa_ws) [15.000]  \n\
     126.001: (explain_painting tiago monalisa_ws) [15.000]  \n```  \n\n**Explanation\
-    \ of Corrections:**  \n1. Removed unnecessary `dibejo_ws` actions and explanations.\
+    \ of Corrections:**  \n1. Removed unnecessary `Maestro_aprendiz_ws` actions and explanations.\
     \  \n2. Added missing visits and explanations for `monalisa_ws`.  \n3. Ensured\
     \ battery levels are sufficient for all actions, including recharging when necessary.\
     \  \n4. Corrected time formatting to strictly adhere to the required structure.\

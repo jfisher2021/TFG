@@ -3,9 +3,9 @@ import math
 
 bad_text = """
 0.000: (start_welcome) [1.000]  
-1.000: (move home dibejo) [15.000]  
-16.000: (explain dibejo) [15.000]  
-31.000: (move dibejo elgrito) [15.000]  
+1.000: (move home maestro_aprendiz) [15.000]  
+16.000: (explain maestro_aprendiz) [15.000]  
+31.000: (move maestro_aprendiz elgrito) [15.000]  
 46.000: (explain elgrito) [15.000]  
 61.000: (move elgrito home) [15.000]  
 76.000: (recharge) [5.000]  
@@ -18,9 +18,9 @@ bad_text = """
 
 good_text = """
 0.000: (start_welcome tiago)  [1.000]
-1.001: (move tiago home dibejo)  [15.000]
-16.002: (explain_painting tiago dibejo)  [15.000]
-31.002: (move tiago dibejo elgrito)  [15.000]
+1.001: (move tiago home maestro_aprendiz)  [15.000]
+16.002: (explain_painting tiago maestro_aprendiz)  [15.000]
+31.002: (move tiago maestro_aprendiz elgrito)  [15.000]
 46.002: (explain_painting tiago elgrito)  [15.000]
 61.002: (move tiago elgrito home)  [15.000]
 76.002: (recharge tiago home)  [5.000]
@@ -31,9 +31,9 @@ good_text = """
 126.003: (explain_painting tiago monalisa)  [15.000]
 141.003: (move tiago monalisa nocheestrellada)  [15.000]
 """
-new_text = """ 0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home dibejo) [15.000]\
-    \  \n16.002: (explain_painting tiago dibejo) [15.000]  \n31.002: (move tiago\
-    \ dibejo elgrito) [15.000]  \n46.002: (explain_painting tiago elgrito)\
+new_text = """ 0.000: (start_welcome tiago) [1.000]  \n1.001: (move tiago home maestro_aprendiz) [15.000]\
+    \  \n16.002: (explain_painting tiago maestro_aprendiz) [15.000]  \n31.002: (move tiago\
+    \ maestro_aprendiz elgrito) [15.000]  \n46.002: (explain_painting tiago elgrito)\
     \ [15.000]  \n61.002: (move tiago elgrito home) [15.000]  \n76.003: (recharge\
     \ tiago home) [5.000]  \n81.003: (move tiago home guernica) [15.000]  \n96.004:\
     \ (explain_painting tiago guernica) [15.000]  \n111.004: (move tiago guernica\

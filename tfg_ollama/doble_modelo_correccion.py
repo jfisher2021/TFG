@@ -9,8 +9,8 @@ You are a planner for PDDL and I only want you to give me the execution plan. Yo
 I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
 
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
 31.002: (explain_painting tiago elgrito) [15.000]
 46.002: (move tiago elgrito guernica) [15.000]
 ...
@@ -103,7 +103,7 @@ problem:
 (:domain library_domain)
 
 (:objects
- home monalisa nocheestrellada elgrito dibejo guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+ home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
   el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
   la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
   la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
@@ -127,7 +127,7 @@ problem:
     (visited tiago nocheestrellada)
     (explained_painting monalisa)
     (explained_painting elgrito)
-    (explained_painting dibejo)
+    (explained_painting maestro_aprendiz)
     (explained_painting guernica)
   )
 )
@@ -140,8 +140,8 @@ Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, yo
 REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
 
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
 31.002: (explain_painting tiago elgrito) [15.000]
 46.002: (move tiago elgrito guernica) [15.000]
 """
@@ -156,8 +156,8 @@ first_prompt = f"""You are a planner for PDDL and I only want you to give me the
 I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
 
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
 31.002: (explain_painting tiago elgrito) [15.000]
 46.002: (move tiago elgrito guernica) [15.000]
 ...
@@ -169,8 +169,8 @@ Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, yo
 REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
 
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
 31.002: (explain_painting tiago elgrito) [15.000]
 46.002: (move tiago elgrito guernica) [15.000]
 

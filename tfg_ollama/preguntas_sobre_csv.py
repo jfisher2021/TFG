@@ -73,7 +73,7 @@ prompt = f"""
     The persistence of Memory by Salvador Dalí is a surrealist painting created in 1931. It is known for its dreamlike quality and melting clocks, symbolizing the fluidity of time. The painting is housed in the Museum of Modern Art in New York City. A fun fact about this piece is that it was inspired by a dream Dalí had after eating Camembert cheese.
     
     Da las respuestas en español y en texto plano, no en markdown, sin caracteres raros como * o ""
-    You have to answer the following question: {user_input}
+    You have to explain the art '{user_input}'
 """
 
 

@@ -98,7 +98,7 @@ Visit the following locations:
 monalisa, elgrito, guernica, nocheestrellada
 
 And explain the paintings at the following locations:
-monalisa, elgrito, dibejo, guernica
+monalisa, elgrito, maestro_aprendiz, guernica
 
 📋 Validation Criteria:
 Battery Constraints:
@@ -143,9 +143,9 @@ PLAN TO EVALUATE
 
 "
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (explain_painting tiago dibejo) [15.000]
-31.002: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (explain_painting tiago maestro_aprendiz) [15.000]
+31.002: (move tiago maestro_aprendiz elgrito) [15.000]
 46.002: (explain_painting tiago elgrito) [15.000]
 61.002: (move tiago elgrito guernica) [15.000]
 76.002: (explain_painting tiago guernica) [15.000]
