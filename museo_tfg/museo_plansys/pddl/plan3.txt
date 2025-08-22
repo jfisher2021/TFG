@@ -1,0 +1,7 @@
+0.000: (start_welcome tiago)  [1.000]
+1.001: (move tiago home maestro_aprendiz)  [15.000]
+16.002: (explain_painting tiago maestro_aprendiz)  [15.000]
+31.002: (move tiago maestro_aprendiz el_3_de_mayo_de_1808)  [15.000]
+46.002: (explain_painting tiago el_3_de_mayo_de_1808)  [15.000]
+61.002: (move tiago el_3_de_mayo_de_1808 las_meninas)  [15.000]
+76.002: (move tiago las_meninas home)  [15.000]

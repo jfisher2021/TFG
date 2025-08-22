@@ -67,23 +67,6 @@
     (at start (decrease (battery ?r) 10))
   )
 )
-
-
-; (:durative-action search_painting
-;   :parameters (?r - robot ?b - painting ?l - location)
-;   :duration (= ?duration 20)
-;   :condition (and 
-;     (over all (robot_at ?r ?l))
-;     (over all  (painting_at ?b ?l))
-;     (at start (can_start ?r))
-
-;   )
-;   :effect (and 
-;     (at end (painting_found ?b))
-;   )
-; )
-
-
 (:durative-action recharge
   :parameters (?r - robot ?wp - location)
   :duration (= ?duration 5)
