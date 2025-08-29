@@ -138,11 +138,7 @@ conversation:
     Each action must follow this structure exactly:
 
 
-    php-template
 
-    Copiar
-
-    Editar
 
     <start_time>: (<action_name> <parameters>) [<duration>]
 
@@ -572,11 +568,7 @@ conversation:
     Each action must follow this structure exactly:
 
 
-    php-template
 
-    Copiar
-
-    Editar
 
     <start_time>: (<action_name> <parameters>) [<duration>]
 

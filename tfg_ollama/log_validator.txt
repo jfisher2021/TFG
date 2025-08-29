@@ -97,9 +97,7 @@ Action Format:
 
 Each action must follow the exact format:
 
-php-template
-Copiar
-Editar
+
 <start_time>: (<action_name> <parameters>) [<duration>]
 Timestamps must be strictly increasing.
 
@@ -284,9 +282,7 @@ Action Format:
 
 Each action must follow the exact format:
 
-php-template
-Copiar
-Editar
+
 <start_time>: (<action_name> <parameters>) [<duration>]
 Timestamps must be strictly increasing.
 
@@ -471,9 +467,7 @@ Action Format:
 
 Each action must follow the exact format:
 
-php-template
-Copiar
-Editar
+
 <start_time>: (<action_name> <parameters>) [<duration>]
 Timestamps must be strictly increasing.
 

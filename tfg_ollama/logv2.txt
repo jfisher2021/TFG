@@ -78,9 +78,7 @@ Action Syntax and Format:
 
 Each action must follow this structure exactly:
 
-php-template
-Copiar
-Editar
+
 <start_time>: (<action_name> <parameters>) [<duration>]
 Times and durations must be numeric and strictly increasing.
 
@@ -251,9 +249,7 @@ Action Syntax and Format:
 
 Each action must follow this structure exactly:
 
-php-template
-Copiar
-Editar
+
 <start_time>: (<action_name> <parameters>) [<duration>]
 Times and durations must be numeric and strictly increasing.
 
@@ -395,9 +391,7 @@ Action Syntax and Format:
 
 Each action must follow this structure exactly:
 
-php-template
-Copiar
-Editar
+
 <start_time>: (<action_name> <parameters>) [<duration>]
 Times and durations must be numeric and strictly increasing.
 
@@ -1394,9 +1388,7 @@ Action Syntax and Format:
 
 Each action must follow this structure exactly:
 
-php-template
-Copiar
-Editar
+
 <start_time>: (<action_name> <parameters>) [<duration>]
 Times and durations must be numeric and strictly increasing.
 
