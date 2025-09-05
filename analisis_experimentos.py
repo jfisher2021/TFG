@@ -79,14 +79,14 @@ def main():
         agg_kwargs["formatos_validos"] = ("__form_dummy__", "sum")
     if cumple_col:
         agg_kwargs["cumple_goal"] = (cumple_col, "sum")
-
+    
     resumen = (
         df
         .groupby(modelo_col)
         .agg(**agg_kwargs)
         .assign(
+            pct_formato_valido=lambda x: (x["formatos_validos"] / x["intentos"] * 100).round(1),
             pct_plan_valido=lambda x: (x["planes_validos"] / x["intentos"] * 100).round(1),
-            pct_formato_valido=lambda x: (x["formatos_validos"] / x["intentos"] * 100).round(1)
         )
         .sort_values(by=["pct_plan_valido", "pct_formato_valido", "intentos"], ascending=[False, False, False])
     )
@@ -94,17 +94,53 @@ def main():
     print("\n=== Resumen por modelo ===")
     print(resumen.to_string())
 
-    # Intentos hasta el primer plan correcto por modelo (usando plan_col si existe)
-    print("\n=== Intentos hasta el primer plan válido ===")
-    for modelo, sub in df.groupby(modelo_col):
-        sub = sub.reset_index(drop=True)
-        if plan_col:
-            mask = sub[plan_col] == True
-            idx = mask.idxmax() if mask.any() else None
-            first = (idx + 1) if idx is not None and mask.any() else None
-        else:
-            first = None
-        print(f"{modelo:25s} -> {first if first is not None else '—'}")
+    # ==========================
+    # Sección por Goal individual
+    # ==========================
+    goal_col = _find_col(df, ["Goal", "goal"])
+    if goal_col:
+        goals = (
+            df[goal_col]
+            .astype(str)
+            .str.strip()
+            .replace({"": None})
+            .dropna()
+            .unique()
+            .tolist()
+        )
+
+        print("\n=== Resumen por modelo dividido por Goal ===")
+        for g in goals:
+            sub = df[df[goal_col].astype(str).str.strip() == g]
+            if sub.empty:
+                continue
+            # construir agg_kwargs para el subconjunto (mismas reglas de arriba)
+            agg_kwargs_g = {"intentos": (modelo_col, "size")}
+            if plan_col:
+                agg_kwargs_g["planes_validos"] = (plan_col, "sum")
+            else:
+                sub["__plan_dummy__"] = False
+                agg_kwargs_g["planes_validos"] = ("__plan_dummy__", "sum")
+            if formato_col:
+                agg_kwargs_g["formatos_validos"] = (formato_col, "sum")
+            else:
+                sub["__form_dummy__"] = False
+                agg_kwargs_g["formatos_validos"] = ("__form_dummy__", "sum")
+            if cumple_col:
+                agg_kwargs_g["cumple_goal"] = (cumple_col, "sum")
+
+            resumen_g = (
+                sub
+                .groupby(modelo_col)
+                .agg(**agg_kwargs_g)
+                .assign(
+                    pct_formato_valido=lambda x: (x["formatos_validos"] / x["intentos"] * 100).round(1),
+                    pct_plan_valido=lambda x: (x["planes_validos"] / x["intentos"] * 100).round(1),
+                )
+                .sort_values(by=["pct_plan_valido", "pct_formato_valido", "intentos"], ascending=[False, False, False])
+            )
+            print(f"\n--- Goal: {g} ---")
+            print(resumen_g.to_string())
 
 
 if __name__ == "__main__":

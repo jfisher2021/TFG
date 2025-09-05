@@ -1,6 +1,5 @@
 prompt,goal,plan,valid,reason
-"
-You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
+"""You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
 
 1.The robot has a battery that is consumed with each movement and action.
 2.The battery must be recharged when necessary, but you should minimize the number of recharges and movements to make the plan as efficient as possible.
