@@ -11,8 +11,8 @@ You are a planner for PDDL and I only want you to give me the execution plan. Yo
 I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
 
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
 31.002: (explain_painting tiago elgrito) [15.000]
 46.002: (move tiago elgrito guernica) [15.000]
 ...
@@ -105,7 +105,7 @@ problem:
 (:domain library_domain)
 
 (:objects
-  home monalisa nocheestrellada elgrito dibejo guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+  home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
   el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
   la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
   la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
@@ -129,7 +129,7 @@ problem:
     (visited tiago nocheestrellada)
     (explained_painting monalisa)
     (explained_painting elgrito)
-    (explained_painting dibejo)
+    (explained_painting maestro_aprendiz)
     (explained_painting guernica)
     (explained_painting la_joven_de_la_perla)
     (explained_painting las_meninas)
@@ -146,8 +146,8 @@ Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, yo
 REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
 
 0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home dibejo) [15.000]
-16.002: (move tiago dibejo elgrito) [15.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
 31.002: (explain_painting tiago elgrito) [15.000]
 46.002: (move tiago elgrito guernica) [15.000]
 
@@ -175,8 +175,8 @@ prompt_con_3_ejemplos = f"""
     I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
 
     0.000: (start_welcome tiago) [1.000]
-    1.001: (move tiago home dibejo) [15.000]
-    16.002: (move tiago dibejo elgrito) [15.000]
+    1.001: (move tiago home maestro_aprendiz) [15.000]
+    16.002: (move tiago maestro_aprendiz elgrito) [15.000]
     31.002: (explain_painting tiago elgrito) [15.000]
     46.002: (move tiago elgrito guernica) [15.000]
     ...
@@ -269,7 +269,7 @@ prompt_con_3_ejemplos = f"""
     (:domain library_domain)
 
     (:objects
-    home monalisa nocheestrellada elgrito dibejo guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+    home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
   el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
   la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
   la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
@@ -306,10 +306,10 @@ prompt_con_3_ejemplos = f"""
         (visited tiago elgrito)
         (visited tiago guernica)
         (visited tiago nocheestrellada)
-        (visited tiago dibejo)
+        (visited tiago maestro_aprendiz)
 
         (explained_painting monalisa)
-        (explained_painting dibejo)
+        (explained_painting maestro_aprendiz)
         (explained_painting guernica)
         
     
@@ -317,9 +317,9 @@ prompt_con_3_ejemplos = f"""
         )
     PLAN:
     0.000: (start_welcome tiago)  [1.000]
-    1.001: (move tiago home dibejo)  [15.000]
-    16.002: (explain_painting tiago dibejo)  [15.000]
-    31.002: (move tiago dibejo guernica)  [15.000]
+    1.001: (move tiago home maestro_aprendiz)  [15.000]
+    16.002: (explain_painting tiago maestro_aprendiz)  [15.000]
+    31.002: (move tiago maestro_aprendiz guernica)  [15.000]
     46.002: (explain_painting tiago guernica)  [15.000]
     61.002: (move tiago guernica home)  [15.000]
     76.002: (recharge tiago home)  [5.000]
@@ -338,10 +338,10 @@ prompt_con_3_ejemplos = f"""
 
         (visited tiago monalisa)
         (visited tiago guernica)
-        (visited tiago dibejo)
+        (visited tiago maestro_aprendiz)
 
         (explained_painting monalisa)
-        (explained_painting dibejo)
+        (explained_painting maestro_aprendiz)
         (explained_painting guernica)
         (explained_painting nocheestrellada)
         (explained_painting elgrito)
@@ -352,9 +352,9 @@ prompt_con_3_ejemplos = f"""
         
     PLAN:
     0.000: (start_welcome tiago)  [1.000]
-    1.001: (move tiago home dibejo)  [15.000]
-    16.002: (explain_painting tiago dibejo)  [15.000]
-    31.002: (move tiago dibejo elgrito)  [15.000]
+    1.001: (move tiago home maestro_aprendiz)  [15.000]
+    16.002: (explain_painting tiago maestro_aprendiz)  [15.000]
+    31.002: (move tiago maestro_aprendiz elgrito)  [15.000]
     46.002: (explain_painting tiago elgrito)  [15.000]
     61.002: (move tiago elgrito home)  [15.000]
     76.002: (recharge tiago home)  [5.000]
@@ -375,14 +375,14 @@ prompt_con_3_ejemplos = f"""
     (visited tiago nocheestrellada)
     (explained_painting monalisa)
     (explained_painting elgrito)
-    (explained_painting dibejo)
+    (explained_painting maestro_aprendiz)
     (explained_painting guernica)
 
     BAD PLAN:
     0.000: (start_welcome tiago) [1.000]
-    1.001: (move tiago home dibejo) [15.000]
-    16.002: (explain_painting tiago dibejo) [15.000]
-    31.002: (move tiago dibejo elgrito) [15.000]
+    1.001: (move tiago home maestro_aprendiz) [15.000]
+    16.002: (explain_painting tiago maestro_aprendiz) [15.000]
+    31.002: (move tiago maestro_aprendiz elgrito) [15.000]
     46.002: (explain_painting tiago elgrito) [15.000]
     61.002: (move tiago elgrito guernica) [15.000]
     76.002: (explain_painting tiago guernica) [15.000]
@@ -407,7 +407,7 @@ prompt_con_3_ejemplos = f"""
     (visited tiago nocheestrellada)
     (explained_painting monalisa)
     (explained_painting elgrito)
-    (explained_painting dibejo)
+    (explained_painting maestro_aprendiz)
     (explained_painting guernica)
 
     The most important thing in the plan is that you consider the battery.
@@ -416,8 +416,8 @@ prompt_con_3_ejemplos = f"""
     REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
 
     0.000: (start_welcome tiago) [1.000]
-    1.001: (move tiago home dibejo) [15.000]
-    16.002: (move tiago dibejo elgrito) [15.000]
+    1.001: (move tiago home maestro_aprendiz) [15.000]
+    16.002: (move tiago maestro_aprendiz elgrito) [15.000]
     31.002: (explain_painting tiago elgrito) [15.000]
     46.002: (move tiago elgrito guernica) [15.000]
 
@@ -445,8 +445,8 @@ prompt_para_fichero_sin_goal = f"""
     I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
 
     0.000: (start_welcome tiago) [1.000]
-    1.001: (move tiago home dibejo) [15.000]
-    16.002: (move tiago dibejo elgrito) [15.000]
+    1.001: (move tiago home maestro_aprendiz) [15.000]
+    16.002: (move tiago maestro_aprendiz elgrito) [15.000]
     31.002: (explain_painting tiago elgrito) [15.000]
     46.002: (move tiago elgrito guernica) [15.000]
     ...
@@ -539,7 +539,7 @@ prompt_para_fichero_sin_goal = f"""
     (:domain library_domain)
 
     (:objects
-    home monalisa nocheestrellada elgrito dibejo guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+    home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
   el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
   la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
   la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
@@ -567,8 +567,8 @@ prompt_para_fichero_sin_goal = f"""
     REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
 
     0.000: (start_welcome tiago) [1.000]
-    1.001: (move tiago home dibejo) [15.000]
-    16.002: (move tiago dibejo elgrito) [15.000]
+    1.001: (move tiago home maestro_aprendiz) [15.000]
+    16.002: (move tiago maestro_aprendiz elgrito) [15.000]
     31.002: (explain_painting tiago elgrito) [15.000]
     46.002: (move tiago elgrito guernica) [15.000]
 
@@ -625,7 +625,7 @@ You are a PDDL plan validator. Your job is to verify that the given execution pl
    - Plan must follow this exact format:
      ```
      0.000: (start_welcome tiago) [1.000]
-     1.001: (move tiago home dibejo) [15.000]
+     1.001: (move tiago home maestro_aprendiz) [15.000]
      ...
      ```
 
@@ -644,9 +644,6 @@ Please give a detailed step-by-step validation:
 
 If the plan is invalid, **clearly explain why**.
 
-At the end of your validation, always end your response with one of the following:
-- `✅ PLAN IS VALID`
-- `❌ PLAN IS INVALID: [reason]`
 
 Here is the domain, the problem, and the execution plan:
 
@@ -723,21 +720,6 @@ DOMAIN:
 )
 
 
-; (:durative-action search_painting
-;   :parameters (?r - robot ?b - painting ?l - location)
-;   :duration (= ?duration 20)
-;   :condition (and 
-;     (over all (robot_at ?r ?l))
-;     (over all  (painting_at ?b ?l))
-;     (at start (can_start ?r))
-
-;   )
-;   :effect (and 
-;     (at end (painting_found ?b))
-;   )
-; )
-
-
 (:durative-action recharge
   :parameters (?r - robot ?wp - location)
   :duration (= ?duration 5)
@@ -750,7 +732,6 @@ DOMAIN:
 )
 
 )
-
 
 
 ; ACCIONES: 
@@ -770,7 +751,7 @@ PROBLEM:
 (:domain library_domain)
 
 (:objects
-  home monalisa nocheestrellada elgrito dibejo guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+  home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
   el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
    la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
    la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
@@ -793,9 +774,41 @@ PROBLEM:
 
 )
 
+Finalmente, estas diseñado para meter los resultados en un csv, por lo tanto tu salida esta estructurada en formato csv.
+
+Por ejemplo algo asi :
+Modelo,Intento,Goal,Plan_raw,Formato_valido,Cumple_goal,Plan_Valido,Errores,Comentarios
+gemini-2.5-flash,1,"Visitar 4 cuadros y explicar 8",full_response,S,S,S,None,"The plan is valid. All actions are consistent with the domain and problem, battery levels are maintained above zero, all goals are achieved, and temporal constraints are respected. Recharging occurs at a valid charger location, and the plan format is correct."
+
+Olvidate del modelo y del intento, en el goal quiero que devuelvas el numero de cuadros que vas a visitar y cuants vas a explicar con el siguiente formato "Visitar X cuadros y explicar X"
+
+\"\"\"
+
+Goal to achieve:
+\"\"\"{{GOAL}}\"\"\"
+
 
 \"\"\"
 
 PLAN:
 \"\"\"{{PLAN}}\"\"\"
 """
+
+
+# explain_drawings = f"""
+#     Here is the CSV file content: 
+#     {csv_data}
+#     YOU are a museum guide. You have to explain the arts that i ask you about.
+#     You have to answer the questions about the CSV file.
+#     You can only use the information in the CSV file.
+#     Answer with no more than 200 words.
+#     Give a fun fact about the art if you think is important.
+#     Things you have to include in your answer:
+#     - Title of the art, Author of the art,  Year of creation, Style of the art ,Description of the art, 
+#     Context or historical significance, Fun fact (if available) 
+   
+#     Da las respuestas en español y en texto plano, no en markdown, sin caracteres raros como * o ""
+#     You have to explain the art '{user_input}'
+
+#     Da directamente la introduccion al cuadro como un guia de museo.
+# """
