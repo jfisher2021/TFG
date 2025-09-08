@@ -36,7 +36,7 @@ class GTTSService(Node):
         self.client = texttospeech.TextToSpeechClient()
 
         self.voice = texttospeech.VoiceSelectionParams(
-            language_code="es-ES", name="es-ES-Journey-D"
+            language_code="es-ES", name="es-ES-Standard-H"
         )
 
         self.audio_config = texttospeech.AudioConfig(
@@ -67,18 +67,18 @@ class GTTSService(Node):
 
         self.get_logger().info(f"🔊 Reproduciendo audio generado: {audio_path}")
 
-        # # ⚠️ Reproducir usando ffplay
-        # # Reproduce y espera a que termine
-        # try:
-        #     subprocess.run(
-        #         ["ffplay", "-nodisp", "-autoexit", "-loglevel", "quiet", audio_path],
-        #         check=True
-        #     )
-        # except subprocess.CalledProcessError as e:
-        #     response.success = False
-        #     response.debug = f"Error en reproducción: {e}"
-        #     self.get_logger().error(response.debug)
-        #     return response
+        # ⚠️ Reproducir usando ffplay
+        # Reproduce y espera a que termine
+        try:
+            subprocess.run(
+                ["ffplay", "-nodisp", "-autoexit", "-loglevel", "quiet", audio_path],
+                check=True
+            )
+        except subprocess.CalledProcessError as e:
+            response.success = False
+            response.debug = f"Error en reproducción: {e}"
+            self.get_logger().error(response.debug)
+            return response
 
         response.success = True
         response.debug = "✅ TTS completado correctamente"

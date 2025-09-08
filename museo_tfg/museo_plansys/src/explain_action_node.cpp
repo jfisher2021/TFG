@@ -34,8 +34,11 @@ public:
   ExplainAction()
   : plansys2::ActionExecutorClient("explain_painting", 1s)
   {
-    gtts_client_ = this->create_client<my_interfaces::srv::TextToSpeech>("tts_service");
+    node_ = rclcpp::Node::make_shared("tts_bt_node");
+    gtts_client_ = node_->create_client<my_interfaces::srv::TextToSpeech>("tts_service");
   }
+  rclcpp::Node::SharedPtr node_;
+
 
   // rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
   // on_activate(const rclcpp_lifecycle::State & state)
@@ -64,25 +67,6 @@ private:
     // Here you can process the message and send a response if needed
     std_msgs::msg::String msg;
 
-    // std::string python_arg =  "Explicame el siguiente cuadro: " + drawing;
-    // std::string command = "ssh dedalo.tsc.urjc.es 'python3 /home/jfisher/tfg/tfg_ollama/preguntas_sobre_csv.py " + python_arg + "'";
-    // std::string result;
-    // system("ls"); // Clear the terminal screen for better visibility
-
-    // char buffer[128];
-
-    // FILE* pipe = popen(command.c_str(), "r");
-    // if (!pipe) {
-    //   std::cerr << "Error abriendo el pipe\n";
-    //   finish(false, 0.0, "explain_painting failed");
-    // }
-
-    // while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-    //   result += buffer;
-    // }
-
-    // pclose(pipe);
-
     std::fstream my_file;
     std::string ch;
     my_file.open("/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/museo_tfg/museo_plansys/explicacion_respuestas/" + drawing + ".txt", std::ios::in);
@@ -110,23 +94,22 @@ private:
     auto future = gtts_client_->async_send_request(request);
     RCLCPP_INFO(get_logger(), "⏳ Esperando respuesta de TTS...");
 
-    // 🔁 Esperar resultado (bloqueante, al estilo HNI)
-    try {
+  
+    // Esperar resultado
+    if (rclcpp::spin_until_future_complete(node_, future) ==
+      rclcpp::FutureReturnCode::SUCCESS)
+    {
       auto result = future.get();
-      RCLCPP_INFO(get_logger(), "📢 Respuesta de TTS recibida");
       if (result->success) {
-        RCLCPP_INFO(get_logger(), "✅ TTS leído con éxito");
+        std::cout << "✅ TTS completado con éxito" << std::endl;
+        finish(true, 1.0, "explain_painting completed");
       } else {
-        RCLCPP_WARN(get_logger(), "⚠️ TTS falló: %s", result->debug.c_str());
+        std::cerr << "❌ Error en TTS: " << result->debug << std::endl;
+        finish(false, 0.0, "TTS error");
       }
-
-      // ✅ Si llegamos aquí, todo OK
-      RCLCPP_INFO(get_logger(), "✅ Finalizando acción...");
-      finish(true, 1.0, "explain_painting completed");
-
-    } catch (const std::exception &e) {
-      RCLCPP_ERROR(get_logger(), "❌ Excepción esperando respuesta de TTS: %s", e.what());
-      finish(false, 0.0, "TTS exception");
+    } else {
+      std::cerr << "❌ Error al llamar al servicio TTS" << std::endl;
+      finish(false, 0.0, "TTS call error");
     }
     
 
@@ -161,6 +144,8 @@ int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
   auto node = std::make_shared<ExplainAction>();
+  
+
 
   node->set_parameter(rclcpp::Parameter("action_name", "explain_painting"));
   node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
