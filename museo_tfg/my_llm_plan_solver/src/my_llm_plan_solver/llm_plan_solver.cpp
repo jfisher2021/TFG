@@ -86,7 +86,7 @@ std::string obtener_explicacion(const std::string& cuadro) {
   // Aquí iría tu llamada al LLM, por ejemplo:
   RCLCPP_INFO(
     rclcpp::get_logger("LLMPlanSolver"), "Obteniendo explicación para el cuadro: %s", cuadro.c_str());
-  std::string command = "ssh dedalo.tsc.urjc.es 'python3 /home/jfisher/tfg/preguntas_sobre_csv.py " + cuadro + "'";
+  std::string command = "ssh dedalo.tsc.urjc.es '/home/jfisher/miniconda3/bin/python /home/jfisher/tfg/tfg_ollama/preguntas_sobre_csv.py " + cuadro + "'";
   std::string result;
   char buffer[128];
   FILE* pipe = popen(command.c_str(), "r");
@@ -110,13 +110,11 @@ LLMPlanSolver::getPlan(
     return {};
   }
   const auto & output_dir = output_dir_maybe.value();
-  RCLCPP_DEBUG(
-    lc_node_->get_logger(), "Writing planning results to %s.", output_dir.string().c_str());
-  RCLCPP_INFO(
-    lc_node_->get_logger(), "Writing planning results to %s.", output_dir.string().c_str());
+  // RCLCPP_DEBUG(
+  //   lc_node_->get_logger(), "Writing planning results to %s.", output_dir.string().c_str());
 
-  // // COPY_EXAMPLE AND RETURNS THE PLAN IN /tmp/plan TIENE QUE ESTAR ACTIVADO EL SSH DEL SERVIDOR
-  // std::string command = "ssh dedalo.tsc.urjc.es '/home/jfisher/miniconda3/bin/python /home/jfisher/tfg/tfg_ollama/copy_example.py'";
+  // std::string python_arg =  "Explicame el siguiente cuadro: " ;
+  // std::string command = "ssh dedalo.tsc.urjc.es '/home/jfisher/miniconda3/bin/python /home/jfisher/tfg/tfg_ollama/copy_example.py " + python_arg + "'";
   // std::string result;
   // // system("ls"); // Clear the terminal screen for better visibility
 

@@ -21,18 +21,19 @@ def generate_launch_description():
         default_value='',
         description='Namespace')
 
-    # simulation_cmd = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         os.path.join(kobuki_dir, 'launch', 'simulation.launch.py')
-    #     ),
-    #     launch_arguments={
-    #         'world': os.path.join(
-    #                   get_package_share_directory('aws_robomaker_bookstore_world'),
-    #                   'worlds',
-    #                   'bookstore.world')
-    #     }.items()
-    # )
+    simulation_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(kobuki_dir, 'launch', 'simulation.launch.py')
+        ),
+        launch_arguments={
+            'world': os.path.join(
+                      get_package_share_directory('aws_robomaker_bookstore_world'),
+                      'worlds',
+                      'bookstore.world')
+        }.items()
+    )
 
+    # Initialize the PlanSys2 system
     plansys2_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(
             get_package_share_directory('plansys2_bringup'),
@@ -46,21 +47,21 @@ def generate_launch_description():
 
     #! REAL MOVE With Nav2
     # # Specify the actions
-    # move_cmd = Node(
-    #     package='plansys2_bt_actions',
-    #     executable='bt_action_node',
-    #     name='move',
-    #     namespace=namespace,
-    #     output='screen',
-    #     parameters=[
-    #       pkg_dir + '/config/params.yaml',
-    #       {
-    #         'action_name': 'move',
-    #         'publisher_port': 11,
-    #         'server_port': 12,
-    #         'bt_xml_file': pkg_dir + '/behavior_trees_xml/move.xml'
-    #       }
-    #     ])
+    move_cmd = Node(
+        package='plansys2_bt_actions',
+        executable='bt_action_node',
+        name='move',
+        namespace=namespace,
+        output='screen',
+        parameters=[
+          pkg_dir + '/config/params.yaml',
+          {
+            'action_name': 'move',
+            'publisher_port': 11,
+            'server_port': 12,
+            'bt_xml_file': pkg_dir + '/behavior_trees_xml/move.xml'
+          }
+        ])
     # Specify the actions
     
     move_fake = Node(
@@ -114,29 +115,24 @@ def generate_launch_description():
         name='stt_server',
         output='screen',
         parameters=[])
-    
-    tts_client_cmd = Node(
-        package='museo_plansys',
-        executable='tts_client_node',
-        name='tts_client',
-        output='screen',
-        parameters=[])
 
     # Create the launch description and populate
     ld = LaunchDescription()
     ld.add_action(declare_namespace_cmd)
 
     # Declare the launch options
-    # ld.add_action(simulation_cmd)
+    ld.add_action(simulation_cmd)
     ld.add_action(plansys2_cmd)
+
+    # Nodes
     ld.add_action(recharge_cmd)
     ld.add_action(welcome_cmd)
     ld.add_action(explain_cmd)
-    ld.add_action(move_fake)
+    ld.add_action(move_cmd)
+    
+    # ld.add_action(move_fake)
     ld.add_action(tts_service_cmd)
     ld.add_action(stt_service_cmd)
-    # ld.add_action(tts_client_cmd)
 
-    # ld.add_action(move_cmd)
 
     return ld
