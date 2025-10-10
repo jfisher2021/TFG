@@ -47,8 +47,8 @@ include_directories(include)
 # ADD NODES OF THE BEHAVIOR TREE
 
 #! REAL MOVE NODE OF NAV2
-add_library(plansys2_move_bt_node SHARED src/behavior_tree_nodes/Move.cpp)
-list(APPEND plugin_libs plansys2_move_bt_node)
+# add_library(plansys2_move_bt_node SHARED src/behavior_tree_nodes/Move.cpp)
+# list(APPEND plugin_libs plansys2_move_bt_node)
 
 
 # ADD THE DEPENDENCIES
@@ -59,8 +59,8 @@ endforeach()
 
 # ADD THE EXECUTABLES
 
-# add_executable(move_fake_action_node src/move_fake_action_node.cpp)
-# ament_target_dependencies(move_fake_action_node ${dependencies})
+add_executable(move_fake_action_node src/move_fake_action_node.cpp)
+ament_target_dependencies(move_fake_action_node ${dependencies})
 
 add_executable(explain_action_node src/explain_action_node.cpp)
 ament_target_dependencies(explain_action_node ${dependencies})
@@ -78,8 +78,8 @@ ament_target_dependencies(library_controller_node ${dependencies})
 install(DIRECTORY launch pddl behavior_trees_xml config DESTINATION share/${PROJECT_NAME})
 
 install(TARGETS
-  plansys2_move_bt_node
-  # move_fake_action_node
+  # plansys2_move_bt_node
+  move_fake_action_node
   explain_action_node
   welcome_action_node
   recharge_action_node
