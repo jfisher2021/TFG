@@ -33,6 +33,7 @@ def generate_launch_description():
         }.items()
     )
 
+    # Initialize the PlanSys2 system
     plansys2_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(
             get_package_share_directory('plansys2_bringup'),
@@ -103,13 +104,6 @@ def generate_launch_description():
         name='stt_server',
         output='screen',
         parameters=[])
-    
-    tts_client_cmd = Node(
-        package='museo_plansys',
-        executable='tts_client_node',
-        name='tts_client',
-        output='screen',
-        parameters=[])
 
     # Create the launch description and populate
     ld = LaunchDescription()
@@ -118,14 +112,16 @@ def generate_launch_description():
     # Declare the launch options
     ld.add_action(simulation_cmd)
     ld.add_action(plansys2_cmd)
+
+    # Nodes
     ld.add_action(recharge_cmd)
     ld.add_action(welcome_cmd)
     ld.add_action(explain_cmd)
+    ld.add_action(move_cmd)
+    
     # ld.add_action(move_fake)
     ld.add_action(tts_service_cmd)
     ld.add_action(stt_service_cmd)
-    # ld.add_action(tts_client_cmd)
 
-    ld.add_action(move_cmd)
 
     return ld

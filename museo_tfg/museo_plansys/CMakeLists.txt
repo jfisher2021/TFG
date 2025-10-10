@@ -59,9 +59,6 @@ endforeach()
 
 # ADD THE EXECUTABLES
 
-add_executable(tts_client_node src/tts_client_node.cpp)
-ament_target_dependencies(tts_client_node ${dependencies})
-
 # add_executable(move_fake_action_node src/move_fake_action_node.cpp)
 # ament_target_dependencies(move_fake_action_node ${dependencies})
 
@@ -84,7 +81,6 @@ install(TARGETS
   plansys2_move_bt_node
   # move_fake_action_node
   explain_action_node
-  tts_client_node
   welcome_action_node
   recharge_action_node
   library_controller_node

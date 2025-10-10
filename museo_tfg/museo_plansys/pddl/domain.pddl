@@ -5,14 +5,10 @@
 (:types 
   robot
   location 
-  painting
-  person
 )
 
 (:predicates
   (robot_at ?r - robot ?l - location)
-  (painting_at ?b - painting ?l - location)
-  (painting_found ?b - painting)
   (explained_painting ?p - location)
   (can_start ?r - robot)
   (initial_state ?r - robot)

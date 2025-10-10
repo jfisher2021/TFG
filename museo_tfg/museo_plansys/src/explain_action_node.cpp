@@ -39,21 +39,6 @@ public:
   }
   rclcpp::Node::SharedPtr node_;
 
-
-  // rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
-  // on_activate(const rclcpp_lifecycle::State & state)
-  // {
-  //   say_pub_ = this->create_publisher<std_msgs::msg::String>(
-  //     "say_text", 10);
-
-  //   // sub_llm_ = this->create_subscription<std_msgs::msg::String>(
-  //   //   "llm_request", rclcpp::SensorDataQoS(),
-  //   //   std::bind(&ExplainAction::scan_callback, this, std::placeholders::_1));
-
-  //   return ActionExecutorClient::on_activate(state);
-  // }
-
-
 private:
   void do_work()
   {
@@ -94,7 +79,6 @@ private:
     auto future = gtts_client_->async_send_request(request);
     RCLCPP_INFO(get_logger(), "⏳ Esperando respuesta de TTS...");
 
-  
     // Esperar resultado
     if (rclcpp::spin_until_future_complete(node_, future) ==
       rclcpp::FutureReturnCode::SUCCESS)
@@ -112,28 +96,9 @@ private:
       finish(false, 0.0, "TTS call error");
     }
     
-
-
-    // msg.data = ch;
-    // say_pub_->publish(msg);
-
-    
     finish(true, 1.0, "explain_painting completed");
-    
 
   }
-
-  // void
-  // scan_callback(const std_msgs::msg::String::SharedPtr msg)
-  // {
-  //   RCLCPP_WARN(get_logger(), "🚨 Callback triggered");
-  //   RCLCPP_INFO(get_logger(), "Received LLM request: '%s'", msg->data.c_str());
-  //   // Here you can process the message and send a response if needed
-  //   std_msgs::msg::String response;
-  //   response.data = "Response to: " + msg->data;
-  //   say_pub_->publish(response);
-  // }
-  // rclcpp::Subscription<std_msgs::msg::String>::SharedPtr sub_llm_;
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr say_pub_;
   rclcpp::Client<my_interfaces::srv::TextToSpeech>::SharedPtr gtts_client_;
 
@@ -145,11 +110,8 @@ int main(int argc, char ** argv)
   rclcpp::init(argc, argv);
   auto node = std::make_shared<ExplainAction>();
   
-
-
   node->set_parameter(rclcpp::Parameter("action_name", "explain_painting"));
   node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
-
 
   rclcpp::spin(node->get_node_base_interface());
 
