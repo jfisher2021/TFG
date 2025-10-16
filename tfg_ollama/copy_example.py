@@ -19,17 +19,6 @@ selected_model = models['models'][model_index]['model']
 print(f"Has seleccionado el modelo: {selected_model}")
 model = selected_model
 
-# Cargar archivos PDDL
-# with open('/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/museo_tfg/museo_plansys/pddl/domain.pddl', 'r') as f:
-#     domain = f.read()
-
-# with open('/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/museo_tfg/museo_plansys/pddl/problem.pddl', 'r') as f:
-#     problem = f.read()
-
-# # Cargar CSV como texto plano
-# with open('info.csv', 'r') as f:
-#     csv_data = f.read()
-
 prompt = f"""
 
     You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:

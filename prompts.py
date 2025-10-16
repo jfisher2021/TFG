@@ -555,11 +555,9 @@ prompt_para_fichero_sin_goal = f"""
     (charger_at home)
     )
 
-    (:goal
-    (and
-        
-    )
-    )
+   
+    \"\"\"{{GOAL}}\"\"\"
+    
     "
      The most important thing in the plan is that you consider the battery.
     Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, you must recharge the robot before the battery runs out. If you have 20 battery, the action must be MOVE TO HOME to recharge.
