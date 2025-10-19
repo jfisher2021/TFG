@@ -1,0 +1,67 @@
+Visitar 4 cuadros y explicar 4:
+
+(:goal
+  (and
+    (explained_painting monalisa)
+    (visited tiago monalisa)
+    (visited tiago elgrito)
+    (visited tiago guernica)
+    (visited tiago nocheestrellada)
+    (explained_painting elgrito)
+    (explained_painting maestro_aprendiz)
+    (explained_painting guernica)
+  
+  )
+)
+
+Visitar 1 cuadros y explicar 7:
+
+(:goal
+  (and
+    (visited tiago la_libertad_guiando_al_pueblo)
+    (explained_painting guernica)
+    (explained_painting el_3_de_mayo_de_1808)
+    (explained_painting la_rendicion_de_breda)
+    (explained_painting el_jardin_de_las_delicias)
+    (explained_painting la_ultima_cena)
+    (explained_painting la_persistencia_de_la_memoria)
+    (explained_painting el_nacimiento_de_venus)
+  )
+)
+
+
+Visitar 5 cuadros y explicar 3:
+
+(:goal
+  (and
+    (visited tiago monalisa)
+    (visited tiago elgrito)
+    (visited tiago guernica)
+    (visited tiago nocheestrellada)
+    (visited tiago maestro_aprendiz)
+    (explained_painting monalisa)
+    (explained_painting elgrito)
+    (explained_painting guernica)
+  )
+)
+
+
+Visitar 4 cuadros y explicar 8:
+
+(:goal
+  (and
+    (visited tiago monalisa)
+    (visited tiago elgrito)
+    (visited tiago guernica)
+    (visited tiago nocheestrellada)
+    (explained_painting monalisa)
+    (explained_painting elgrito)
+    (explained_painting maestro_aprendiz)
+    (explained_painting guernica)
+    (explained_painting la_joven_de_la_perla)
+    (explained_painting las_meninas)
+    (explained_painting el_3_de_mayo_de_1808)
+    (explained_painting el_jardin_de_las_delicias)
+  
+  )
+)

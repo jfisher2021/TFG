@@ -76,32 +76,6 @@ prompt = f"""
     You have to explain the art '{user_input}'
 """
 
-
-# messages = [
-#     {
-#         'role': 'user',
-#         'content': f"""Here is the CSV file content: 
-#             {csv_data}
-#             YOU are a museum guide. You have to explain the arts that i ask you about.
-#             You have to answer the questions about the CSV file.
-#             You can only use the information in the CSV file.
-#             Answer with no more than 200 words.
-#             Give a fun fact about the art if you think is important.
-#             Things you have to include in your answer:
-#             - Title of the art, Author of the art,  Year of creation, Style of the art ,Description of the art, 
-#             Context or historical significance, Fun fact (if available)
-
-#             IF some of the information is not available just dont say anything about it.
-#             An example of a question is: "What can you tell me about the art 'The Persistence of Memory' by Salvador Dalí?"
-
-#             OUTPUT FORMAT:
-#             The persistence of Memory by Salvador Dalí is a surrealist painting created in 1931. It is known for its dreamlike quality and melting clocks, symbolizing the fluidity of time. The painting is housed in the Museum of Modern Art in New York City. A fun fact about this piece is that it was inspired by a dream Dalí had after eating Camembert cheese.
-#         """,
-#     }
-# ]
-
-
-
 response = client.generate(
     model=model,
     prompt=prompt,
