@@ -399,16 +399,8 @@ prompt_con_3_ejemplos = f"""
     "
 
 
-    I HAVEN'T PUT THE GOAL IN THE PROBLEM, THE GOAL IM GOING TO PASS IT TO YOU LATER AS AN INPUT.
-    goal:
-    (visited tiago monalisa)
-    (visited tiago elgrito)
-    (visited tiago guernica)
-    (visited tiago nocheestrellada)
-    (explained_painting monalisa)
-    (explained_painting elgrito)
-    (explained_painting maestro_aprendiz)
-    (explained_painting guernica)
+    THE GOAL IS 
+    \"\"\"{{GOAL}}\"\"\"
 
     The most important thing in the plan is that you consider the battery.
     Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, you must recharge the robot before the battery runs out. If you have 20 battery, the action must be MOVE TO HOME to recharge.

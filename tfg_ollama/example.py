@@ -185,13 +185,15 @@ PLAN:
 response = client.generate(
     model=model,
     prompt=prompt,
-    stream=True,
+    # stream=True,
     options={'temperature': 0.3},  # Make responses more deterministic
     )
 
-# print(response['response'])
-for part in response:
-    print(part['response'], end='', flush=True)
+print(response['response'])
+print("**********************\n", response)
+
+# for part in response:
+#     print(part['response'], end='', flush=True)
 
 
 # crear una archivo en python
