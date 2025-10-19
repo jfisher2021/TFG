@@ -6,8 +6,11 @@ from dotenv import load_dotenv
 import json
 import sys
 from langgraph.graph import END, StateGraph
-from typing import Annotated, List, TypedDict, Union
+from typing import Annotated, List, TypedDict, Union, Literal
 import csv
+from langchain.chat_models import init_chat_model
+from pydantic import BaseModel, Field
+from langchain_core.tools import tool
 
 
 
@@ -15,12 +18,11 @@ from langchain_ollama import ChatOllama
 import ollama
 
 sys.path.append(sys.path[0] + "/..")
-import prompts 
+from prompts import prompt_inicial_sin_ejemplos, validate_plan_prompt
 load_dotenv()
 
-pddl_prompt = prompts.prompt_inicial_sin_ejemplos
+pddl_prompt = prompt_inicial_sin_ejemplos
 # Elegir el modelo según una condición
-
 
 class State(TypedDict):
     goal: str
@@ -28,9 +30,24 @@ class State(TypedDict):
     # validation será una lista [bool, str]: [es_valido, razon]
     validation: List[object]
 
+class InputGoal(TypedDict):
+    goal: str
+    # Estructuras de salida/validación más explícitas para el nodo de validación
+class ResponseFormatter(BaseModel):
+    """Always use this tool to structure your response to the user."""
+    Format_Valid: Literal["S", "N"] = Field(description="The plan has a valid format (<S/N>)")
+    Meets_Goal: Literal["S", "N"] = Field(description="The plan meets the goal (<S/N>) or not")
+    Plan_Valid: Literal["S", "N"] = Field(description="The plan is valid (<S/N>) or not (correct format and meets the goal)")
+    Goal: str = Field(description="The goal to be achieved")
+    Errors: str = Field(description="Any errors found in the plan, if any")
+    Comments: str = Field(description="Resume in 10 words the response")
+
+def get_goal(state: InputGoal):
+    model = init_chat_model("gemini-2.5-flash", model_provider="google_genai")
+    response = model.invoke("You are")
 
 def gemini_chat(state: State):
-    print("USANDO GEMINI-2.5-PRO") 
+    print("USANDO GEMINI-2.5-PRO")
     selected_model = "gemini-2.5-pro"
     client = genai.Client()
     response = client.models.generate_content(
@@ -39,6 +56,8 @@ def gemini_chat(state: State):
             temperature=0.0,
         ),
     )
+    # model = init_chat_model("gemini-2.5-flash", model_provider="google_genai")
+    # response = model.invoke(pddl_prompt)
     print("\nGenerando plan PDDL...")
     print("=" * 50)
     print(response.text)
@@ -90,11 +109,62 @@ def print_and_save_logs(selected_model, pddl_prompt, full_response):
 
     print("Logs guardados en log.txt y log.json")
 
+
 def validate_plan(state: State):
+    plan = state.get("plan", "")
+    goal = state.get("goal", "")
+    print("Validando el plan...")
+
+    # model = init_chat_model("gemini-2.5-flash", model_provider="google_genai")
+    # response = model.invoke("hello")
+    # print(response)
+
+    # print(response.response_metadata["model_name"])
+
+    # print("USANDO GPT-4O-MINI")
+    # selected_model = "gpt-4o-mini"
+    # model = ChatOpenAI(
+    #     model=selected_model,
+    #     temperature=1.0,
+    # )
+    # model_with_tools = model.bind_tools([ResponseFormatter])
+    # response = model_with_tools.invoke(validate_plan_prompt.format(PLAN=plan, GOAL=goal))
+
+    # print(response.response_metadata["model_name"])
+
+    model = init_chat_model("gemini-2.5-flash", model_provider="google_genai")
+    model_with_tools = model.bind_tools([ResponseFormatter])
+    response = model_with_tools.invoke(validate_plan_prompt.format(PLAN=plan, GOAL=goal))
+    print("\nRESULTAADO DE LA VALIDACION...")
+    print("=" * 50)
+    print(response)
+    print(f"El Plan es válido?: {response.tool_calls[0]}")
+
+    full_response = response.content
+    # Inicializar validation como [False, ""]; la validación real la hará el nodo validate
+    csv_path = "/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/tfg-ia/experimentos_pddl.csv"
+    write_header = False
+    try:
+        # Si el archivo no existe, escribimos cabecera
+        import os
+        write_header = not os.path.exists(csv_path)
+    except Exception:
+        write_header = False
+
+    with open(csv_path, "a", encoding='utf-8', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        if write_header:
+            writer.writerow(["Modelo","Intento","Goal","Plan_raw","Formato_valido","Cumple_goal","Plan_Valido","Errores","Comentarios"])
+        writer.writerow([response.response_metadata["model_name"], 1, response.tool_calls[0]['args']['Goal'], "full_response", response.tool_calls[0]['args']['Format_Valid'], response.tool_calls[0]['args']['Meets_Goal'], response.tool_calls[0]['args']['Plan_Valid'], response.tool_calls[0]['args']['Errors'], response.tool_calls[0]['args']['Comments']])
+    return {"goal": state.get("goal", ""), "plan": full_response, "validation": ["True", "yes"]}
+
+def validate_plan_ollama(state: State):
     # Aquí podrías implementar una validación del plan PDDL
     # Por ejemplo, verificar que las acciones son válidas y que la batería se maneja correctamente
     # Crear el modelo de LangChain con OpenAI
 
+
+    # ===== SELECCIONAR MODELO OLLAMA ===== 
     # Validar el plan usando Ollama
     client = ollama.Client()
     models = ollama.list()
@@ -115,9 +185,11 @@ def validate_plan(state: State):
         model=selected_model,
         temperature=0.0,
     )
+
+    # ===== VALIDAR PLAN =====
     plan = state.get("plan", "")
     full_response = ""
-    for chunk in model.stream(prompts.validate_plan_prompt.format(PLAN=plan)):
+    for chunk in model.stream(validate_plan_prompt.format(PLAN=plan)):
         print(chunk.content, end='', flush=True)
         full_response += chunk.content
     print("\nGenerando validación...")
@@ -186,16 +258,16 @@ def save_logs_node(state: State):
 if __name__ == "__main__":
 
     graph_builder = StateGraph(State)
-    graph_builder.add_node("chatgpt", chatgpt_chat)
-    # graph_builder.add_node("gemini", gemini_chat)
+    # graph_builder.add_node("chatgpt", chatgpt_chat)
+    graph_builder.add_node("gemini", gemini_chat)
     graph_builder.add_node("validate", validate_plan)
     graph_builder.add_node("save_logs", save_logs_node)
-    graph_builder.set_entry_point("chatgpt")
-    graph_builder.add_edge("chatgpt", "validate")
+    graph_builder.set_entry_point("gemini")
+    graph_builder.add_edge("gemini", "validate")
     graph_builder.add_edge("validate", "save_logs")
     graph_builder.add_edge("save_logs", END)
     graph = graph_builder.compile()
-    graph.get_graph().draw_mermaid_png(output_file_path="graph.png")
+    # graph.get_graph().draw_mermaid_png(output_file_path="graph.png")
     # El estado inicial debe ser un dict, no un string
     initial_state = {"goal": "", "plan": "", "validation": [False, ""]}
     graph.invoke(initial_state)
@@ -203,9 +275,9 @@ if __name__ == "__main__":
     # 0.000: (start_welcome tiago)  [1.000]
     # 1.001: (move tiago home monalisa_ws)  [15.000]
     # 16.002: (explain_painting tiago monalisa_ws)  [15.000]
-    # 31.002: (move tiago monalisa_ws dibejo_ws)  [15.000]
-    # 46.003: (explain_painting tiago dibejo_ws)  [15.000]
-    # 61.003: (move tiago dibejo_ws elgrito_ws)  [15.000]
+    # 31.002: (move tiago monalisa_ws Maestro_aprendiz_ws)  [15.000]
+    # 46.003: (explain_painting tiago Maestro_aprendiz_ws)  [15.000]
+    # 61.003: (move tiago Maestro_aprendiz_ws elgrito_ws)  [15.000]
     # 76.004: (explain_painting tiago elgrito_ws)  [15.000]
     # 91.005: (move tiago elgrito_ws guernica_ws)  [15.000]
     # 106.006: (explain_painting tiago guernica_ws)  [15.000]

@@ -72,28 +72,31 @@ def groq_chat(state: State):
     print("USANDO GROQ")
     client = Groq()
     completion = client.chat.completions.create(
-        model="meta-llama/llama-4-scout-17b-16e-instruct",        messages=[
-        {
-            "role": "user",
-            "content": ""
-        }
+        model="openai/gpt-oss-20b",        
+        messages=[
+            {
+                "role": "user",
+                "content": pddl_prompt
+            }
         ],
-        temperature=1,
-        max_completion_tokens=1024,
+        temperature=0.3,
+        max_completion_tokens=8192,
         top_p=1,
-        stream=True,
+        reasoning_effort="medium",
+        # stream=True,
         stop=None
     )
 
-    full_response = ""
-    for chunk in completion:
-        print(chunk.choices[0].delta.content or "", end="")
-        full_response += chunk.content
-      
-
+    full_response = completion.choices[0].message.content
+    selected_model = "openai/gpt-oss-20b"
+    
+    # for chunk in completion:
+    #     print(chunk.choices[0].delta.content or "", end="")
+        # full_response += chunk.choices[0].delta.content
+    print(full_response)
     print("\nGenerando plan PDDL...")
     print("=" * 50)
-    print_and_save_logs(model, pddl_prompt, full_response)
+    print_and_save_logs(selected_model, pddl_prompt, full_response)
     return {"goal": state.get("goal", ""), "plan": full_response, "validation": [False, ""]}
 
 
