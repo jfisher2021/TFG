@@ -1,45 +1,38 @@
 import ollama 
 from ollama import chat
 import sys
-import os
+from pathlib import Path
+
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
+from utils import select_model_ollama
 
 client = ollama.Client()
-# Listar todos los modelos disponibles
-models = ollama.list()
 
-# # Ver todos los modelos
-# print("Modelos disponibles:\n")
-# for idx, model in enumerate(models['models']):
-#     print(f"{idx + 1}: {model['model']}")
+# user_input = input('Chat with history: ')
+if len(sys.argv) > 1:
+    user_input = sys.argv[1:]
+    user_input = ' '.join(user_input)
+    print(f"User input: {user_input}")
+else:
+    print("No input provided. Exiting.")
+    exit(1)
 
-# 0: my-assistant:latest
-# 1: command-a:latest
-# 2: deepseek-r1:70b
-# 3: qwen3:235b
-# 4: llama3.3:latest
-# 5: qwen3:32b
-# 6: deepseek-r1:32b
-# 7: llama4:latest
-
-# Solicitar al usuario seleccionar un modelo
-# model_index = int(input("Selecciona el número del modelo que quieres usar: ")) - 1
-model_index = 6
-# Obtener el nombre del modelo seleccionado
-selected_model = models['models'][model_index]['model']
-# print(f"Has seleccionado el modelo: {selected_model}")
-model = selected_model
-
+model = select_model_ollama()
 
 # Cargar CSV como texto plano
-with open('/home/jfisher/tfg/cuadros.csv', 'r') as f:
+with open('cuadros.csv', 'r', encoding='utf-8') as f:
     csv_data = f.read()
+
 messages = [
     {
         'role': 'user',
         'content': f"""Here is the CSV file content: 
             {csv_data}
             This is de domain and problem PDDL files:
-            dominio :
+    dominio :
     "
     (define (domain library_domain)
 
@@ -107,44 +100,10 @@ messages = [
     }
 ]
 
-# response = client.generate(
-#     model=model,
-#     prompt=prompt,
-#     stream=True
-#     )
-
-# print(response['response'])
-# for part in response:
-#     print(part['response'], end='', flush=True)
-
-
-while True:
-    # user_input = input('Chat with history: ')
-    # user_input = input('Chat with history: ')
-    if len(sys.argv) > 1:
-        user_input = sys.argv[1:]
-        user_input = ' '.join(user_input)
-        print(f"User input: {user_input}")
-    else:
-        print("No input provided. Exiting.")
-        break
-    
-    stream = chat(
-        model=model,
-        messages=[*messages, {'role': 'user', 'content': user_input}],
-        stream=True,
+response = client.generate(
+    model=model,
+    prompt=messages[-1]["content"] + user_input,
+    # stream=True
     )
 
-    assistant_response = ""
-    for part in stream:
-        content = part['message']['content'] if 'message' in part and 'content' in part['message'] else part.get('content', '')
-        print(content, end='', flush=True)
-        assistant_response += content
-    print('\n')
-
-    # Add the response to the messages to maintain the history
-    messages += [
-        {'role': 'user', 'content': user_input},
-        {'role': 'assistant', 'content': assistant_response},
-    ]
-    break
+print(response['response'])
