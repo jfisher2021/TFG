@@ -4978,3 +4978,1604 @@ PLAN:
 331.025: (explain_painting tiago monalisa) [15.000]
 346.026: (move tiago monalisa nocheestrellada) [15.000]
 ==================================================
+NUEVO
+
+MODEL : gemini-2.5-pro
+PROMPT:
+
+You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
+
+1.The robot has a battery that is consumed with each movement and action.
+2.The battery must be recharged when necessary, but you should minimize the number of recharges and movements to make the plan as efficient as possible.
+3.Maximize efficiency regarding battery usage, performing recharges only when absolutely necessary and only at locations that have chargers.
+4.Do not make any comments or additional explanations. I only want the plan.
+5.Do not invent actions or make unnecessary actions.
+
+I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
+
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+31.002: (explain_painting tiago elgrito) [15.000]
+46.002: (move tiago elgrito guernica) [15.000]
+...
+Now I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN, NOTHING ELSE.
+
+dominio :
+"
+(define (domain library_domain)
+
+(:requirements :strips :fluents :durative-actions :typing)
+
+(:types 
+  robot
+  location 
+  painting
+)
+
+(:predicates
+  (robot_at ?r - robot ?l - location)
+  (painting_at ?b - painting ?l - location)
+  (painting_found ?b - painting)
+  (explained_painting ?p - location)
+  (can_start ?r - robot)
+  (initial_state ?r - robot)
+  (visited ?r - robot ?l - location)
+  (charger_at ?wp - location)
+)
+
+(:functions
+  (battery ?r - robot)
+)
+
+(:durative-action start_welcome
+  :parameters (?r - robot)
+  :duration (= ?duration 1)
+  :condition (and 
+    (at start (initial_state ?r))
+  )
+  :effect (and 
+    (at end (can_start ?r))
+    (at start (initial_state ?r))
+  )
+)
+
+(:durative-action move
+  :parameters (?r - robot ?from ?to - location)
+  :duration (= ?duration 15)
+  :condition (and 
+    (at start (>= (battery ?r) 20))
+    (at start (can_start ?r))
+    (at start (robot_at ?r ?from))
+  )
+  :effect (and 
+    (at start (not(robot_at ?r ?from)))
+    (at start (decrease (battery ?r) 20))
+    (at end (robot_at ?r ?to))
+    (at end (visited ?r ?to))
+  )
+)
+
+(:durative-action explain_painting
+  :parameters (?r - robot ?p - location)
+  :duration (= ?duration 15)
+  :condition (and 
+    (at start (>= (battery ?r) 10))
+    (over all (robot_at ?r   ?p))
+    (at start (can_start ?r))
+  )
+  :effect (and 
+    (at end (explained_painting ?p)) 
+    (at start (decrease (battery ?r) 10))
+  )
+)
+
+(:durative-action recharge
+  :parameters (?r - robot ?wp - location)
+  :duration (= ?duration 5)
+  :condition (and 
+    (at start (<= (battery ?r) 100))
+    (over all (robot_at ?r ?wp))
+    (over all (charger_at ?wp))
+  )
+  :effect (and (at end (assign (battery ?r) 100)))
+)
+"
+
+problem:
+"
+(define (problem library_problem)
+(:domain library_domain)
+
+(:objects
+  home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+  el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
+  la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
+  la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
+  saturno_devorando_a_su_hijo whistlers_mother la_gran_ola_de_kanagawa el_beso autorretrato_con_collar_de_espinas 
+  el_carnaval_del_arlequin nighthawks retrato_de_adele_bloch_bauer_i campbells_soup_cans composition_viii - location
+  tiago - robot
+)
+
+(:init
+  (robot_at tiago home)
+  (initial_state tiago)
+  (= (battery tiago) 100)
+  (charger_at home)
+)
+
+(:goal
+  (and
+    (visited tiago monalisa)
+    (visited tiago elgrito)
+    (visited tiago guernica)
+    (visited tiago nocheestrellada)
+    (explained_painting monalisa)
+    (explained_painting elgrito)
+    (explained_painting maestro_aprendiz)
+    (explained_painting guernica)
+    (explained_painting la_joven_de_la_perla)
+    (explained_painting las_meninas)
+    (explained_painting el_3_de_mayo_de_1808)
+    (explained_painting el_jardin_de_las_delicias)
+  
+  )
+)
+"
+
+The most important thing in the plan is that you consider the battery.
+Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, you must recharge the robot before the battery runs out. If you have 20 battery, the action must be MOVE TO HOME to recharge.
+
+REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
+
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+31.002: (explain_painting tiago elgrito) [15.000]
+46.002: (move tiago elgrito guernica) [15.000]
+
+
+Give me de step by step explanation of when you should recharge de robot, when you are planning and explaining a painting,
+tell me why you are explaining the drawing and if it was in the goal or not. 
+
+But at the end do:
+"
+PLAN: 
+(AND GIVE THE PLAN WITH CORRECT FORMAT)
+"
+
+RESPONSE:
+The planning process begins with the robot `tiago` at the `home` location with a full battery of 100 units. The objective is to visit four specific locations and explain eight paintings, while managing the battery efficiently.
+
+The first action is `start_welcome`, which is a necessary initialization step and does not consume battery.
+
+**Trip 1:**
+With a full battery, the robot plans its first trip to accomplish as many goals as possible.
+1.  It moves from `home` to `maestro_aprendiz`. This is to reach the location of a painting that needs to be explained, which is a goal. The move consumes 20 battery, leaving 80.
+2.  At `maestro_aprendiz`, it performs `explain_painting`. This action fulfills the goal `(explained_painting maestro_aprendiz)` and consumes 10 battery, leaving 70.
+3.  Next, it moves to `elgrito`. Both visiting and explaining this location are goals. The move consumes 20 battery, leaving 50.
+4.  At `elgrito`, it explains the painting, fulfilling the goals `(visited tiago elgrito)` and `(explained_painting elgrito)`. This consumes 10 battery, leaving 40.
+5.  The robot then moves to `guernica`, another location that must be visited and explained. The move consumes 20 battery, leaving 20.
+6.  At this point, the battery is at 20. This is the minimum required to execute a `move` action. The robot cannot explain the painting at `guernica` (which costs 10 battery) because it would then be left with 10 battery, insufficient to move again. Therefore, to avoid getting stranded, the robot must return to the charging station. It moves from `guernica` back to `home`, consuming the remaining 20 battery.
+7.  At `home`, with 0 battery, the robot must `recharge`. This action restores the battery to 100, preparing it for the next trip.
+
+**Trip 2:**
+The robot starts again from `home` with a full battery.
+1.  Its first destination is `guernica`, the location it visited on the previous trip but could not explain due to low battery. The move consumes 20 battery, leaving 80.
+2.  At `guernica`, it explains the painting, fulfilling the goal `(explained_painting guernica)`. This consumes 10 battery, leaving 70.
+3.  Following the same efficient pattern, it moves to `monalisa` (cost 20, battery 50) and explains it (cost 10, battery 40), fulfilling the goals `(visited tiago monalisa)` and `(explained_painting monalisa)`.
+4.  It then moves to `la_joven_de_la_perla` (cost 20, battery 20).
+5.  Again, the battery is at the critical level of 20, forcing a return to `home` to recharge before explaining the painting. The move to `home` consumes the last 20 battery.
+6.  The robot recharges at `home`, restoring the battery to 100.
+
+**Trip 3:**
+The third trip follows the established pattern.
+1.  The robot travels from `home` back to `la_joven_de_la_perla` (cost 20, battery 80) and explains it (cost 10, battery 70), fulfilling the goal `(explained_painting la_joven_de_la_perla)`.
+2.  It continues to `las_meninas`, moving (cost 20, battery 50) and explaining (cost 10, battery 40) to fulfill the goal `(explained_painting las_meninas)`.
+3.  It then moves to `el_3_de_mayo_de_1808` (cost 20, battery 20).
+4.  Once more, the battery level dictates a return to `home` for a recharge. The move consumes the last 20 battery.
+5.  The robot recharges, bringing the battery back to 100.
+
+**Trip 4:**
+This is the final trip to complete the remaining goals.
+1.  The robot moves from `home` to `el_3_de_mayo_de_1808` (cost 20, battery 80) and explains it (cost 10, battery 70), fulfilling the goal `(explained_painting el_3_de_mayo_de_1808)`.
+2.  It then moves to `el_jardin_de_las_delicias` (cost 20, battery 50) and explains it (cost 10, battery 40), fulfilling the goal `(explained_painting el_jardin_de_las_delicias)`.
+3.  The final goal is to visit `nocheestrellada`. The robot moves from its current location to `nocheestrellada`, consuming 20 battery and leaving 20. This action fulfills the last goal, `(visited tiago nocheestrellada)`.
+All goals have now been achieved, and the plan is complete.
+
+PLAN:
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (explain_painting tiago maestro_aprendiz) [15.000]
+31.003: (move tiago maestro_aprendiz elgrito) [15.000]
+46.004: (explain_painting tiago elgrito) [15.000]
+61.005: (move tiago elgrito guernica) [15.000]
+76.006: (move tiago guernica home) [15.000]
+91.007: (recharge tiago home) [5.000]
+96.008: (move tiago home guernica) [15.000]
+111.009: (explain_painting tiago guernica) [15.000]
+126.010: (move tiago guernica monalisa) [15.000]
+141.011: (explain_painting tiago monalisa) [15.000]
+156.012: (move tiago monalisa la_joven_de_la_perla) [15.000]
+171.013: (move tiago la_joven_de_la_perla home) [15.000]
+186.014: (recharge tiago home) [5.000]
+191.015: (move tiago home la_joven_de_la_perla) [15.000]
+206.016: (explain_painting tiago la_joven_de_la_perla) [15.000]
+221.017: (move tiago la_joven_de_la_perla las_meninas) [15.000]
+236.018: (explain_painting tiago las_meninas) [15.000]
+251.019: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]
+266.020: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+281.021: (recharge tiago home) [5.000]
+286.022: (move tiago home el_3_de_mayo_de_1808) [15.000]
+301.023: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
+316.024: (move tiago el_3_de_mayo_de_1808 el_jardin_de_las_delicias) [15.000]
+331.025: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
+346.026: (move tiago el_jardin_de_las_delicias nocheestrellada) [15.000]
+==================================================
+
+MODEL : gemini-2.5-pro
+PROMPT:
+
+You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
+
+1.The robot has a battery that is consumed with each movement and action.
+2.The battery must be recharged when necessary, but you should minimize the number of recharges and movements to make the plan as efficient as possible.
+3.Maximize efficiency regarding battery usage, performing recharges only when absolutely necessary and only at locations that have chargers.
+4.Do not make any comments or additional explanations. I only want the plan.
+5.Do not invent actions or make unnecessary actions.
+
+I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
+
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+31.002: (explain_painting tiago elgrito) [15.000]
+46.002: (move tiago elgrito guernica) [15.000]
+...
+Now I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN, NOTHING ELSE.
+
+dominio :
+"
+(define (domain library_domain)
+
+(:requirements :strips :fluents :durative-actions :typing)
+
+(:types 
+  robot
+  location 
+  painting
+)
+
+(:predicates
+  (robot_at ?r - robot ?l - location)
+  (painting_at ?b - painting ?l - location)
+  (painting_found ?b - painting)
+  (explained_painting ?p - location)
+  (can_start ?r - robot)
+  (initial_state ?r - robot)
+  (visited ?r - robot ?l - location)
+  (charger_at ?wp - location)
+)
+
+(:functions
+  (battery ?r - robot)
+)
+
+(:durative-action start_welcome
+  :parameters (?r - robot)
+  :duration (= ?duration 1)
+  :condition (and 
+    (at start (initial_state ?r))
+  )
+  :effect (and 
+    (at end (can_start ?r))
+    (at start (initial_state ?r))
+  )
+)
+
+(:durative-action move
+  :parameters (?r - robot ?from ?to - location)
+  :duration (= ?duration 15)
+  :condition (and 
+    (at start (>= (battery ?r) 20))
+    (at start (can_start ?r))
+    (at start (robot_at ?r ?from))
+  )
+  :effect (and 
+    (at start (not(robot_at ?r ?from)))
+    (at start (decrease (battery ?r) 20))
+    (at end (robot_at ?r ?to))
+    (at end (visited ?r ?to))
+  )
+)
+
+(:durative-action explain_painting
+  :parameters (?r - robot ?p - location)
+  :duration (= ?duration 15)
+  :condition (and 
+    (at start (>= (battery ?r) 10))
+    (over all (robot_at ?r   ?p))
+    (at start (can_start ?r))
+  )
+  :effect (and 
+    (at end (explained_painting ?p)) 
+    (at start (decrease (battery ?r) 10))
+  )
+)
+
+(:durative-action recharge
+  :parameters (?r - robot ?wp - location)
+  :duration (= ?duration 5)
+  :condition (and 
+    (at start (<= (battery ?r) 100))
+    (over all (robot_at ?r ?wp))
+    (over all (charger_at ?wp))
+  )
+  :effect (and (at end (assign (battery ?r) 100)))
+)
+"
+
+problem:
+"
+(define (problem library_problem)
+(:domain library_domain)
+
+(:objects
+  home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+  el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
+  la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
+  la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
+  saturno_devorando_a_su_hijo whistlers_mother la_gran_ola_de_kanagawa el_beso autorretrato_con_collar_de_espinas 
+  el_carnaval_del_arlequin nighthawks retrato_de_adele_bloch_bauer_i campbells_soup_cans composition_viii - location
+  tiago - robot
+)
+
+(:init
+  (robot_at tiago home)
+  (initial_state tiago)
+  (= (battery tiago) 100)
+  (charger_at home)
+)
+
+(:goal
+  (and
+    Explicame TODOS los cuadros
+    (explained_painting ...)
+  
+  )
+)
+"
+
+The most important thing in the plan is that you consider the battery.
+Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, you must recharge the robot before the battery runs out. If you have 20 battery, the action must be MOVE TO HOME to recharge.
+
+REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
+
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+31.002: (explain_painting tiago elgrito) [15.000]
+46.002: (move tiago elgrito guernica) [15.000]
+
+
+Give me de step by step explanation of when you should recharge de robot, when you are planning and explaining a painting,
+tell me why you are explaining the drawing and if it was in the goal or not. 
+
+But at the end do:
+"
+PLAN: 
+(AND GIVE THE PLAN WITH CORRECT FORMAT)
+"
+
+RESPONSE:
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home monalisa) [15.000]
+16.002: (explain_painting tiago monalisa) [15.000]
+31.003: (move tiago monalisa nocheestrellada) [15.000]
+46.004: (explain_painting tiago nocheestrellada) [15.000]
+61.005: (move tiago nocheestrellada home) [15.000]
+76.006: (recharge tiago home) [5.000]
+81.007: (move tiago home elgrito) [15.000]
+96.008: (explain_painting tiago elgrito) [15.000]
+111.009: (move tiago elgrito maestro_aprendiz) [15.000]
+126.010: (explain_painting tiago maestro_aprendiz) [15.000]
+141.011: (move tiago maestro_aprendiz home) [15.000]
+156.012: (recharge tiago home) [5.000]
+161.013: (move tiago home guernica) [15.000]
+176.014: (explain_painting tiago guernica) [15.000]
+191.015: (move tiago guernica la_joven_de_la_perla) [15.000]
+206.016: (explain_painting tiago la_joven_de_la_perla) [15.000]
+221.017: (move tiago la_joven_de_la_perla home) [15.000]
+236.018: (recharge tiago home) [5.000]
+241.019: (move tiago home las_meninas) [15.000]
+256.020: (explain_painting tiago las_meninas) [15.000]
+271.021: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]
+286.022: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
+301.023: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+316.024: (recharge tiago home) [5.000]
+321.025: (move tiago home el_jardin_de_las_delicias) [15.000]
+336.026: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
+351.027: (move tiago el_jardin_de_las_delicias las_tres_gracias) [15.000]
+366.028: (explain_painting tiago las_tres_gracias) [15.000]
+381.029: (move tiago las_tres_gracias home) [15.000]
+396.030: (recharge tiago home) [5.000]
+401.031: (move tiago home la_rendicion_de_breda) [15.000]
+416.032: (explain_painting tiago la_rendicion_de_breda) [15.000]
+431.033: (move tiago la_rendicion_de_breda el_nacimiento_de_venus) [15.000]
+446.034: (explain_painting tiago el_nacimiento_de_venus) [15.000]
+461.035: (move tiago el_nacimiento_de_venus home) [15.000]
+476.036: (recharge tiago home) [5.000]
+481.037: (move tiago home la_creacion_de_adan) [15.000]
+496.038: (explain_painting tiago la_creacion_de_adan) [15.000]
+511.039: (move tiago la_creacion_de_adan la_ultima_cena) [15.000]
+526.040: (explain_painting tiago la_ultima_cena) [15.000]
+541.041: (move tiago la_ultima_cena home) [15.000]
+556.042: (recharge tiago home) [5.000]
+561.043: (move tiago home la_libertad_guiando_al_pueblo) [15.000]
+576.044: (explain_painting tiago la_libertad_guiando_al_pueblo) [15.000]
+591.045: (move tiago la_libertad_guiando_al_pueblo el_hijo_del_hombre) [15.000]
+606.046: (explain_painting tiago el_hijo_del_hombre) [15.000]
+621.047: (move tiago el_hijo_del_hombre home) [15.000]
+636.048: (recharge tiago home) [5.000]
+641.049: (move tiago home american_gothic) [15.000]
+656.050: (explain_painting tiago american_gothic) [15.000]
+671.051: (move tiago american_gothic la_persistencia_de_la_memoria) [15.000]
+686.052: (explain_painting tiago la_persistencia_de_la_memoria) [15.000]
+701.053: (move tiago la_persistencia_de_la_memoria home) [15.000]
+716.054: (recharge tiago home) [5.000]
+721.055: (move tiago home la_ronda_de_noche) [15.000]
+736.056: (explain_painting tiago la_ronda_de_noche) [15.000]
+751.057: (move tiago la_ronda_de_noche impresion_sol_naciente) [15.000]
+766.058: (explain_painting tiago impresion_sol_naciente) [15.000]
+781.059: (move tiago impresion_sol_naciente home) [15.000]
+796.060: (recharge tiago home) [5.000]
+801.061: (move tiago home banistas_en_asnieres) [15.000]
+816.062: (explain_painting tiago banistas_en_asnieres) [15.000]
+831.063: (move tiago banistas_en_asnieres saturno_devorando_a_su_hijo) [15.000]
+846.064: (explain_painting tiago saturno_devorando_a_su_hijo) [15.000]
+861.065: (move tiago saturno_devorando_a_su_hijo home) [15.000]
+876.066: (recharge tiago home) [5.000]
+881.067: (move tiago home whistlers_mother) [15.000]
+896.068: (explain_painting tiago whistlers_mother) [15.000]
+911.069: (move tiago whistlers_mother la_gran_ola_de_kanagawa) [15.000]
+926.070: (explain_painting tiago la_gran_ola_de_kanagawa) [15.000]
+941.071: (move tiago la_gran_ola_de_kanagawa home) [15.000]
+956.072: (recharge tiago home) [5.000]
+961.073: (move tiago home el_beso) [15.000]
+976.074: (explain_painting tiago el_beso) [15.000]
+991.075: (move tiago el_beso autorretrato_con_collar_de_espinas) [15.000]
+1006.076: (explain_painting tiago autorretrato_con_collar_de_espinas) [15.000]
+1021.077: (move tiago autorretrato_con_collar_de_espinas home) [15.000]
+1036.078: (recharge tiago home) [5.000]
+1041.079: (move tiago home el_carnaval_del_arlequin) [15.000]
+1056.080: (explain_painting tiago el_carnaval_del_arlequin) [15.000]
+1071.081: (move tiago el_carnaval_del_arlequin nighthawks) [15.000]
+1086.082: (explain_painting tiago nighthawks) [15.000]
+1101.083: (move tiago nighthawks home) [15.000]
+1116.084: (recharge tiago home) [5.000]
+1121.085: (move tiago home retrato_de_adele_bloch_bauer_i) [15.000]
+1136.086: (explain_painting tiago retrato_de_adele_bloch_bauer_i) [15.000]
+1151.087: (move tiago retrato_de_adele_bloch_bauer_i campbells_soup_cans) [15.000]
+1166.088: (explain_painting tiago campbells_soup_cans) [15.000]
+1181.089: (move tiago campbells_soup_cans home) [15.000]
+1196.090: (recharge tiago home) [5.000]
+1201.091: (move tiago home composition_viii) [15.000]
+1216.092: (explain_painting tiago composition_viii) [15.000]
+==================================================
+
+MODEL : gemini-2.5-pro
+PROMPT:
+
+You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
+
+1.The robot has a battery that is consumed with each movement and action.
+2.The battery must be recharged when necessary, but you should minimize the number of recharges and movements to make the plan as efficient as possible.
+3.Maximize efficiency regarding battery usage, performing recharges only when absolutely necessary and only at locations that have chargers.
+4.Do not make any comments or additional explanations. I only want the plan.
+5.Do not invent actions or make unnecessary actions.
+
+I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
+
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+31.002: (explain_painting tiago elgrito) [15.000]
+46.002: (move tiago elgrito guernica) [15.000]
+...
+Now I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN, NOTHING ELSE.
+
+dominio :
+"
+(define (domain library_domain)
+
+(:requirements :strips :fluents :durative-actions :typing)
+
+(:types 
+  robot
+  location 
+  painting
+)
+
+(:predicates
+  (robot_at ?r - robot ?l - location)
+  (painting_at ?b - painting ?l - location)
+  (painting_found ?b - painting)
+  (explained_painting ?p - location)
+  (can_start ?r - robot)
+  (initial_state ?r - robot)
+  (visited ?r - robot ?l - location)
+  (charger_at ?wp - location)
+)
+
+(:functions
+  (battery ?r - robot)
+)
+
+(:durative-action start_welcome
+  :parameters (?r - robot)
+  :duration (= ?duration 1)
+  :condition (and 
+    (at start (initial_state ?r))
+  )
+  :effect (and 
+    (at end (can_start ?r))
+    (at start (initial_state ?r))
+  )
+)
+
+(:durative-action move
+  :parameters (?r - robot ?from ?to - location)
+  :duration (= ?duration 15)
+  :condition (and 
+    (at start (>= (battery ?r) 20))
+    (at start (can_start ?r))
+    (at start (robot_at ?r ?from))
+  )
+  :effect (and 
+    (at start (not(robot_at ?r ?from)))
+    (at start (decrease (battery ?r) 20))
+    (at end (robot_at ?r ?to))
+    (at end (visited ?r ?to))
+  )
+)
+
+(:durative-action explain_painting
+  :parameters (?r - robot ?p - location)
+  :duration (= ?duration 15)
+  :condition (and 
+    (at start (>= (battery ?r) 10))
+    (over all (robot_at ?r   ?p))
+    (at start (can_start ?r))
+  )
+  :effect (and 
+    (at end (explained_painting ?p)) 
+    (at start (decrease (battery ?r) 10))
+  )
+)
+
+(:durative-action recharge
+  :parameters (?r - robot ?wp - location)
+  :duration (= ?duration 5)
+  :condition (and 
+    (at start (<= (battery ?r) 100))
+    (over all (robot_at ?r ?wp))
+    (over all (charger_at ?wp))
+  )
+  :effect (and (at end (assign (battery ?r) 100)))
+)
+"
+
+problem:
+"
+(define (problem library_problem)
+(:domain library_domain)
+
+(:objects
+  home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+  el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
+  la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
+  la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
+  saturno_devorando_a_su_hijo whistlers_mother la_gran_ola_de_kanagawa el_beso autorretrato_con_collar_de_espinas 
+  el_carnaval_del_arlequin nighthawks retrato_de_adele_bloch_bauer_i campbells_soup_cans composition_viii - location
+  tiago - robot
+)
+
+(:init
+  (robot_at tiago home)
+  (initial_state tiago)
+  (= (battery tiago) 100)
+  (charger_at home)
+)
+
+(:goal
+  (and
+    Explicame TODOS los cuadros
+    (explained_painting ...)
+  
+  )
+)
+"
+
+The most important thing in the plan is that you consider the battery.
+Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, you must recharge the robot before the battery runs out. If you have 20 battery, the action must be MOVE TO HOME to recharge.
+
+REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
+
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+31.002: (explain_painting tiago elgrito) [15.000]
+46.002: (move tiago elgrito guernica) [15.000]
+
+
+Give me de step by step explanation of when you should recharge de robot, when you are planning and explaining a painting,
+tell me why you are explaining the drawing and if it was in the goal or not. 
+
+But at the end do:
+"
+PLAN: 
+(AND GIVE THE PLAN WITH CORRECT FORMAT)
+"
+
+RESPONSE:
+0.000: (start_welcome tiago) [1.000]
+1.000: (move tiago home monalisa) [15.000]
+16.000: (explain_painting tiago monalisa) [15.000]
+31.000: (move tiago monalisa nocheestrellada) [15.000]
+46.000: (explain_painting tiago nocheestrellada) [15.000]
+61.000: (move tiago nocheestrellada home) [15.000]
+76.000: (recharge tiago home) [5.000]
+81.000: (move tiago home elgrito) [15.000]
+96.000: (explain_painting tiago elgrito) [15.000]
+111.000: (move tiago elgrito maestro_aprendiz) [15.000]
+126.000: (explain_painting tiago maestro_aprendiz) [15.000]
+141.000: (move tiago maestro_aprendiz home) [15.000]
+156.000: (recharge tiago home) [5.000]
+161.000: (move tiago home guernica) [15.000]
+176.000: (explain_painting tiago guernica) [15.000]
+191.000: (move tiago guernica la_joven_de_la_perla) [15.000]
+206.000: (explain_painting tiago la_joven_de_la_perla) [15.000]
+221.000: (move tiago la_joven_de_la_perla home) [15.000]
+236.000: (recharge tiago home) [5.000]
+241.000: (move tiago home las_meninas) [15.000]
+256.000: (explain_painting tiago las_meninas) [15.000]
+271.000: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]
+286.000: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
+301.000: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+316.000: (recharge tiago home) [5.000]
+321.000: (move tiago home el_jardin_de_las_delicias) [15.000]
+336.000: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
+351.000: (move tiago el_jardin_de_las_delicias las_tres_gracias) [15.000]
+366.000: (explain_painting tiago las_tres_gracias) [15.000]
+381.000: (move tiago las_tres_gracias home) [15.000]
+396.000: (recharge tiago home) [5.000]
+401.000: (move tiago home la_rendicion_de_breda) [15.000]
+416.000: (explain_painting tiago la_rendicion_de_breda) [15.000]
+431.000: (move tiago la_rendicion_de_breda el_nacimiento_de_venus) [15.000]
+446.000: (explain_painting tiago el_nacimiento_de_venus) [15.000]
+461.000: (move tiago el_nacimiento_de_venus home) [15.000]
+476.000: (recharge tiago home) [5.000]
+481.000: (move tiago home la_creacion_de_adan) [15.000]
+496.000: (explain_painting tiago la_creacion_de_adan) [15.000]
+511.000: (move tiago la_creacion_de_adan la_ultima_cena) [15.000]
+526.000: (explain_painting tiago la_ultima_cena) [15.000]
+541.000: (move tiago la_ultima_cena home) [15.000]
+556.000: (recharge tiago home) [5.000]
+561.000: (move tiago home la_libertad_guiando_al_pueblo) [15.000]
+576.000: (explain_painting tiago la_libertad_guiando_al_pueblo) [15.000]
+591.000: (move tiago la_libertad_guiando_al_pueblo el_hijo_del_hombre) [15.000]
+606.000: (explain_painting tiago el_hijo_del_hombre) [15.000]
+621.000: (move tiago el_hijo_del_hombre home) [15.000]
+636.000: (recharge tiago home) [5.000]
+641.000: (move tiago home american_gothic) [15.000]
+656.000: (explain_painting tiago american_gothic) [15.000]
+671.000: (move tiago american_gothic la_persistencia_de_la_memoria) [15.000]
+686.000: (explain_painting tiago la_persistencia_de_la_memoria) [15.000]
+701.000: (move tiago la_persistencia_de_la_memoria home) [15.000]
+716.000: (recharge tiago home) [5.000]
+721.000: (move tiago home la_ronda_de_noche) [15.000]
+736.000: (explain_painting tiago la_ronda_de_noche) [15.000]
+751.000: (move tiago la_ronda_de_noche impresion_sol_naciente) [15.000]
+766.000: (explain_painting tiago impresion_sol_naciente) [15.000]
+781.000: (move tiago impresion_sol_naciente home) [15.000]
+796.000: (recharge tiago home) [5.000]
+801.000: (move tiago home banistas_en_asnieres) [15.000]
+816.000: (explain_painting tiago banistas_en_asnieres) [15.000]
+831.000: (move tiago banistas_en_asnieres saturno_devorando_a_su_hijo) [15.000]
+846.000: (explain_painting tiago saturno_devorando_a_su_hijo) [15.000]
+861.000: (move tiago saturno_devorando_a_su_hijo home) [15.000]
+876.000: (recharge tiago home) [5.000]
+881.000: (move tiago home whistlers_mother) [15.000]
+896.000: (explain_painting tiago whistlers_mother) [15.000]
+911.000: (move tiago whistlers_mother la_gran_ola_de_kanagawa) [15.000]
+926.000: (explain_painting tiago la_gran_ola_de_kanagawa) [15.000]
+941.000: (move tiago la_gran_ola_de_kanagawa home) [15.000]
+956.000: (recharge tiago home) [5.000]
+961.000: (move tiago home el_beso) [15.000]
+976.000: (explain_painting tiago el_beso) [15.000]
+991.000: (move tiago el_beso autorretrato_con_collar_de_espinas) [15.000]
+1006.000: (explain_painting tiago autorretrato_con_collar_de_espinas) [15.000]
+1021.000: (move tiago autorretrato_con_collar_de_espinas home) [15.000]
+1036.000: (recharge tiago home) [5.000]
+1041.000: (move tiago home el_carnaval_del_arlequin) [15.000]
+1056.000: (explain_painting tiago el_carnaval_del_arlequin) [15.000]
+1071.000: (move tiago el_carnaval_del_arlequin nighthawks) [15.000]
+1086.000: (explain_painting tiago nighthawks) [15.000]
+1101.000: (move tiago nighthawks home) [15.000]
+1116.000: (recharge tiago home) [5.000]
+1121.000: (move tiago home retrato_de_adele_bloch_bauer_i) [15.000]
+1136.000: (explain_painting tiago retrato_de_adele_bloch_bauer_i) [15.000]
+1151.000: (move tiago retrato_de_adele_bloch_bauer_i campbells_soup_cans) [15.000]
+1166.000: (explain_painting tiago campbells_soup_cans) [15.000]
+1181.000: (move tiago campbells_soup_cans home) [15.000]
+1196.000: (recharge tiago home) [5.000]
+1201.000: (move tiago home composition_viii) [15.000]
+1216.000: (explain_painting tiago composition_viii) [15.000]
+==================================================
+
+MODEL : gemini-2.5-pro
+PROMPT:
+
+You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
+
+1.The robot has a battery that is consumed with each movement and action.
+2.The battery must be recharged when necessary, but you should minimize the number of recharges and movements to make the plan as efficient as possible.
+3.Maximize efficiency regarding battery usage, performing recharges only when absolutely necessary and only at locations that have chargers.
+4.Do not make any comments or additional explanations. I only want the plan.
+5.Do not invent actions or make unnecessary actions.
+
+I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
+
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+31.002: (explain_painting tiago elgrito) [15.000]
+46.002: (move tiago elgrito guernica) [15.000]
+...
+Now I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN, NOTHING ELSE.
+
+dominio :
+"
+(define (domain library_domain)
+
+(:requirements :strips :fluents :durative-actions :typing)
+
+(:types 
+  robot
+  location 
+  painting
+)
+
+(:predicates
+  (robot_at ?r - robot ?l - location)
+  (painting_at ?b - painting ?l - location)
+  (painting_found ?b - painting)
+  (explained_painting ?p - location)
+  (can_start ?r - robot)
+  (initial_state ?r - robot)
+  (visited ?r - robot ?l - location)
+  (charger_at ?wp - location)
+)
+
+(:functions
+  (battery ?r - robot)
+)
+
+(:durative-action start_welcome
+  :parameters (?r - robot)
+  :duration (= ?duration 1)
+  :condition (and 
+    (at start (initial_state ?r))
+  )
+  :effect (and 
+    (at end (can_start ?r))
+    (at start (initial_state ?r))
+  )
+)
+
+(:durative-action move
+  :parameters (?r - robot ?from ?to - location)
+  :duration (= ?duration 15)
+  :condition (and 
+    (at start (>= (battery ?r) 20))
+    (at start (can_start ?r))
+    (at start (robot_at ?r ?from))
+  )
+  :effect (and 
+    (at start (not(robot_at ?r ?from)))
+    (at start (decrease (battery ?r) 20))
+    (at end (robot_at ?r ?to))
+    (at end (visited ?r ?to))
+  )
+)
+
+(:durative-action explain_painting
+  :parameters (?r - robot ?p - location)
+  :duration (= ?duration 15)
+  :condition (and 
+    (at start (>= (battery ?r) 10))
+    (over all (robot_at ?r   ?p))
+    (at start (can_start ?r))
+  )
+  :effect (and 
+    (at end (explained_painting ?p)) 
+    (at start (decrease (battery ?r) 10))
+  )
+)
+
+(:durative-action recharge
+  :parameters (?r - robot ?wp - location)
+  :duration (= ?duration 5)
+  :condition (and 
+    (at start (<= (battery ?r) 100))
+    (over all (robot_at ?r ?wp))
+    (over all (charger_at ?wp))
+  )
+  :effect (and (at end (assign (battery ?r) 100)))
+)
+"
+
+problem:
+"
+(define (problem library_problem)
+(:domain library_domain)
+
+(:objects
+  home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+  el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
+  la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
+  la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
+  saturno_devorando_a_su_hijo whistlers_mother la_gran_ola_de_kanagawa el_beso autorretrato_con_collar_de_espinas 
+  el_carnaval_del_arlequin nighthawks retrato_de_adele_bloch_bauer_i campbells_soup_cans composition_viii - location
+  tiago - robot
+)
+
+(:init
+  (robot_at tiago home)
+  (initial_state tiago)
+  (= (battery tiago) 100)
+  (charger_at home)
+)
+
+(:goal
+  (and
+    Explicame TODOS los cuadros
+    (explained_painting ...)
+  
+  )
+)
+"
+
+The most important thing in the plan is that you consider the battery.
+Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, you must recharge the robot before the battery runs out. If you have 20 battery, the action must be MOVE TO HOME to recharge.
+
+REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
+
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+31.002: (explain_painting tiago elgrito) [15.000]
+46.002: (move tiago elgrito guernica) [15.000]
+
+
+Give me de step by step explanation of when you should recharge de robot, when you are planning and explaining a painting,
+tell me why you are explaining the drawing and if it was in the goal or not. 
+
+But at the end do:
+"
+PLAN: 
+(AND GIVE THE PLAN WITH CORRECT FORMAT)
+"
+
+RESPONSE:
+0.000: (start_welcome tiago) [1.000]
+1.000: (move tiago home monalisa) [15.000]
+16.000: (explain_painting tiago monalisa) [15.000]
+31.000: (move tiago monalisa nocheestrellada) [15.000]
+46.000: (explain_painting tiago nocheestrellada) [15.000]
+61.000: (move tiago nocheestrellada home) [15.000]
+76.000: (recharge tiago home) [5.000]
+81.000: (move tiago home elgrito) [15.000]
+96.000: (explain_painting tiago elgrito) [15.000]
+111.000: (move tiago elgrito maestro_aprendiz) [15.000]
+126.000: (explain_painting tiago maestro_aprendiz) [15.000]
+141.000: (move tiago maestro_aprendiz home) [15.000]
+156.000: (recharge tiago home) [5.000]
+161.000: (move tiago home guernica) [15.000]
+176.000: (explain_painting tiago guernica) [15.000]
+191.000: (move tiago guernica la_joven_de_la_perla) [15.000]
+206.000: (explain_painting tiago la_joven_de_la_perla) [15.000]
+221.000: (move tiago la_joven_de_la_perla home) [15.000]
+236.000: (recharge tiago home) [5.000]
+241.000: (move tiago home las_meninas) [15.000]
+256.000: (explain_painting tiago las_meninas) [15.000]
+271.000: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]
+286.000: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
+301.000: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+316.000: (recharge tiago home) [5.000]
+321.000: (move tiago home el_jardin_de_las_delicias) [15.000]
+336.000: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
+351.000: (move tiago el_jardin_de_las_delicias las_tres_gracias) [15.000]
+366.000: (explain_painting tiago las_tres_gracias) [15.000]
+381.000: (move tiago las_tres_gracias home) [15.000]
+396.000: (recharge tiago home) [5.000]
+401.000: (move tiago home la_rendicion_de_breda) [15.000]
+416.000: (explain_painting tiago la_rendicion_de_breda) [15.000]
+431.000: (move tiago la_rendicion_de_breda el_nacimiento_de_venus) [15.000]
+446.000: (explain_painting tiago el_nacimiento_de_venus) [15.000]
+461.000: (move tiago el_nacimiento_de_venus home) [15.000]
+476.000: (recharge tiago home) [5.000]
+481.000: (move tiago home la_creacion_de_adan) [15.000]
+496.000: (explain_painting tiago la_creacion_de_adan) [15.000]
+511.000: (move tiago la_creacion_de_adan la_ultima_cena) [15.000]
+526.000: (explain_painting tiago la_ultima_cena) [15.000]
+541.000: (move tiago la_ultima_cena home) [15.000]
+556.000: (recharge tiago home) [5.000]
+561.000: (move tiago home la_libertad_guiando_al_pueblo) [15.000]
+576.000: (explain_painting tiago la_libertad_guiando_al_pueblo) [15.000]
+591.000: (move tiago la_libertad_guiando_al_pueblo el_hijo_del_hombre) [15.000]
+606.000: (explain_painting tiago el_hijo_del_hombre) [15.000]
+621.000: (move tiago el_hijo_del_hombre home) [15.000]
+636.000: (recharge tiago home) [5.000]
+641.000: (move tiago home american_gothic) [15.000]
+656.000: (explain_painting tiago american_gothic) [15.000]
+671.000: (move tiago american_gothic la_persistencia_de_la_memoria) [15.000]
+686.000: (explain_painting tiago la_persistencia_de_la_memoria) [15.000]
+701.000: (move tiago la_persistencia_de_la_memoria home) [15.000]
+716.000: (recharge tiago home) [5.000]
+721.000: (move tiago home la_ronda_de_noche) [15.000]
+736.000: (explain_painting tiago la_ronda_de_noche) [15.000]
+751.000: (move tiago la_ronda_de_noche impresion_sol_naciente) [15.000]
+766.000: (explain_painting tiago impresion_sol_naciente) [15.000]
+781.000: (move tiago impresion_sol_naciente home) [15.000]
+796.000: (recharge tiago home) [5.000]
+801.000: (move tiago home banistas_en_asnieres) [15.000]
+816.000: (explain_painting tiago banistas_en_asnieres) [15.000]
+831.000: (move tiago banistas_en_asnieres saturno_devorando_a_su_hijo) [15.000]
+846.000: (explain_painting tiago saturno_devorando_a_su_hijo) [15.000]
+861.000: (move tiago saturno_devorando_a_su_hijo home) [15.000]
+876.000: (recharge tiago home) [5.000]
+881.000: (move tiago home whistlers_mother) [15.000]
+896.000: (explain_painting tiago whistlers_mother) [15.000]
+911.000: (move tiago whistlers_mother la_gran_ola_de_kanagawa) [15.000]
+926.000: (explain_painting tiago la_gran_ola_de_kanagawa) [15.000]
+941.000: (move tiago la_gran_ola_de_kanagawa home) [15.000]
+956.000: (recharge tiago home) [5.000]
+961.000: (move tiago home el_beso) [15.000]
+976.000: (explain_painting tiago el_beso) [15.000]
+991.000: (move tiago el_beso autorretrato_con_collar_de_espinas) [15.000]
+1006.000: (explain_painting tiago autorretrato_con_collar_de_espinas) [15.000]
+1021.000: (move tiago autorretrato_con_collar_de_espinas home) [15.000]
+1036.000: (recharge tiago home) [5.000]
+1041.000: (move tiago home el_carnaval_del_arlequin) [15.000]
+1056.000: (explain_painting tiago el_carnaval_del_arlequin) [15.000]
+1071.000: (move tiago el_carnaval_del_arlequin nighthawks) [15.000]
+1086.000: (explain_painting tiago nighthawks) [15.000]
+1101.000: (move tiago nighthawks home) [15.000]
+1116.000: (recharge tiago home) [5.000]
+1121.000: (move tiago home retrato_de_adele_bloch_bauer_i) [15.000]
+1136.000: (explain_painting tiago retrato_de_adele_bloch_bauer_i) [15.000]
+1151.000: (move tiago retrato_de_adele_bloch_bauer_i campbells_soup_cans) [15.000]
+1166.000: (explain_painting tiago campbells_soup_cans) [15.000]
+1181.000: (move tiago campbells_soup_cans home) [15.000]
+1196.000: (recharge tiago home) [5.000]
+1201.000: (move tiago home composition_viii) [15.000]
+1216.000: (explain_painting tiago composition_viii) [15.000]
+==================================================
+
+MODEL : gpt-4o-mini
+PROMPT:
+
+You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
+
+1.The robot has a battery that is consumed with each movement and action.
+2.The battery must be recharged when necessary, but you should minimize the number of recharges and movements to make the plan as efficient as possible.
+3.Maximize efficiency regarding battery usage, performing recharges only when absolutely necessary and only at locations that have chargers.
+4.Do not make any comments or additional explanations. I only want the plan.
+5.Do not invent actions or make unnecessary actions.
+
+I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
+
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+31.002: (explain_painting tiago elgrito) [15.000]
+46.002: (move tiago elgrito guernica) [15.000]
+...
+Now I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN, NOTHING ELSE.
+
+dominio :
+"
+(define (domain library_domain)
+
+(:requirements :strips :fluents :durative-actions :typing)
+
+(:types 
+  robot
+  location 
+  painting
+)
+
+(:predicates
+  (robot_at ?r - robot ?l - location)
+  (painting_at ?b - painting ?l - location)
+  (painting_found ?b - painting)
+  (explained_painting ?p - location)
+  (can_start ?r - robot)
+  (initial_state ?r - robot)
+  (visited ?r - robot ?l - location)
+  (charger_at ?wp - location)
+)
+
+(:functions
+  (battery ?r - robot)
+)
+
+(:durative-action start_welcome
+  :parameters (?r - robot)
+  :duration (= ?duration 1)
+  :condition (and 
+    (at start (initial_state ?r))
+  )
+  :effect (and 
+    (at end (can_start ?r))
+    (at start (initial_state ?r))
+  )
+)
+
+(:durative-action move
+  :parameters (?r - robot ?from ?to - location)
+  :duration (= ?duration 15)
+  :condition (and 
+    (at start (>= (battery ?r) 20))
+    (at start (can_start ?r))
+    (at start (robot_at ?r ?from))
+  )
+  :effect (and 
+    (at start (not(robot_at ?r ?from)))
+    (at start (decrease (battery ?r) 20))
+    (at end (robot_at ?r ?to))
+    (at end (visited ?r ?to))
+  )
+)
+
+(:durative-action explain_painting
+  :parameters (?r - robot ?p - location)
+  :duration (= ?duration 15)
+  :condition (and 
+    (at start (>= (battery ?r) 10))
+    (over all (robot_at ?r   ?p))
+    (at start (can_start ?r))
+  )
+  :effect (and 
+    (at end (explained_painting ?p)) 
+    (at start (decrease (battery ?r) 10))
+  )
+)
+
+(:durative-action recharge
+  :parameters (?r - robot ?wp - location)
+  :duration (= ?duration 5)
+  :condition (and 
+    (at start (<= (battery ?r) 100))
+    (over all (robot_at ?r ?wp))
+    (over all (charger_at ?wp))
+  )
+  :effect (and (at end (assign (battery ?r) 100)))
+)
+"
+
+problem:
+"
+(define (problem library_problem)
+(:domain library_domain)
+
+(:objects
+  home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+  el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
+  la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
+  la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
+  saturno_devorando_a_su_hijo whistlers_mother la_gran_ola_de_kanagawa el_beso autorretrato_con_collar_de_espinas 
+  el_carnaval_del_arlequin nighthawks retrato_de_adele_bloch_bauer_i campbells_soup_cans composition_viii - location
+  tiago - robot
+)
+
+(:init
+  (robot_at tiago home)
+  (initial_state tiago)
+  (= (battery tiago) 100)
+  (charger_at home)
+)
+
+(:goal
+  (and
+    Explicame TODOS los cuadros
+    (explained_painting ...)
+  
+  )
+)
+"
+
+The most important thing in the plan is that you consider the battery.
+Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, you must recharge the robot before the battery runs out. If you have 20 battery, the action must be MOVE TO HOME to recharge.
+
+REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
+
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+31.002: (explain_painting tiago elgrito) [15.000]
+46.002: (move tiago elgrito guernica) [15.000]
+
+
+Give me de step by step explanation of when you should recharge de robot, when you are planning and explaining a painting,
+tell me why you are explaining the drawing and if it was in the goal or not. 
+
+But at the end do:
+"
+PLAN: 
+(AND GIVE THE PLAN WITH CORRECT FORMAT)
+"
+
+RESPONSE:
+```
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+31.002: (explain_painting tiago elgrito) [15.000]
+46.002: (move tiago elgrito guernica) [15.000]
+61.002: (explain_painting tiago guernica) [15.000]
+76.002: (move tiago guernica home) [15.000]
+91.002: (recharge tiago home) [5.000]
+96.002: (move tiago home la_joven_de_la_perla) [15.000]
+111.002: (explain_painting tiago la_joven_de_la_perla) [15.000]
+126.002: (move tiago la_joven_de_la_perla el_3_de_mayo_de_1808) [15.000]
+141.002: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
+156.002: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+171.002: (recharge tiago home) [5.000]
+176.002: (move tiago home las_meninas) [15.000]
+191.002: (explain_painting tiago las_meninas) [15.000]
+206.002: (move tiago las_meninas nighthawks) [15.000]
+221.002: (explain_painting tiago nighthawks) [15.000]
+236.002: (move tiago nighthawks home) [15.000]
+251.002: (recharge tiago home) [5.000]
+256.002: (move tiago home american_gothic) [15.000]
+271.002: (explain_painting tiago american_gothic) [15.000]
+286.002: (move tiago american_gothic home) [15.000]
+301.002: (recharge tiago home) [5.000]
+306.002: (move tiago home impression_sol_naciente) [15.000]
+321.002: (explain_painting tiago impression_sol_naciente) [15.000]
+```
+
+==================================================
+
+MODEL : gpt-4o-mini
+PROMPT:
+
+You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
+
+1.The robot has a battery that is consumed with each movement and action.
+2.The battery must be recharged when necessary, but you should minimize the number of recharges and movements to make the plan as efficient as possible.
+3.Maximize efficiency regarding battery usage, performing recharges only when absolutely necessary and only at locations that have chargers.
+4.Do not make any comments or additional explanations. I only want the plan.
+5.Do not invent actions or make unnecessary actions.
+
+I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
+
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+31.002: (explain_painting tiago elgrito) [15.000]
+46.002: (move tiago elgrito guernica) [15.000]
+...
+Now I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN, NOTHING ELSE.
+
+dominio :
+"
+(define (domain library_domain)
+
+(:requirements :strips :fluents :durative-actions :typing)
+
+(:types 
+  robot
+  location 
+  painting
+)
+
+(:predicates
+  (robot_at ?r - robot ?l - location)
+  (painting_at ?b - painting ?l - location)
+  (painting_found ?b - painting)
+  (explained_painting ?p - location)
+  (can_start ?r - robot)
+  (initial_state ?r - robot)
+  (visited ?r - robot ?l - location)
+  (charger_at ?wp - location)
+)
+
+(:functions
+  (battery ?r - robot)
+)
+
+(:durative-action start_welcome
+  :parameters (?r - robot)
+  :duration (= ?duration 1)
+  :condition (and 
+    (at start (initial_state ?r))
+  )
+  :effect (and 
+    (at end (can_start ?r))
+    (at start (initial_state ?r))
+  )
+)
+
+(:durative-action move
+  :parameters (?r - robot ?from ?to - location)
+  :duration (= ?duration 15)
+  :condition (and 
+    (at start (>= (battery ?r) 20))
+    (at start (can_start ?r))
+    (at start (robot_at ?r ?from))
+  )
+  :effect (and 
+    (at start (not(robot_at ?r ?from)))
+    (at start (decrease (battery ?r) 20))
+    (at end (robot_at ?r ?to))
+    (at end (visited ?r ?to))
+  )
+)
+
+(:durative-action explain_painting
+  :parameters (?r - robot ?p - location)
+  :duration (= ?duration 15)
+  :condition (and 
+    (at start (>= (battery ?r) 10))
+    (over all (robot_at ?r   ?p))
+    (at start (can_start ?r))
+  )
+  :effect (and 
+    (at end (explained_painting ?p)) 
+    (at start (decrease (battery ?r) 10))
+  )
+)
+
+(:durative-action recharge
+  :parameters (?r - robot ?wp - location)
+  :duration (= ?duration 5)
+  :condition (and 
+    (at start (<= (battery ?r) 100))
+    (over all (robot_at ?r ?wp))
+    (over all (charger_at ?wp))
+  )
+  :effect (and (at end (assign (battery ?r) 100)))
+)
+"
+
+problem:
+"
+(define (problem library_problem)
+(:domain library_domain)
+
+(:objects
+  home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+  el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
+  la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
+  la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
+  saturno_devorando_a_su_hijo whistlers_mother la_gran_ola_de_kanagawa el_beso autorretrato_con_collar_de_espinas 
+  el_carnaval_del_arlequin nighthawks retrato_de_adele_bloch_bauer_i campbells_soup_cans composition_viii - location
+  tiago - robot
+)
+
+(:init
+  (robot_at tiago home)
+  (initial_state tiago)
+  (= (battery tiago) 100)
+  (charger_at home)
+)
+
+(:goal
+  (and
+    Explicame TODOS los cuadros
+    (explained_painting ...)
+  
+  )
+)
+"
+
+The most important thing in the plan is that you consider the battery.
+Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, you must recharge the robot before the battery runs out. If you have 20 battery, the action must be MOVE TO HOME to recharge.
+
+REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
+
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+31.002: (explain_painting tiago elgrito) [15.000]
+46.002: (move tiago elgrito guernica) [15.000]
+
+
+Give me de step by step explanation of when you should recharge de robot, when you are planning and explaining a painting,
+tell me why you are explaining the drawing and if it was in the goal or not. 
+
+But at the end do:
+"
+PLAN: 
+(AND GIVE THE PLAN WITH CORRECT FORMAT)
+"
+
+RESPONSE:
+```
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+31.002: (explain_painting tiago elgrito) [15.000]
+46.002: (move tiago elgrito guernica) [15.000]
+61.002: (explain_painting tiago guernica) [15.000]
+76.002: (move tiago guernica home) [15.000]
+91.002: (recharge tiago home) [5.000]
+96.002: (move tiago home la_joven_de_la_perla) [15.000]
+111.002: (explain_painting tiago la_joven_de_la_perla) [15.000]
+126.002: (move tiago la_joven_de_la_perla nocheestrellada) [15.000]
+141.002: (explain_painting tiago nocheestrellada) [15.000]
+156.002: (move tiago nocheestrellada home) [15.000]
+171.002: (recharge tiago home) [5.000]
+176.002: (move tiago home las_meninas) [15.000]
+191.002: (explain_painting tiago las_meninas) [15.000]
+206.002: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]
+221.002: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
+236.002: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+251.002: (recharge tiago home) [5.000]
+256.002: (move tiago home el_jardin_de_las_delicias) [15.000]
+271.002: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
+286.002: (move tiago el_jardin_de_las_delicias campbells_soup_cans) [15.000]
+301.002: (explain_painting tiago campbells_soup_cans) [15.000]
+316.002: (move tiago campbells_soup_cans home) [15.000]
+331.002: (recharge tiago home) [5.000]
+336.002: (move tiago home la_creacion_de_adan) [15.000]
+351.002: (explain_painting tiago la_creacion_de_adan) [15.000]
+366.002: (move tiago la_creacion_de_adan la_ultima_cena) [15.000]
+381.002: (explain_painting tiago la_ultima_cena) [15.000]
+396.002: (move tiago la_ultima_cena home) [15.000]
+411.002: (recharge tiago home) [5.000]
+416.002: (move tiago home la_libertad_guiando_al_pueblo) [15.000]
+431.002: (explain_painting tiago la_libertad_guiando_al_pueblo) [15.000]
+446.002: (move tiago la_libertad_guiando_al_pueblo el_hijo_del_hombre) [15.000]
+461.002: (explain_painting tiago el_hijo_del_hombre) [15.000]
+476.002: (move tiago el_hijo_del_hombre home) [15.000]
+491.002: (recharge tiago home) [5.000]
+496.002: (move tiago home american_gothic) [15.000]
+511.002: (explain_painting tiago american_gothic) [15.000]
+526.002: (move tiago american_gothic la_persistencia_de_la_memoria) [15.000]
+541.002: (explain_painting tiago la_persistencia_de_la_memoria) [15.000]
+556.002: (move tiago la_persistencia_de_la_memoria home) [15.000]
+571.002: (recharge tiago home) [5.000]
+576.002: (move tiago home la_ronda_de_noche) [15.000]
+591.002: (explain_painting tiago la_ronda_de_noche) [15.000]
+606.002: (move tiago la_ronda_de_noche whistlers_mother) [15.000]
+621.002: (explain_painting tiago whistlers_mother) [15.000]
+636.002: (move tiago whistlers_mother home) [15.000]
+651.002: (recharge tiago home) [5.000]
+656.002: (move tiago home el_beso) [15.000]
+671.002: (explain_painting tiago el_beso) [15.000]
+686.002: (move tiago el_beso autorretrato_con_collar_de_espinas) [15.000]
+701.002: (explain_painting tiago autorretrato_con_collar_de_espinas) [15.000]
+716.002: (move tiago autorretrato_con_collar_de_espinas home) [15.000]
+731.002: (recharge tiago home) [5.000]
+736.002: (move tiago home el_carnaval_del_arlequin) [15.000]
+751.002: (explain_painting tiago el_carnaval_del_arlequin) [15.000]
+766.002: (move tiago el_carnaval_del_arlequin nighthawks) [15.000]
+781.002: (explain_painting tiago nighthawks) [15.000]
+796.002: (move tiago nighthawks home) [15.000]
+811.002: (recharge tiago home) [5.000]
+816.002: (move tiago home retrato_de_adele_bloch_bauer_i) [15.000]
+831.002: (explain_painting tiago retrato_de_adele_bloch_bauer_i) [15.000]
+846.002: (move tiago retrato_de_adele_bloch_bauer_i composition_viii) [15.000]
+861.002: (explain_painting tiago composition_viii) [15.000]
+876.002: (move tiago composition_viii home) [15.000]
+891.002: (recharge tiago home) [5.000]
+896.002: (move tiago home el_grito) [15.000]
+911.002: (explain_painting tiago el_grito) [15.000]
+926.002: (move tiago el_grito guernica) [15.000]
+941.002: (explain_painting tiago guernica) [15.000]
+```
+
+==================================================
+
+
+MODEL : gemini-2.5-flash
+PROMPT:
+
+    You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
+
+    1.The robot has a battery that is consumed with each movement and action.
+    2.The battery must be recharged when necessary, but you should minimize the number of recharges and movements to make the plan as efficient as possible.
+    3.Maximize efficiency regarding battery usage, performing recharges only when absolutely necessary and only at locations that have chargers.
+    4.Do not make any comments or additional explanations. I only want the plan.
+    5.Do not invent actions or make unnecessary actions.
+
+    I will provide you with the domain and the problem. The only output I expect from you is the execution plan, as a set of actions, with their start times and durations. The structure of the plan should be the following:
+
+    0.000: (start_welcome tiago) [1.000]
+    1.001: (move tiago home maestro_aprendiz) [15.000]
+    16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+    31.002: (explain_painting tiago elgrito) [15.000]
+    46.002: (move tiago elgrito guernica) [15.000]
+    ...
+    Now I will provide the domain and the problem. ONLY RESPOND WITH THE PLAN, NOTHING ELSE.
+
+    dominio :
+    "
+    (define (domain library_domain)
+
+    (:requirements :strips :fluents :durative-actions :typing)
+
+    (:types 
+    robot
+    location 
+    painting
+    )
+
+    (:predicates
+    (robot_at ?r - robot ?l - location)
+    (painting_at ?b - painting ?l - location)
+    (painting_found ?b - painting)
+    (explained_painting ?p - location)
+    (can_start ?r - robot)
+    (initial_state ?r - robot)
+    (visited ?r - robot ?l - location)
+    (charger_at ?wp - location)
+    )
+
+    (:functions
+    (battery ?r - robot)
+    )
+
+    (:durative-action start_welcome
+    :parameters (?r - robot)
+    :duration (= ?duration 1)
+    :condition (and 
+        (at start (initial_state ?r))
+    )
+    :effect (and 
+        (at end (can_start ?r))
+        (at start (initial_state ?r))
+    )
+    )
+
+    (:durative-action move
+    :parameters (?r - robot ?from ?to - location)
+    :duration (= ?duration 15)
+    :condition (and 
+        (at start (>= (battery ?r) 20))
+        (at start (can_start ?r))
+        (at start (robot_at ?r ?from))
+    )
+    :effect (and 
+        (at start (not(robot_at ?r ?from)))
+        (at start (decrease (battery ?r) 20))
+        (at end (robot_at ?r ?to))
+        (at end (visited ?r ?to))
+    )
+    )
+
+    (:durative-action explain_painting
+    :parameters (?r - robot ?p - location)
+    :duration (= ?duration 15)
+    :condition (and 
+        (at start (>= (battery ?r) 10))
+        (over all (robot_at ?r   ?p))
+        (at start (can_start ?r))
+    )
+    :effect (and 
+        (at end (explained_painting ?p)) 
+        (at start (decrease (battery ?r) 10))
+    )
+    )
+
+    (:durative-action recharge
+    :parameters (?r - robot ?wp - location)
+    :duration (= ?duration 5)
+    :condition (and 
+        (at start (<= (battery ?r) 100))
+        (over all (robot_at ?r ?wp))
+        (over all (charger_at ?wp))
+    )
+    :effect (and (at end (assign (battery ?r) 100)))
+    )
+    "
+
+    problem:
+    "
+    (define (problem library_problem)
+    (:domain library_domain)
+
+    (:objects
+    home monalisa nocheestrellada elgrito maestro_aprendiz guernica la_joven_de_la_perla las_meninas el_3_de_mayo_de_1808 
+  el_jardin_de_las_delicias las_tres_gracias la_rendicion_de_breda el_nacimiento_de_venus
+  la_creacion_de_adan la_ultima_cena la_libertad_guiando_al_pueblo el_hijo_del_hombre american_gothic 
+  la_persistencia_de_la_memoria la_ronda_de_noche impresion_sol_naciente banistas_en_asnieres 
+  saturno_devorando_a_su_hijo whistlers_mother la_gran_ola_de_kanagawa el_beso autorretrato_con_collar_de_espinas 
+  el_carnaval_del_arlequin nighthawks retrato_de_adele_bloch_bauer_i campbells_soup_cans composition_viii - location
+    tiago - robot
+    )
+
+    (:init
+    (robot_at tiago home)
+    (initial_state tiago)
+    (= (battery tiago) 100)
+    (charger_at home)
+    )
+
+    GOAL TO ACHIEVE: 
+    (:goal
+      (and
+         """```pddl
+(and
+  (visited "Guernica")
+  (visited "Las Meninas")
+  (visited "El 3 de mayo de 1808")
+  (visited "La rendición de Breda")
+  (visited "La persistencia de la memoria")
+  (visited "Saturno devorando a su hijo")
+  (visited "El carnaval del arlequín")
+  (visited "Maestro Aprendiz")
+  (explained_painting "La libertad guiando al pueblo")
+  (explained_painting "Impresión, sol naciente")
+  (explained_painting "Bañistas en Asnières")
+  (explained_painting "La joven de la perla")
+)
+```"""
+      
+      )
+    )
+   
+    
+    "
+     The most important thing in the plan is that you consider the battery.
+    Starting with 100, moving consumes 20, and explaining consumes 10. Therefore, you must recharge the robot before the battery runs out. If you have 20 battery, the action must be MOVE TO HOME to recharge.
+
+    REMEMBER, THE OUTPUT MUST ALWAYS HAVE THIS FORMAT.
+
+    0.000: (start_welcome tiago) [1.000]
+    1.001: (move tiago home maestro_aprendiz) [15.000]
+    16.002: (move tiago maestro_aprendiz elgrito) [15.000]
+    31.002: (explain_painting tiago elgrito) [15.000]
+    46.002: (move tiago elgrito guernica) [15.000]
+
+
+    Give me de step by step explanation of when you should recharge de robot, when you are planning and explaining a painting,
+    tell me why you are explaining the drawing and if it was in the goal or not. 
+
+    But at the end do:
+    "
+    PLAN: 
+    (AND GIVE THE PLAN WITH CORRECT FORMAT)
+    "
+
+    
+RESPONSE:
+PLAN:
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home maestro_aprendiz) [15.000]
+16.002: (move tiago maestro_aprendiz guernica) [15.000]
+31.003: (move tiago guernica las_meninas) [15.000]
+46.004: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]
+61.005: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+76.006: (recharge tiago home) [5.000]
+81.007: (move tiago home la_rendicion_de_breda) [15.000]
+96.008: (move tiago la_rendicion_de_breda la_persistencia_de_la_memoria) [15.000]
+111.009: (move tiago la_persistencia_de_la_memoria saturno_devorando_a_su_hijo) [15.000]
+126.010: (move tiago saturno_devorando_a_su_hijo el_carnaval_del_arlequin) [15.000]
+141.011: (move tiago el_carnaval_del_arlequin home) [15.000]
+156.012: (recharge tiago home) [5.000]
+161.013: (move tiago home la_libertad_guiando_al_pueblo) [15.000]
+176.014: (explain_painting tiago la_libertad_guiando_al_pueblo) [15.000]
+191.015: (move tiago la_libertad_guiando_al_pueblo impresion_sol_naciente) [15.000]
+206.016: (explain_painting tiago impresion_sol_naciente) [15.000]
+221.017: (move tiago impresion_sol_naciente home) [15.000]
+236.018: (recharge tiago home) [5.000]
+241.019: (move tiago home banistas_en_asnieres) [15.000]
+256.020: (explain_painting tiago banistas_en_asnieres) [15.000]
+271.021: (move tiago banistas_en_asnieres la_joven_de_la_perla) [15.000]
+286.022: (explain_painting tiago la_joven_de_la_perla) [15.000]
+==================================================

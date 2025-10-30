@@ -75,6 +75,7 @@ gemini-2.5-pro,1,Visitar 4 cuadros y explicar 8,"0.000: (start_welcome tiago) [1
 gemini-2.5-pro,2,Visitar 4 cuadros y explicar 8,"0.000: (start_welcome tiago) [1.000] ...301.023: (move tiago el_jardin_de_las_delicias nocheestrellada) [15.000]",S,S,S,"Ninguno","Todo perfecto"
 gemini-2.5-pro,3,Visitar 4 cuadros y explicar 8,"0.000: (start_welcome tiago) [1.000] ...301.023: (move tiago el_jardin_de_las_delicias nocheestrellada) [15.000]",S,S,S,"Ninguno","Todo perfecto"
 gemini-2.5-pro,4,Visitar 4 cuadros y explicar 8,"Plan y formato correctos (todo perfecto)",S,S,S,None,"Todo perfecto"
+gemini-2.5-pro,5,Visitar 4 cuadros y explicar 8,"Plan y formato correctos (todo perfecto)",S,S,S,None,"format all valid"
 gemini-2.5-flash,1,Visitar 4 cuadros y explicar 8,"Plan y formato correctos (todo perfecto)",S,S,S,None,"Todo perfecto"
 GPT-5-instant,1,Visitar 4 cuadros y explicar 8,Plan y formato correctos (todo perfecto),S,S,S,None,Todo perfecto
 GPT-5-instant,2,Visitar 4 cuadros y explicar 8,Plan invalido y formato correctos,S,N,N,None,Le quedan cuadros por explicar
@@ -97,3 +98,6 @@ GPT-5-thinking,8,Visitar 4 cuadros y explicar 8,Plan y formato correctos (todo p
 GPT-5-thinking,9,Visitar 4 cuadros y explicar 8,Plan y formato correctos (todo perfecto),S,S,S,None,"Todo perfecto — 2m 0s"
 GPT-5-thinking,10,Visitar 4 cuadros y explicar 8,Plan y formato correctos (todo perfecto),S,S,S,None,"Todo perfecto — 2m 35s"
 gemini-2.5-flash,1,Visitar 9 cuadros y explicar 8,full_response,S,S,S,None,"The plan is valid. All actions are consistent with the domain and problem, battery levels are maintained above zero, all goals are achieved, and temporal constraints are respected. Recharging occurs at a valid charger location, and the plan format is correct."
+gemini-2.5-pro,1,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"The plan is valid. All actions and constraints are respected, and all goals are achieved."
+gemini-2.5-pro,1,Visitar 8 cuadros y explicar 8,full_response,N,N,N,"Action 'explain_painting' has incorrect number of parameters. Expected 2, got 3; Invalid painting location 'el_3_de_mayo_de_la_perla'; Robot 'tiago' is not at painting location 'el_3_de_mayo_de_la_perla' (currently at 'el_3_de_mayo_de_1808'); Action 'move' has incorrect number of parameters. Expected 3, got 4; Invalid 'from' location 'el_3_de_mayo_de_la_perla'; Robot 'tiago' is not at 'el_3_de_mayo_de_la_perla' as required (currently at 'el_3_de_mayo_de_1808')",The plan is invalid. See errors for details.
+gemini-2.5-pro,1,Visitar 32 cuadros y explicar 31,full_response,S,S,S,None,"The plan is valid. All actions are consistent with the domain and problem, battery levels are maintained above zero, all goals are achieved, and temporal constraints are respected. Recharging occurs at a valid charger location, and the plan format is correct."
