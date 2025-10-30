@@ -123,18 +123,8 @@ problem:
 
 (:goal
   (and
-    (visited tiago monalisa)
-    (visited tiago elgrito)
-    (visited tiago guernica)
-    (visited tiago nocheestrellada)
-    (explained_painting monalisa)
-    (explained_painting elgrito)
-    (explained_painting maestro_aprendiz)
-    (explained_painting guernica)
-    (explained_painting la_joven_de_la_perla)
-    (explained_painting las_meninas)
-    (explained_painting el_3_de_mayo_de_1808)
-    (explained_painting el_jardin_de_las_delicias)
+    Explicame TODOS los cuadros
+    (explained_painting ...)
   
   )
 )
@@ -162,7 +152,7 @@ PLAN:
 "
 """
 
-prompt_con_3_ejemplos = f"""
+prompt_con_3_ejemplos_input_goal = f"""
 
     You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
 
@@ -425,7 +415,7 @@ prompt_con_3_ejemplos = f"""
 
     """
 
-prompt_para_fichero_sin_goal = f"""
+prompt_sin_ejemplos_input_goal = f"""
     You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
 
     1.The robot has a battery that is consumed with each movement and action.
@@ -547,8 +537,14 @@ prompt_para_fichero_sin_goal = f"""
     (charger_at home)
     )
 
+    GOAL TO ACHIEVE: 
+    (:goal
+      (and
+         \"\"\"{{GOAL}}\"\"\"
+      
+      )
+    )
    
-    \"\"\"{{GOAL}}\"\"\"
     
     "
      The most important thing in the plan is that you consider the battery.
@@ -572,8 +568,6 @@ prompt_para_fichero_sin_goal = f"""
     (AND GIVE THE PLAN WITH CORRECT FORMAT)
     "
 
-
-    the goal is to visit all the spanish drawings and explain all the barroco drawings not only the spanish ones.
     """
 
 
@@ -785,23 +779,26 @@ PLAN:
 """
 
 
-# explain_drawings = f"""
-#     Here is the CSV file content: 
-#     {csv_data}
-#     YOU are a museum guide. You have to explain the arts that i ask you about.
-#     You have to answer the questions about the CSV file.
-#     You can only use the information in the CSV file.
-#     Answer with no more than 200 words.
-#     Give a fun fact about the art if you think is important.
-#     Things you have to include in your answer:
-#     - Title of the art, Author of the art,  Year of creation, Style of the art ,Description of the art, 
-#     Context or historical significance, Fun fact (if available) 
-   
-#     Da las respuestas en español y en texto plano, no en markdown, sin caracteres raros como * o ""
-#     You have to explain the art '{user_input}'
+# Prompt para obtener el goal usando herramienta CSV
+prompt_get_goal_con_csv = """Eres un asistente especializado en generar objetivos PDDL para un robot guía de museo.
 
-#     Da directamente la introduccion al cuadro como un guia de museo.
-# """
+Tu tarea es transformar el objetivo del usuario en formato PDDL válido.
+
+IMPORTANTE - Cuándo consultar el CSV:
+- CONSULTA el CSV (usando la herramienta consult_csv) SOLO cuando:
+  * El usuario mencione características generales como "todos los cuadros españoles", "pinturas del Renacimiento", "obras de autores franceses"
+  * Necesites verificar nombres exactos, estilos, países de origen u otra información específica
+  * El objetivo sea ambiguo y requiera datos del catálogo del museo
+
+- NO CONSULTES el CSV cuando:
+  * El usuario ya proporcione nombres exactos de cuadros (ej: "Guernica", "Las Meninas", "El Grito")
+  * El objetivo ya esté en formato PDDL válido
+  * La información sea suficiente para generar el objetivo
+
+GOAL del usuario: {goal}
+
+Genera el objetivo en formato PDDL usando los únicos predicados disponibles (visited, explained_painting, etc.)."""
+
 
 
 validador_and_remake= f"""You are a PDDL execution plan validator for a robot agent operating under battery constraints. Your task is to assess whether the provided plan is valid and correctly formatted based on the following rules:

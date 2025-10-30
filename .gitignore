@@ -16,3 +16,6 @@ wheels/
 /borrar
 
 /log_gpt
+
+# vscode
+.vscode/

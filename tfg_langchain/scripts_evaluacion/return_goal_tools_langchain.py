@@ -1,28 +1,25 @@
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
-from google import genai
-from google.genai import types
-from dotenv import load_dotenv
+import csv
 import json
 import sys
-from langgraph.graph import END, StateGraph
-from typing import Annotated, List, TypedDict, Union, Literal
-import csv
+from pathlib import Path
+from typing import List, TypedDict, Literal
+
+from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
-from pydantic import BaseModel, Field
 from langchain_core.tools import tool
+from langgraph.graph import END, StateGraph
+from pydantic import BaseModel, Field
 
 
-from langchain_ollama import ChatOllama
-import ollama
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
-sys.path.append(sys.path[0] + "/..")
-from prompts import prompt_para_fichero_sin_goal, validate_plan_prompt
+from prompts import prompt_get_goal_con_csv, prompt_sin_ejemplos_input_goal, validate_plan_prompt
 load_dotenv(override=True)
 
-pddl_prompt = prompt_para_fichero_sin_goal
+pddl_prompt = prompt_sin_ejemplos_input_goal
 # Elegir el modelo según una condición
-
 
 class State(TypedDict):
     goal: str
@@ -33,34 +30,24 @@ class State(TypedDict):
 class InputGoal(TypedDict):
     goal: str
     # Estructuras de salida/validación más explícitas para el nodo de validación
-class ResponseFormatter(BaseModel):
-    """Always use this tool to structure your response to the user."""
-    Format_Valid: Literal["S", "N"] = Field(description="The plan has a valid format (<S/N>)")
-    Meets_Goal: Literal["S", "N"] = Field(description="The plan meets the goal (<S/N>) or not")
-    Plan_Valid: Literal["S", "N"] = Field(description="The plan is valid (<S/N>) or not (correct format and meets the goal)")
-    Goal: str = Field(description="The goal to be achieved")
-    Errors: str = Field(description="Any errors found in the plan, if any")
-    Comments: str = Field(description="Resume in 10 words the response")
 
 @tool
 def consult_csv() -> List[dict]:
-    """Consult the CSV file for additional goal information."""
-    print("LLAMANDO AL CSV")
-    with open("cuadros.csv", "r", encoding='utf-8') as csvfile:
+    """Consulta el archivo CSV con información detallada de todos los cuadros disponibles en el museo (nombre, autor, estilo, país de origen, etc.)."""
+    print("CONSULTANDO CSV CON INFORMACIÓN DE CUADROS...")
+    with open(ROOT_DIR / "cuadros.csv", "r", encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
-        # print([row for row in reader])
         return [row for row in reader]
 
 def get_goal(goal: InputGoal) -> State:
     # model_with_csv_tool = init_chat_model("gpt-4o-mini", model_provider="openai").bind_tools([consult_csv])
-    model_with_csv_tool = init_chat_model("gemini-2.5-pro", model_provider="google_genai").bind_tools([consult_csv])
-    prompt_text = f"""You have to give the goal to the planner to create the plan. Your mission is to consult the CSV with the csv tool to get the plan.
+    model_with_csv_tool = init_chat_model("gemini-2.5-flash", model_provider="google_genai").bind_tools([consult_csv])
+    
+    prompt_text = prompt_get_goal_con_csv.format(goal=goal['goal'])
 
-    El objetivo dado es: {goal['goal']}"""
-
-    # Primera invocación: el modelo puede devolver una propuesta y/o solicitar una tool (function_call)
+   
     response = model_with_csv_tool.invoke(prompt_text)
-    print("Respuesta inicial del modelo:", getattr(response, 'content', None), "additional_kwargs=", getattr(response, 'additional_kwargs', None))
+    print("Respuesta inicial del modelo:", getattr(response, 'content', None))
 
     # Si el modelo solicitó una llamada a la herramienta, ejecutar la tool manualmente y reenviarla al modelo
     tool_calls = getattr(response, 'tool_calls', None) or (response.additional_kwargs.get('function_call') if getattr(response, 'additional_kwargs', None) else None)
@@ -82,19 +69,26 @@ def get_goal(goal: InputGoal) -> State:
                 # Si hay otras tools, no manejadas explícitamente, omitir
                 tool_result = None
 
-            # Reenviar el resultado de la tool al modelo para que produzca la respuesta final
-            follow_up = f"Tool {name} returned: {json.dumps(tool_result, ensure_ascii=False)}\nPlease now produce the final Goal in PDDL format only, taking into account the tool result and the original goal: {goal['goal']}"
+            follow_up = f"""Resultado de la herramienta {name}:
+                {json.dumps(tool_result, ensure_ascii=False, indent=2)}
+
+                Ahora genera el objetivo final en formato PDDL considerando:
+                - La información del CSV proporcionada arriba
+                - El objetivo original del usuario: {goal['goal']}
+
+                Responde ÚNICAMENTE con el objetivo en formato PDDL, usando unicamente  los predicados (visited ...) y (explained_painting ...)"""
+                        
             response2 = model_with_csv_tool.invoke(follow_up)
             print("Respuesta final tras ejecutar la tool:", getattr(response2, 'content', None))
             final_content = getattr(response2, 'content', '')
-            return {"goal": final_content, "plan": "Hola", "validation": [False, ""]}
+            return {"goal": final_content, "plan": "", "validation": [False, ""]}
 
     # Si no hay llamadas a tools, usar el contenido devuelto (si existe)
+    print("No hace falta llamar a ninguna tool")
     final = getattr(response, 'content', '') or ''
-    return {"goal": final, "plan": "Hola", "validation": [False, ""]}
+    return {"goal": final, "plan": "", "validation": [False, ""]}
 
 if __name__ == "__main__":
-
     graph_builder = StateGraph(State)       
     graph_builder.add_node("get_goal", get_goal)
     graph_builder.set_entry_point("get_goal")
@@ -102,10 +96,14 @@ if __name__ == "__main__":
     graph = graph_builder.compile()
     # graph.get_graph().draw_mermaid_png(output_file_path="graph.png")
     # El estado inicial debe ser un dict, no un string
-    initial_state = {"goal": """visitar todos los cuadros españoles y franceses y Explicar Todos los cuadros Renacentistas y del Barroco""", 
+    initial_state = {"goal": """quiero ver todos las meninas y los de picasso""", 
     "plan": """adios""", "validation": [False, ""]}
+    # initial_state = {"goal": """(:goal (and\n    (visitado Guernica)\n    (visitado Las-Meninas)\n    (visitado El-3-de-mayo-de-1808)\n    (visitado La-rendicion-de-Breda)\n    (visitado La-persistencia-de-la-memoria)\n    (visitado Saturno-devorando-a-su-hijo)\n    (visitado El-carnaval-del-arlequin)\n    (visitado Maestro-Aprendiz)\n    (visitado La-libertad-guiando-al-pueblo)\n    (visitado Impresion-sol-naciente)\n    (visitado Banistas-en-Asnieres)\n    (explicado Mona-Lisa)\n    (explicado El-jardin-de-las-delicias)\n    (explicado El-nacimiento-de-Venus)\n    (explicado La-creacion-de-Adan)\n    (explicado La-ultima-cena)\n    (explicado La-joven-de-la-perla)\n    (explicado Las-Meninas)\n    (explicado Las-tres-gracias)\n    (explicado La-rendicion-de-Breda)\n    (explicado La-ronda-de-noche)\n))\n""", 
+    # "plan": """adios""", "validation": [False, ""]}
     final_state = graph.invoke(initial_state)
-    print("Flujo completado.")
+    print("\n" + "="*60)
+    print("✅ FLUJO COMPLETADO")
+    print("="*60)
     print("Estado final:", final_state)
 
 

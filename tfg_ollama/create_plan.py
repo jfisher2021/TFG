@@ -9,7 +9,7 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
-from prompts import prompt_con_3_ejemplos
+from prompts import prompt_con_3_ejemplos_input_goal
 from utils import select_model_ollama, write_log_txt, write_log_json
 
 client = ollama.Client()
@@ -26,7 +26,7 @@ def main():
     print("Goal to achieve: ", goal)
     
     model = select_model_ollama()
-    prompt = prompt_con_3_ejemplos.format(GOAL=goal)
+    prompt = prompt_con_3_ejemplos_input_goal.format(GOAL=goal)
 
     response = client.generate(
         model=model,

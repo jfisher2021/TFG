@@ -1,42 +1,106 @@
-from xml.parsers.expat import model
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
-from google import genai
-from google.genai import types
-from dotenv import load_dotenv
 import json
 import sys
-from langgraph.graph import END, StateGraph
-from typing import Annotated, List, TypedDict, Union
+from typing import List, TypedDict
+from pathlib import Path
+
 import csv
+from dotenv import load_dotenv
 from groq import Groq
+from google import genai
+from langchain_openai import ChatOpenAI
+from langgraph.graph import END, StateGraph
+from langchain_core.tools import tool
+from langchain.chat_models import init_chat_model
 
 
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
-from langchain_ollama import ChatOllama
-import ollama
+import prompts
 
-sys.path.append(sys.path[0] + "/..")
-import prompts 
+# Cargar CSV como texto plano
+if len(sys.argv) > 1:
+    user_input = ' '.join(sys.argv[1:])
+    print(f"User input: {user_input}")
+else:
+    print("No input provided. Exiting.")
+    sys.exit(1)
+
 load_dotenv(override=True)
+pddl_prompt = prompts.prompt_sin_ejemplos_input_goal
 
-pddl_prompt = prompts.prompt_inicial_sin_ejemplos
-# Elegir el modelo según una condición
+
 
 
 class State(TypedDict):
-    goal: str
-    plan: str
-    # validation será una lista [bool, str]: [es_valido, razon]
-    validation: List[object]
+    state_goal: str
+    state_plan: str
+    state_prompt: str
 
+@tool
+def consult_csv() -> List[dict]:
+    """Consulta el archivo CSV con información detallada de todos los cuadros disponibles en el museo (nombre, autor, estilo, país de origen, etc.)."""
+    print("CONSULTANDO CSV CON INFORMACIÓN DE CUADROS...")
+    with open(ROOT_DIR / "cuadros.csv", "r", encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile)
+        return [row for row in reader]
+
+def get_goal(state: State) -> State:
+    # model_with_csv_tool = init_chat_model("gpt-4o-mini", model_provider="openai").bind_tools([consult_csv])
+    model_with_csv_tool = init_chat_model("gemini-2.5-flash", model_provider="google_genai").bind_tools([consult_csv])
+    
+    prompt_text = prompts.prompt_get_goal_con_csv.format(goal=state['state_goal'])
+
+   
+    response = model_with_csv_tool.invoke(prompt_text)
+    print("Respuesta inicial del modelo:", getattr(response, 'content', None))
+
+    # Si el modelo solicitó una llamada a la herramienta, ejecutar la tool manualmente y reenviarla al modelo
+    tool_calls = getattr(response, 'tool_calls', None) or (response.additional_kwargs.get('state_function_call') if getattr(response, 'additional_kwargs', None) else None)
+    if tool_calls:
+        # soportar lista de tool_calls o un único dict
+        calls = tool_calls if isinstance(tool_calls, list) else [tool_calls]
+        for call in calls:
+            name = call.get('name') if isinstance(call, dict) else None
+            print(f"Modelo solicitó la tool: {name}")
+            # Por ahora manejamos solo la tool consult_csv sin argumentos
+            if name == 'consult_csv':
+                try:
+                    # Las tools de langchain-core exponen `invoke` para ejecución programática
+                    tool_result = consult_csv.invoke({})
+                except Exception as e:
+                    print("Error al invocar consult_csv.invoke:", e)
+                    tool_result = None
+            else:
+                # Si hay otras tools, no manejadas explícitamente, omitir
+                tool_result = None
+
+            follow_up = f"""Resultado de la herramienta {name}:
+                {json.dumps(tool_result, ensure_ascii=False, indent=2)}
+
+                Ahora genera el objetivo final en formato PDDL considerando:
+                - La información del CSV proporcionada arriba
+                - El objetivo original del usuario: {state['state_goal']}
+
+                Responde ÚNICAMENTE con el objetivo en formato PDDL, usando unicamente  los predicados (visited ...) y (explained_painting ...)"""
+                        
+            response2 = model_with_csv_tool.invoke(follow_up)
+            print("Respuesta final tras ejecutar la tool:", getattr(response2, 'content', None))
+            final_content = getattr(response2, 'content', '')
+            return {"state_goal": final_content, "state_plan": "", "state_prompt": pddl_prompt.format(GOAL=final_content)}
+
+    # Si no hay llamadas a tools, usar el contenido devuelto (si existe)
+    print("No hace falta llamar a ninguna tool")
+    final = getattr(response, 'content', '') or ''
+    return {"state_goal": final, "state_plan": "", "state_prompt": pddl_prompt.format(GOAL=final)}
 
 def gemini_chat(state: State):
     print("USANDO GEMINI-2.5-PRO") 
-    selected_model = "gemini-2.5-pro"
+    selected_model = "gemini-2.5-flash"
     client = genai.Client()
     response = client.models.generate_content(
-        model=selected_model, contents=pddl_prompt,
+        model=selected_model, contents=state.get("state_prompt"),
         config=genai.types.GenerateContentConfig(
             temperature=0.0,
         ),
@@ -45,9 +109,9 @@ def gemini_chat(state: State):
     print("=" * 50)
     print(response.text)
     full_response = response.text
-    print_and_save_logs(selected_model, pddl_prompt, full_response)
+    print_and_save_logs(selected_model, state.get("state_prompt"), full_response)
     # Inicializar validation como [False, ""]; la validación real la hará el nodo validate
-    return {"goal": state.get("goal", ""), "plan": full_response, "validation": [False, ""]}
+    return {"state_goal": state.get("state_goal", ""), "state_plan": full_response, "state_prompt": state.get("state_prompt", "")}
 
 def chatgpt_chat(state: State):
     # Crear el modelo de LangChain con OpenAI
@@ -58,14 +122,15 @@ def chatgpt_chat(state: State):
         temperature=1.0,
     )
     full_response = ""
-    for chunk in model.stream(pddl_prompt):
+    print(state.get("state_prompt"))
+    for chunk in model.stream(state.get("state_prompt")):
         print(chunk.content, end='', flush=True)
         full_response += chunk.content
 
     print("\nGenerando plan PDDL...")
     print("=" * 50)
-    print_and_save_logs(selected_model, pddl_prompt, full_response)
-    return {"goal": state.get("goal", ""), "plan": full_response, "validation": [False, ""]}
+    print_and_save_logs(selected_model, state.get("state_prompt"), full_response)
+    return {"state_goal": state.get("state_goal", ""), "state_plan": full_response, "state_prompt": state.get("state_prompt", "")}
 
 def groq_chat(state: State):
     # Crear el modelo de LangChain con OpenAI
@@ -76,28 +141,24 @@ def groq_chat(state: State):
         messages=[
             {
                 "role": "user",
-                "content": pddl_prompt
+                "content": state.get("state_prompt")
             }
         ],
         temperature=0.3,
         max_completion_tokens=8192,
         top_p=1,
         reasoning_effort="medium",
-        # stream=True,
         stop=None
     )
 
     full_response = completion.choices[0].message.content
     selected_model = "openai/gpt-oss-20b"
     
-    # for chunk in completion:
-    #     print(chunk.choices[0].delta.content or "", end="")
-        # full_response += chunk.choices[0].delta.content
     print(full_response)
     print("\nGenerando plan PDDL...")
     print("=" * 50)
-    print_and_save_logs(selected_model, pddl_prompt, full_response)
-    return {"goal": state.get("goal", ""), "plan": full_response, "validation": [False, ""]}
+    print_and_save_logs(selected_model, state.get("state_prompt"), full_response)
+    return {"state_goal": state.get("state_goal", ""), "state_plan": full_response, "state_prompt": state.get("state_prompt", "")}
 
 
 def print_and_save_logs(selected_model, pddl_prompt, full_response):
@@ -106,7 +167,7 @@ def print_and_save_logs(selected_model, pddl_prompt, full_response):
     print("Guardando logs...")
 
     # Guardar en archivo de texto
-    with open("log.txt", "a", encoding='utf-8') as f:
+    with open(ROOT_DIR / "log.txt", "a", encoding='utf-8') as f:
         f.writelines(["\nMODEL : ", selected_model, "\nPROMPT:\n", pddl_prompt, "\nRESPONSE:\n", full_response, "\n" + "="*50 + "\n"])
 
     # Guardar en archivo JSON
@@ -116,73 +177,37 @@ def print_and_save_logs(selected_model, pddl_prompt, full_response):
         "response": full_response
     }
 
-    with open("log.json", "a", encoding='utf-8') as file:
+    with open(ROOT_DIR / "log.json", "a", encoding='utf-8') as file:
         json.dump(log_data, file, ensure_ascii=False, indent=2)
         file.write("\n")
 
     print("Logs guardados en log.txt y log.json")
 
-def save_logs_node(state: State):
-    """Nodo final: guarda prompt, goal, plan y validation (bool + razon) en CSV y JSON."""
-    prompt_text = pddl_prompt
-    goal = state.get("goal", "")
-    plan = state.get("plan", "")
-    validation = state.get("validation", [False, ""])
-    valid_bool = False
-    reason = ""
-    if isinstance(validation, list) and len(validation) >= 1:
-        valid_bool = bool(validation[0])
-    if isinstance(validation, list) and len(validation) >= 2:
-        reason = str(validation[1])
-
-    # Guardar en CSV
-    csv_path = "validation_results.csv"
-    write_header = False
-    try:
-        # Si el archivo no existe, escribimos cabecera
-        import os
-        write_header = not os.path.exists(csv_path)
-    except Exception:
-        write_header = False
-
-    with open(csv_path, "a", encoding='utf-8', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        if write_header:
-            writer.writerow(["prompt", "goal", "plan", "valid", "reason"])
-        writer.writerow([prompt_text, goal, plan, valid_bool, reason])
-
-    # Guardar en JSON (append)
-    log_data = {
-        "prompt": prompt_text,
-        "goal": goal,
-        "plan": plan,
-        "validation": {"valid": valid_bool, "reason": reason},
-        "model": state.get("model", "")
-    }
-    with open("final_log.json", "a", encoding='utf-8') as f:
-        json.dump(log_data, f, ensure_ascii=False)
-        f.write("\n")
-
-    print("Logs finales guardados en validation_results.csv y final_log.json")
-    return {"goal": goal, "plan": plan, "validation": [valid_bool, reason], "model": state.get("model", "")}
-
-
-
 if __name__ == "__main__":
 
+    # Crear el grafo
     graph_builder = StateGraph(State)
+
+    # Añadir los nodos
+    graph_builder.add_node("get_goal", get_goal)
     # graph_builder.add_node("chatgpt", chatgpt_chat)
-    graph_builder.add_node("groq", groq_chat)
-    # graph_builder.add_node("gemini", gemini_chat)
-    graph_builder.add_node("save_logs", save_logs_node)
-    graph_builder.set_entry_point("groq")
-    graph_builder.add_edge("groq", "save_logs")
-    graph_builder.add_edge("save_logs", END)
+    # graph_builder.add_node("groq", groq_chat)
+    graph_builder.add_node("gemini", gemini_chat)
+
+    # Conectar los nodos
+    graph_builder.set_entry_point("get_goal")
+    graph_builder.add_edge("get_goal", "gemini")
+    graph_builder.add_edge("gemini", END)
+
+    # Compilar el grafo
     graph = graph_builder.compile()
+
     # graph.get_graph().draw_mermaid_png(output_file_path="graph.png")
     # El estado inicial debe ser un dict, no un string
-    initial_state = {"goal": "", "plan": "", "validation": [False, ""]}
-    graph.invoke(initial_state)
+    initial_state = {"state_goal": user_input, "state_plan": "", "state_prompt": pddl_prompt}
+
+    final_state = graph.invoke(initial_state)
+
     # plan = """
     # 0.000: (start_welcome tiago)  [1.000]
     # 1.001: (move tiago home monalisa_ws)  [15.000]
@@ -197,5 +222,4 @@ if __name__ == "__main__":
     # 136.008: (recharge tiago nocheestrellada_ws)  [5.000]
     # 141.009: (move tiago nocheestrellada_ws home)  [15.000]
     # """
-    # metrics_model(plan)
 
