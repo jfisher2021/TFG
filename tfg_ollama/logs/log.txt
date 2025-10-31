@@ -22602,19 +22602,6 @@ RESPONSE:
 286.022: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
 301.023: (move tiago el_jardin_de_las_delicias nocheestrellada) [15.000]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 MODEL : gpt-oss:120b-cloud
 PROMPT:
 
