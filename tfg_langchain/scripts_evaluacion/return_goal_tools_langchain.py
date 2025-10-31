@@ -24,7 +24,6 @@ pddl_prompt = prompt_sin_ejemplos_input_goal
 class State(TypedDict):
     goal: str
     plan: str
-    # validation será una lista [bool, str]: [es_valido, razon]
     validation: List[object]
 
 class InputGoal(TypedDict):
