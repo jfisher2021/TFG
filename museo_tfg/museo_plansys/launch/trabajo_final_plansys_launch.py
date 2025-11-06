@@ -21,17 +21,17 @@ def generate_launch_description():
         default_value='',
         description='Namespace')
 
-    # simulation_cmd = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         os.path.join(kobuki_dir, 'launch', 'simulation.launch.py')
-    #     ),
-    #     launch_arguments={
-    #         'world': os.path.join(
-    #                   get_package_share_directory('aws_robomaker_bookstore_world'),
-    #                   'worlds',
-    #                   'bookstore.world')
-    #     }.items()
-    # )
+    simulation_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(kobuki_dir, 'launch', 'simulation.launch.py')
+        ),
+        launch_arguments={
+            'world': os.path.join(
+                      get_package_share_directory('aws_robomaker_bookstore_world'),
+                      'worlds',
+                      'bookstore.world')
+        }.items()
+    )
 
     # Initialize the PlanSys2 system
     plansys2_cmd = IncludeLaunchDescription(
@@ -64,12 +64,12 @@ def generate_launch_description():
         ])
     # Specify the actions
 
-    move_fake = Node(
-        package='museo_plansys',
-        executable='move_fake_action_node',
-        name='move_fake_action_node',
-        output='screen',
-        parameters=[])
+    # move_fake = Node(
+    #     package='museo_plansys',
+    #     executable='move_fake_action_node',
+    #     name='move_fake_action_node',
+    #     output='screen',
+    #     parameters=[])
     
     recharge_cmd = Node(
         package='museo_plansys',
@@ -110,15 +110,15 @@ def generate_launch_description():
     ld.add_action(declare_namespace_cmd)
 
     # Declare the launch options
-    # ld.add_action(simulation_cmd)
+    ld.add_action(simulation_cmd)
     ld.add_action(plansys2_cmd)
 
     # Nodes
     ld.add_action(recharge_cmd)
     ld.add_action(welcome_cmd)
     ld.add_action(explain_cmd)
-    ld.add_action(move_fake)
-    # ld.add_action(move_cmd)
+    # ld.add_action(move_fake)
+    ld.add_action(move_cmd)
     
     ld.add_action(tts_service_cmd)
     ld.add_action(stt_service_cmd)
