@@ -3,9 +3,9 @@
 <package format="3">
   <name>my_python_pkg</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>Services and clients for TTS/STT in a virtual museum tour system</description>
   <maintainer email="j.fisher.2021@alumnos.urjc.es">jfisherr</maintainer>
-  <license>TODO: License declaration</license>
+  <license>Apache License, Version 2.0</license>
   <depend>my_interfaces</depend>
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

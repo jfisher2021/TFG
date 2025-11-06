@@ -24,7 +24,6 @@ Move::Move(
   try {
     node_->declare_parameter<std::vector<std::string>>("waypoints");
   } catch (const rclcpp::exceptions::ParameterAlreadyDeclaredException & e) {
-    // Do nothing;
   }
 
   if (node_->has_parameter("waypoints")) {
@@ -36,7 +35,6 @@ Move::Move(
       try {
         node_->declare_parameter<std::vector<double>>("waypoint_coords." + wp);
       } catch (const rclcpp::exceptions::ParameterAlreadyDeclaredException & e) {
-        // Do nothing;
       }
 
       std::vector<double> coords;

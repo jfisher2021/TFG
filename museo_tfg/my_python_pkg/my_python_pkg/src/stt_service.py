@@ -1,85 +1,73 @@
 """
-@file llm_audio_input.py
-@brief ROS 2 node for audio input processing and transcription using Whisper.
+@file stt_service.py
+@brief ROS 2 service node for Speech-To-Text using Whisper.
 
-This script defines a ROS 2 node that listens for a specific state, records audio, 
-transcribes it using the Whisper model, and publishes the transcription to a ROS 2 topic. 
-It also includes functionality for adjusting audio volume and handling state transitions.
+This script defines a ROS 2 service node that records audio, transcribes it using 
+the Whisper model, and returns the transcription as a service response.
 
 @details
-- The node subscribes to the `/llm_state` topic to listen for state changes.
-- When the state is "listening", it records audio, processes it, and publishes the transcription.
-- The transcription is published to the `/llm_input_audio_to_text` topic.
-- The node uses the Whisper library for audio transcription and supports configurable parameters 
-    such as recording duration and volume gain multiplier.
+- The node provides a service `/stt_service` (SpeechToText).
+- When called, it records audio for a configurable duration, processes it, 
+  and transcribes it using Whisper with Spanish language forced.
+- The transcription is returned directly in the service response.
+- The Whisper model is loaded once at initialization for better performance.
 
-@node_name llm_audio_input
+@node_name stt_service_node
 
-@topics
-- Subscribed:
-    - `/llm_state` (std_msgs/msg/String): Listens for state changes to trigger actions.
-- Published:
-    - `/llm_initialization_state` (std_msgs/msg/String): Indicates the initialization state of the node.
-    - `/llm_state` (std_msgs/msg/String): Publishes the current state of the node.
-    - `/llm_input_audio_to_text` (std_msgs/msg/String): Publishes the transcribed audio text.
+@services
+- Provided:
+    - `/stt_service` (my_interfaces/srv/SpeechToText): Records audio and returns transcription.
+      - Request: (empty, just triggers recording)
+      - Response: 
+          - success (bool): Whether transcription succeeded
+          - text (string): The transcribed text
+          - debug (string): Error traceback if failed
 
 @dependencies
-- whisper: For audio transcription.
+- whisper: For audio transcription (Spanish language forced).
 - sounddevice: For audio recording.
 - scipy.io.wavfile: For saving audio files.
 - rclpy: For ROS 2 node implementation.
-- std_msgs.msg.String: For ROS 2 message types.
+- my_interfaces.srv.SpeechToText: Custom service definition.
 
 @configuration
-- The configuration is loaded from `llm_config.user_config.UserConfig` and includes:
+- The configuration is loaded from `my_python_pkg.src.user_config.UserConfig` and includes:
     - `duration`: Duration of audio recording in seconds.
     - `volume_gain_multiplier`: Multiplier for adjusting audio volume.
+- Whisper model: 'small' (configurable in code)
+- Language: 'es' (Spanish, forced)
 
 @usage
 - Run the node:
     ```
-    ros2 run llm_input llm_audio_input
+    ros2 run my_python_pkg stt_service
     ```
-- Test the node:
+- Test the service:
     ```
-    ros2 topic echo /llm_input_audio_to_text
-    ros2 topic pub /llm_state std_msgs/msg/String "data: 'listening'" -1
+    ros2 service call /stt_service my_interfaces/srv/SpeechToText
     ```
 
 @note
 - Ensure that the Whisper model is installed and accessible.
 - The audio file is temporarily saved in `/tmp/user_audio_input.wav`.
+- The virtual environment at `/home/jfisherr/cuarto/2c/plansis/plansys_ws/venv_plansys2` 
+  must contain the whisper package.
 
-@author Herman Ye @Auromix
-@Modified by Jonathan Fisher @j.fisher.2021
-@copyright 2023 Herman Ye @Auromix
+@author Jonathan Fisher @j.fisher.2021
 @license Apache License, Version 2.0
 """
-# # -*- coding: utf-8 -*-
-# # flake8: noqa
-# #
-# # Copyright 2023 Herman Ye @Auromix
-# #
-# # Licensed under the Apache License, Version 2.0 (the "License");
-# # you may not use this file except in compliance with the License.
-# # You may obtain a copy of the License at
-# #
-# #     http://www.apache.org/licenses/LICENSE-2.0
-# #
-# # Unless required by applicable law or agreed to in writing, software
-# # distributed under the License is distributed on an "AS IS" BASIS,
-# # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# # See the License for the specific language governing permissions and
-# # limitations under the License.
-# #
-# # Description:
-# #
-# # Node test Method:
-# # ros2 run llm_input llm_audio_input
-# # ros2 topic echo /llm_input_audio_to_text
-# # ros2 topic pub /llm_state std_msgs/msg/String "data: 'listening'" -1
-# #
-# # Author: Herman Ye @Auromix
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 
 import datetime
@@ -101,10 +89,11 @@ from scipy.io.wavfile import write
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
-from std_srvs.srv import SetBool
+from my_interfaces.srv import SpeechToText
 
 # Global Configuration
 from my_python_pkg.src.user_config import UserConfig
+import traceback
 
 config = UserConfig()
 
@@ -113,49 +102,57 @@ class AudioInput(Node):
     def __init__(self):
         super().__init__("stt_service_node")
 
-        self.srv = self.create_service(SetBool, "stt_service", self.gstt_callback)
+        self.srv = self.create_service(SpeechToText, "stt_service", self.gstt_callback)
+        
+        # Cargar modelo Whisper UNA SOLA VEZ al inicializar
+        self.get_logger().info('📥 Cargando modelo Whisper...')
+        self.whisper_model = whisper.load_model("small")
         self.get_logger().info('✅ GSTTService con Whisper API inicializado')
+        
         # Archivo de audio local
         self.audio_file = "/tmp/user_audio_input.wav"
 
 
     def gstt_callback(self, request, response):
         """Graba audio y lo transcribe usando Whisper."""
-        duration = config.duration
-        sample_rate = 44100
-        volume_gain_multiplier = config.volume_gain_multiplier
-
-        # Paso 1: Grabar audio
-        self.get_logger().info("🎤 Grabando audio...")
-        audio_data = sd.rec(
+        try:
+            duration = config.duration
+            sample_rate = 44100
+            volume_gain_multiplier = config.volume_gain_multiplier
+            
+            # Grabar audio
+            self.get_logger().info("🎤 Grabando audio...")
+            audio_data = sd.rec(
             int(duration * sample_rate), samplerate=sample_rate, channels=1, dtype="float32"
-        )
-        sd.wait()
+            )
+            sd.wait()
 
-        # Ajustar volumen
-        audio_data *= volume_gain_multiplier
+            # Ajustar volumen
+            audio_data *= volume_gain_multiplier
 
-        # Guardar archivo de audio
-        write(self.audio_file, sample_rate, (audio_data * 32767).astype("int16"))
-        self.get_logger().info("✅ Grabación completada.")
+            # Guardar archivo de audio
+            write(self.audio_file, sample_rate, (audio_data * 32767).astype("int16"))
+            self.get_logger().info("✅ Grabación completada.")
 
-        # Paso 2: Transcribir con Whisper
-        self.get_logger().info("📝 Transcribiendo con Whisper...")
-        model = whisper.load_model("small")  # Puedes usar "base", "small", "medium", "large"
-        result = model.transcribe(self.audio_file)
+            # Transcribir con Whisper 
+            self.get_logger().info("📝 Transcribiendo con Whisper")
+            result = self.whisper_model.transcribe(self.audio_file, language='es')
 
-        transcript_text = result["text"].strip()
+            transcript_text = result["text"].strip()
+
+        except Exception as e:
+            tb = traceback.format_exc()
+            self.get_logger().error(f"❌ Error en gstt_callback: {e}\n{tb}")
+            # Informar el error en la respuesta del servicio
+            response.success = False
+            response.text = ""
+            response.debug = tb
+            return response
         self.get_logger().info(f"🗣️ Transcripción: {transcript_text}")
 
-        # Paso 3: Publicar la transcripción en ROS 2
-        if not transcript_text:
-            self.get_logger().info("⚠️ Entrada vacía, esperando nueva grabación...")
-            self.publish_string("listening", self.llm_state_publisher)
-        else:
-            self.publish_string(transcript_text, self.audio_to_text_publisher)
-        
+        # Retornar la transcripción directamente en la respuesta del servicio
         response.success = True
-        response.message = transcript_text
+        response.text = transcript_text
         return response
 
 

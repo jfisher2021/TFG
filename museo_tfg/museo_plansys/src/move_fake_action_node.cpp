@@ -42,12 +42,9 @@ private:
     std::string from = get_arguments()[1];
     std::string to = get_arguments()[2];
     // std::cout << "\r\e[K" << std::flush;
-    std::cout << "Executing move_fake action for robot " << arg_robot
-              << " from " << from << " to " << to << std::endl;
-
-
+    
     if (success_ > 0.2) {
-      std::cout << "MOOVING" << std::endl;
+      std::cout << "EL ROBOT " << arg_robot << " SE ESTA MOVIENDO DE " << from << " A " << to << std::endl;
       finish(true, 1.0, "move_fake completed");
       success_ = 0.0;
     } else {

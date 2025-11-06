@@ -1,0 +1,4 @@
+---
+bool success
+string text
+string debug

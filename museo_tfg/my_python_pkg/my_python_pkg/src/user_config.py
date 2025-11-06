@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 # flake8: noqa
 #
-# Copyright 2023 Herman Ye @Auromix
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,7 +35,6 @@
 # The API credentials for Amazon AWS are provided, along with parameters
 # for AWS S3, Transcribe, and Polly services, and parameters for audio recording.
 #
-# Author: Herman Ye @Auromix
 
 import os
 
@@ -50,7 +48,7 @@ class UserConfig:
         self.openai_model = "gpt-4o-mini"
         # self.openai_model="gpt-4-0613"
         # [optional]: Name of the organization under which the OpenAI API key is registered
-        self.openai_organization = "Auromix"
+        self.openai_organization = ""
         # [optional]: Controls the creativity of the AI’s responses. Higher values lead to more creative, but less coherent, responses
         self.openai_temperature = 1
         # [optional]: Probability distribution cutoff for generating responses
@@ -75,7 +73,6 @@ class UserConfig:
         # [optional]: The generated prompt by the administrator, used as a prefix for the AI's response
         self.system_prompt = ""
         # TODO: System prompt only works for the first message,so it will be forgotten soon after the first message
-        # modify the llm_model/chatgpt.py, add system_prompt to every prompt to solve this problem @Herman Ye
         # [optional]: The generated response provided by the AI
         self.assistant_response = ""
 
@@ -89,25 +86,12 @@ class UserConfig:
         self.chat_history_max_length = 4000
         # self.chat_history_max_length=16000
 
-        # AWS related
-        # [required]: AWS IAM access key id
-        self.aws_access_key_id = os.getenv("AWS_ACCESS_KEY_ID")
-        # [required]: AWS IAM secret access key
-        self.aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
-        # [required]: AWS IAM region name
-        self.aws_region_name = 'ap-southeast-1'
-        # [required]: AWS S3 bucket name
-        self.bucket_name = 'auromixbucket'
-        # [optional]: AWS transcription language, change this to 'zh-CN' for Chinese
-        self.aws_transcription_language = "en-US"
-        # [optional]: AWS polly voice id, change this to 'Zhiyu' for Chinese
-        self.aws_voice_id = "Ivy"
 
         # OpenAI Whisper Model size related
         # [optional]: OpenAI Whisper Model size: tiny base small medium large
         self.whisper_model_size = "medium"
         # [optional]: OpenAI Whisper Model language: en
-        self.whisper_language="en"
+        self.whisper_language="es"
         # Audio recording related
         # [optional]: Audio recording duration, in seconds
         self.duration = 5

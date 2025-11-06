@@ -46,17 +46,16 @@ private:
     std::string arg_robot = get_arguments()[0];
     std::string drawing = get_arguments()[1];
     // std::cout << "\r\e[K" << std::flush;
-    std::cout << "FOUND!!! Explaining with " << arg_robot
-              << " drawing " << drawing << std::endl;
+    std::cout << "EXPLICANDO CON " << arg_robot
+              << " EL CUADRO " << drawing << std::endl;
 
-    // Here you can process the message and send a response if needed
     std_msgs::msg::String msg;
 
     std::fstream my_file;
     std::string ch;
     my_file.open("/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/museo_tfg/museo_plansys/explicacion_respuestas/" + drawing + ".txt", std::ios::in);
     if (!my_file) {
-      std::cout << "No such file";
+      RCLCPP_ERROR(get_logger(), "No such file");
     }
     else {
 
@@ -67,13 +66,13 @@ private:
 
     }
     my_file.close();
-    
-    std::cout << "Explicacion:\n" << ch << std::endl;
+
+    RCLCPP_INFO(get_logger(), "INICIO DE LA EXPLICACION:\n%s\n FIN DE LA EXPLICACION", ch.c_str());
     // Crear solicitud
     auto request = std::make_shared<my_interfaces::srv::TextToSpeech::Request>();
     request->text = ch;
 
-    RCLCPP_INFO(get_logger(), "📢 Enviando solicitud TTS: %s", request->text.c_str());
+    RCLCPP_INFO(get_logger(), "📢 Enviando solicitud TTS");
 
     // Enviar solicitud
     auto future = gtts_client_->async_send_request(request);
@@ -85,21 +84,20 @@ private:
     {
       auto result = future.get();
       if (result->success) {
-        std::cout << "✅ TTS completado con éxito" << std::endl;
+        RCLCPP_INFO(get_logger(), "✅ CUADRO EXPLICADO CON ÉXITO");
         finish(true, 1.0, "explain_painting completed");
       } else {
-        std::cerr << "❌ Error en TTS: " << result->debug << std::endl;
+        RCLCPP_ERROR(get_logger(), "❌ Error en TTS: %s", result->debug.c_str());
         finish(false, 0.0, "TTS error");
       }
     } else {
-      std::cerr << "❌ Error al llamar al servicio TTS" << std::endl;
+      RCLCPP_ERROR(get_logger(), "❌ Error al llamar al servicio TTS");
       finish(false, 0.0, "TTS call error");
     }
     
     finish(true, 1.0, "explain_painting completed");
 
   }
-  rclcpp::Publisher<std_msgs::msg::String>::SharedPtr say_pub_;
   rclcpp::Client<my_interfaces::srv::TextToSpeech>::SharedPtr gtts_client_;
 
 

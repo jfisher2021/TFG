@@ -16,6 +16,8 @@
   <depend>ament_index_cpp</depend>
   <depend>plansys2_core</depend>
   <depend>pluginlib</depend>
+  <depend>my_interfaces</depend>
+  <depend>std_srvs</depend>
   
   <exec_depend>popf</exec_depend>
 

@@ -1,6 +1,50 @@
 #!/usr/bin/env python3
+"""
+@file tts_client.py
+@brief ROS 2 client node for testing Text-To-Speech service.
 
-# Copyright 2024 Antonio Bono
+This script defines a simple ROS 2 client that calls the TTS service
+with a test message. Useful for testing the TTS service.
+
+@details
+- The node creates a client for `/tts_service` (TextToSpeech).
+- Sends a request with text "HOLA MUNDO" (default test message).
+- Waits for the service response and prints the result.
+- Uses synchronous service call (blocking until audio finishes playing).
+
+@node_name gtts_srv_client_node
+
+@services
+- Used:
+    - `/tts_service` (my_interfaces/srv/TextToSpeech): Triggers TTS.
+      - Request: 
+          - text (string): Text to convert to speech
+      - Response: 
+          - success (bool): Whether TTS succeeded
+          - debug (string): Error message if failed
+
+@dependencies
+- rclpy: For ROS 2 node implementation.
+- my_interfaces.srv.TextToSpeech: Custom service definition.
+
+@usage
+- Run the client (assumes TTS service is already running):
+    ```
+    ros2 run my_python_pkg tts_client
+    ```
+- The client will synthesize and play "HOLA MUNDO".
+- Modify the `text` variable in main() to test different messages.
+
+@note
+- The TTS service must be running before calling this client.
+- This is a test/example client, not meant for production use.
+- Audio playback is blocking (waits until audio finishes).
+
+@author Jonathan Fisher
+@license Apache License, Version 2.0
+"""
+
+# Copyright 2024 
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -45,13 +89,7 @@ class GTTSClientAsync(Node):
 def main(args=None):
     rclpy.init(args=args)
 
-#    rclpy.sleep(10)
-#    print("ten seconds")
-
     gtts_client = GTTSClientAsync()
-    #sleep_for=60
-    #res = gtts_client.get_clock().sleep_for(Duration(seconds=sleep_for))
-    #print("atteso 60 secondi")
     
     text="HOLA MUNDO";
     response = gtts_client.send_request(text)
