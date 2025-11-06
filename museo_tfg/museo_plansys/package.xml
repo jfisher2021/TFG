@@ -3,8 +3,8 @@
 <package format="3">
   <name>museo_plansys</name>
   <version>0.0.1</version>
-  <description>TODO: Package description</description>
-  <maintainer email="example@example.com">TODO</maintainer>
+  <description>Museo Virtual guieado por LLMs</description>
+  <maintainer email="j.fisher.2021@alumnos.urjc.es">jfisherr</maintainer>
   <license>Apache License, Version 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
@@ -21,7 +21,7 @@
   <depend>plansys2_problem_expert</depend>
   <depend>plansys2_pddl_parser</depend>
   <depend>ament_index_cpp</depend>
-  <depend>my_interface</depend>
+  <depend>my_interfaces</depend>
 
 
   <exec_depend>plansys2_bringup</exec_depend>

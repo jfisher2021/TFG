@@ -20,7 +20,9 @@
 
 #include "plansys2_msgs/msg/plan_item.hpp"
 #include "my_llm_plan_solver/llm_plan_solver.hpp"
-
+#include <std_msgs/msg/string.hpp>
+#include "my_interfaces/srv/text_to_speech.hpp"
+#include "my_interfaces/srv/speech_to_text.hpp"
 namespace plansys2
 {
 
@@ -28,11 +30,24 @@ LLMPlanSolver::LLMPlanSolver()
 {
 }
 
+LLMPlanSolver::~LLMPlanSolver()
+{
+  if (executor_thread_.joinable()) {
+    executor_.cancel();
+    executor_thread_.join();
+  }
+  
+  // Limpiar el nodo
+  if (nodos_servicios) {
+    executor_.remove_node(nodos_servicios);
+    nodos_servicios.reset();
+  }
+}
+
 std::optional<std::filesystem::path>
 LLMPlanSolver::create_folders(const std::string & node_namespace)
 {
   auto output_dir = lc_node_->get_parameter(output_dir_parameter_name_).value_to_string();
-  std::cout << "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBOutput directory: " << output_dir << std::endl;
 
   // Allow usage of the HOME directory with the `~` character, returning if there is an error.
   const char * home_dir = std::getenv("HOME");
@@ -79,23 +94,19 @@ void LLMPlanSolver::configure(
     lc_node_->declare_parameter<std::string>(
       output_dir_parameter_name_, std::filesystem::temp_directory_path());
   }
-}
 
-// Función auxiliar para obtener la explicación de un cuadro
-std::string obtener_explicacion(const std::string& cuadro) {
-  // Aquí iría tu llamada al LLM, por ejemplo:
-  RCLCPP_INFO(
-    rclcpp::get_logger("LLMPlanSolver"), "Obteniendo explicación para el cuadro: %s", cuadro.c_str());
-  std::string command = "ssh dedalo.tsc.urjc.es '/home/jfisher/miniconda3/bin/python /home/jfisher/tfg/tfg_ollama/preguntas_sobre_csv.py " + cuadro + "'";
-  std::string result;
-  char buffer[128];
-  FILE* pipe = popen(command.c_str(), "r");
-  if (!pipe) return "";
-  while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-    result += buffer;
-  }
-  pclose(pipe);
-  return result;
+  // Crear nodo independiente para no bloquear el lifecycle node de plansys2
+  nodos_servicios = rclcpp::Node::make_shared("llm_plan_solver_services_node");
+  
+  // Crear clientes del servicio en el nodo independiente
+  tts_client_ = nodos_servicios->create_client<my_interfaces::srv::TextToSpeech>("tts_service");
+  stt_client_ = nodos_servicios->create_client<my_interfaces::srv::SpeechToText>("stt_service");
+  
+  // Añadir el nodo al executor y lanzar en un thread separado
+  executor_.add_node(nodos_servicios);
+  executor_thread_ = std::thread([this]() { executor_.spin(); });
+  
+  RCLCPP_INFO(lc_node_->get_logger(), "LLM Plan Solver configured with independent service node");
 }
 
 std::optional<plansys2_msgs::msg::Plan>
@@ -110,36 +121,71 @@ LLMPlanSolver::getPlan(
     return {};
   }
   const auto & output_dir = output_dir_maybe.value();
-  // RCLCPP_DEBUG(
-  //   lc_node_->get_logger(), "Writing planning results to %s.", output_dir.string().c_str());
 
-  // std::string python_arg =  "Explicame el siguiente cuadro: " ;
-  // std::string command = "ssh dedalo.tsc.urjc.es '/home/jfisher/miniconda3/bin/python /home/jfisher/tfg/tfg_ollama/copy_example.py " + python_arg + "'";
-  // std::string result;
-  // // system("ls"); // Clear the terminal screen for better visibility
 
-  // char buffer[128];
+  // ========== LLAMADA SÍNCRONA AL SERVICIO TTS ==========
+  if (tts_client_->wait_for_service(std::chrono::seconds(5))) {
+    auto tts_request = std::make_shared<my_interfaces::srv::TextToSpeech::Request>();
+    tts_request->text = "elige tu goal";
+    auto tts_future = tts_client_->async_send_request(tts_request);
+    
+    if (tts_future.wait_for(std::chrono::seconds(15)) != std::future_status::ready) {
+      RCLCPP_WARN(lc_node_->get_logger(), "TTS service timeout");
+    }
+  }
 
-  // FILE* pipe = popen(command.c_str(), "r");
-  // if (!pipe) {
-  //   std::cerr << "Error abriendo el pipe\n";
-  //   return {};
-  // }
+  // ========== LLAMADA SÍNCRONA AL SERVICIO STT ==========
+  std::string spoken_goal = "";
+  
+  if (stt_client_->wait_for_service(std::chrono::seconds(5))) {
+    auto stt_request = std::make_shared<my_interfaces::srv::SpeechToText::Request>();
+    auto stt_future = stt_client_->async_send_request(stt_request);
+    
+    if (stt_future.wait_for(std::chrono::seconds(10)) == std::future_status::ready) {
+      auto stt_result = stt_future.get();
+      if (stt_result->success) {
+        spoken_goal = stt_result->text;
+        RCLCPP_INFO(lc_node_->get_logger(), "Goal received: %s", spoken_goal.c_str());
+      }
+    } else {
+      RCLCPP_WARN(lc_node_->get_logger(), "STT service timeout");
+    }
+  }
 
-  // while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-  //   result += buffer;
-  // }
+  // Build command argument from captured goal or use default
+  std::string python_arg;
+  if (spoken_goal.empty()) {
+    python_arg = "Explicame el siguiente cuadro: ";
+  } else {
+    python_arg = "Create a plan for goal: " + spoken_goal;
+  }
+  RCLCPP_INFO(lc_node_->get_logger(), "%s", python_arg.c_str());
+  // std::string command = "ssh dedalo.tsc.urjc.es '/home/jfisher/miniconda3/bin/python /home/jfisher/tfg/tfg_ollama/create_plan.py " + python_arg + "'";
+  std::string command = "/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/tfg-ia/.venv/bin/python /home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/tfg-ia/tfg_langchain/get_plan.py " + python_arg ;
+  
+  std::string result;
+  char buffer[128];
 
-  // pclose(pipe);
-  // std::cout << "Salida remota:\n" << result << std::endl;
-  // std::ofstream plan_out("/tmp/plan");
-  // if (plan_out.is_open()) {
-  //   plan_out << result;
-  //   plan_out.close();
-  // } else {
-  //   std::cerr << "No se pudo abrir /tmp/plan para escribir la salida remota\n";
-  //   return {};
-  // }
+  FILE* pipe = popen(command.c_str(), "r");
+  if (!pipe) {
+    RCLCPP_ERROR(lc_node_->get_logger(), "Failed to execute plan generation command");
+    return {};
+  }
+
+  while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+    result += buffer;
+  }
+
+  pclose(pipe);
+  
+  std::ofstream plan_out("/tmp/plan");
+  if (!plan_out.is_open()) {
+    RCLCPP_ERROR(lc_node_->get_logger(), "Failed to write plan output to /tmp/plan");
+    return {};
+  }
+  plan_out << result;
+  plan_out.close();
+
   const auto plan_file_path = output_dir / std::filesystem::path("plan");
 
   return parse_plan_result(plan_file_path.string());
@@ -150,19 +196,16 @@ LLMPlanSolver::parse_plan_result(const std::string & plan_path)
 {
   std::string line;
   std::ifstream plan_file(plan_path);
-  std::cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa Parsing plan file: " << plan_path << std::endl;
   bool solution = false;
 
   plansys2_msgs::msg::Plan plan;
 
-  // Mapa para guardar las explicaciones
-  std::unordered_map<std::string, std::future<std::string>> explicaciones_futures;
-
   if (plan_file.is_open()) {
     while (getline(plan_file, line)) {
-      std::cout << "XXXXXXXXXXXXXXXXXXLine: " << line << std::endl;
+
+      // solo entrar una vez al encontrar el primer item "0.000: (start_welcome tiago) [1.000]"
       if (!solution) {
-        if (line.find("start_welcome") != std::string::npos) {
+        if (line.find("0.000: (start_welcome tiago) [1.000]") != std::string::npos) {
           plansys2_msgs::msg::PlanItem item;
           size_t colon_pos = line.find(":");
           size_t colon_par = line.find(")");
@@ -178,47 +221,33 @@ LLMPlanSolver::parse_plan_result(const std::string & plan_path)
           item.duration = std::stof(duration);
 
           plan.items.push_back(item);
-          std::cout << "UUUUUUUUUUUUUUUUUUUUUUUUUUUUParsed item: " << item.action << " at time " << item.time << " with duration " << item.duration << std::endl;
           solution = true;
         }
-      } else if (line.front() != ';') {
-        plansys2_msgs::msg::PlanItem item;
-        size_t colon_pos = line.find(":");
-        size_t colon_par = line.find(")");
-        size_t colon_bra = line.find("[");
+      } else if (!line.empty() && line.front() != ';') {
 
-        std::string time = line.substr(0, colon_pos);
-        std::string action = line.substr(colon_pos + 2, colon_par - colon_pos - 1);
-        std::string duration = line.substr(colon_bra + 1);
-        duration.pop_back();
+        // solo procesar líneas que tengan el formato esperado ":" ")" "[" "tiago"
+        if (line.find(":") != std::string::npos && line.find(")") != std::string::npos 
+        && line.find("[") != std::string::npos && line.find("tiago") != std::string::npos) {
+          plansys2_msgs::msg::PlanItem item;
+          size_t colon_pos = line.find(":");
+          size_t colon_par = line.find(")");
+          size_t colon_bra = line.find("[");
 
-        item.time = std::stof(time);
-        item.action = action;
-        item.duration = std::stof(duration);
-        // if (item.action.find("explain") != std::string::npos) {
-        //   // Extrae solo el nombre del cuadro (por ejemplo: "monalisa")
-        //   size_t last_space = item.action.find_last_of(' ');
-        //   size_t last_paren = item.action.find(')', last_space);
-        //   std::string cuadro = item.action.substr(last_space + 1, last_paren - last_space - 1);
-        //   // Lanza el hilo y guarda el future
-        //   explicaciones_futures[cuadro] = std::async(std::launch::async, obtener_explicacion, cuadro);
-        // }
+          std::string time = line.substr(0, colon_pos);
+          std::string action = line.substr(colon_pos + 2, colon_par - colon_pos - 1);
+          std::string duration = line.substr(colon_bra + 1);
+          duration.pop_back();
 
-        plan.items.push_back(item);
-        std::cout << "UUUUUUUUUUUUUUUUUUUUUUUUUUUUParsed item: " << item.action << " at time " << item.time << " with duration " << item.duration << std::endl;
+          item.time = std::stof(time);
+          item.action = action;
+          item.duration = std::stof(duration);
+
+          plan.items.push_back(item);
+        }
       }
     }
     plan_file.close();
   }
-
-  // // Espera a que todas las explicaciones estén listas y guárdalas donde quieras
-  // for (auto& [cuadro, fut] : explicaciones_futures) {
-  //   std::string explicacion = fut.get();
-  //   // Puedes guardar la explicación en disco o en memoria, por ejemplo:
-  //   std::ofstream out("/tmp/explicacion_" + cuadro);
-  //   out << explicacion;
-  //   out.close();
-  // }
 
   if (solution && !plan.items.empty()) {
     return plan;

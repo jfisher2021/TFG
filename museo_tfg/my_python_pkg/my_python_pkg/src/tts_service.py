@@ -1,6 +1,62 @@
 #!/usr/bin/env python3
+"""
+@file tts_service.py
+@brief ROS 2 service node for Text-To-Speech using Google Cloud TTS.
 
-# Copyright 2024 Antonio Bono
+This script defines a ROS 2 service node that converts text to speech using 
+Google Cloud Text-to-Speech API and plays the generated audio.
+
+@details
+- The node provides a service `/tts_service` (TextToSpeech).
+- When called with text, it synthesizes speech using Google Cloud TTS API 
+  with Spanish voice (es-ES-Standard-H) and OGG_OPUS audio format.
+- The generated audio is saved temporarily and played using ffplay.
+- Audio playback is blocking (waits until audio finishes playing).
+
+@node_name gtts_srv_node
+
+@services
+- Provided:
+    - `/tts_service` (my_interfaces/srv/TextToSpeech): Converts text to speech.
+      - Request: 
+          - text (string): The text to convert to speech
+      - Response: 
+          - success (bool): Whether TTS succeeded
+          - debug (string): Error message if failed
+
+@dependencies
+- google.cloud.texttospeech: For text-to-speech synthesis.
+- subprocess: For audio playback using ffplay.
+- rclpy: For ROS 2 node implementation.
+- my_interfaces.srv.TextToSpeech: Custom service definition.
+
+@configuration
+- Voice: es-ES-Standard-H (Spanish female voice)
+- Audio format: OGG_OPUS
+- Audio file: `/tmp/output.ogg` (temporary file)
+- Requires GOOGLE_APPLICATION_CREDENTIALS environment variable set
+
+@usage
+- Run the node:
+    ```
+    ros2 run my_python_pkg tts_service
+    ```
+- Test the service:
+    ```
+    ros2 service call /tts_service my_interfaces/srv/TextToSpeech "{text: 'Hola mundo'}"
+    ```
+
+@note
+- Ensure Google Cloud credentials are properly configured.
+- ffplay must be installed for audio playback.
+- The virtual environment at `/home/jfisherr/cuarto/2c/plansis/plansys_ws/venv_plansys2` 
+  must contain the google-cloud-texttospeech package.
+
+@author Jonathan Fisher
+@license Apache License, Version 2.0
+"""
+
+# Copyright 2024 
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

@@ -7,6 +7,8 @@ find_package(rclcpp REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 find_package(plansys2_core REQUIRED)
 find_package(pluginlib REQUIRED)
+find_package(my_interfaces REQUIRED)
+find_package(std_srvs REQUIRED)
 
 
 
@@ -15,6 +17,8 @@ set(dependencies
   ament_index_cpp
   plansys2_core
   pluginlib
+  my_interfaces
+  std_srvs
 )
 
 include_directories(

@@ -12,18 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef PLANSYS2_POPF_PLAN_SOLVER__POPF_PLAN_SOLVER_HPP_
-#define PLANSYS2_POPF_PLAN_SOLVER__POPF_PLAN_SOLVER_HPP_
+#ifndef MY_LLM_PLAN_SOLVER__LLM_PLAN_SOLVER_HPP_
+#define MY_LLM_PLAN_SOLVER__LLM_PLAN_SOLVER_HPP_
 
 #include <filesystem>
 #include <optional>
 #include <memory>
 #include <string>
+#include <thread>
 
 #include "plansys2_core/PlanSolverBase.hpp"
+#include "my_interfaces/srv/text_to_speech.hpp"
+#include "my_interfaces/srv/speech_to_text.hpp"
+#include "rclcpp/executors.hpp"
 
 // using namespace std::chrono_literals;
-using std::chrono_literals::operator""s;
+using std::chrono_literals::operators;
 
 namespace plansys2
 {
@@ -34,9 +38,23 @@ private:
   std::string arguments_parameter_name_;
   std::string output_dir_parameter_name_;
   bool cancel_requested_;
+  
+  // Nodo independiente para servicios
+  rclcpp::Node::SharedPtr nodos_servicios;
+  
+  // Executor y thread para ejecutar el nodo independiente
+  rclcpp::executors::SingleThreadedExecutor executor_;
+  std::thread executor_thread_;
+
+  // Cliente del servicio TTS
+  rclcpp::Client<my_interfaces::srv::TextToSpeech>::SharedPtr tts_client_;
+  
+  // Cliente del servicio STT
+  rclcpp::Client<my_interfaces::srv::SpeechToText>::SharedPtr stt_client_;
 
 public:
   LLMPlanSolver();
+  ~LLMPlanSolver();
 
   std::optional<std::filesystem::path> create_folders(const std::string & node_namespace);
 
@@ -57,4 +75,4 @@ protected:
 
 }  // namespace plansys2
 
-#endif  // PLANSYS2_POPF_PLAN_SOLVER__POPF_PLAN_SOLVER_HPP_
+#endif  // MY_LLM_PLAN_SOLVER__LLM_PLAN_SOLVER_HPP_

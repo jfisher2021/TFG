@@ -15,12 +15,11 @@ setup(
     zip_safe=True,
     maintainer='jfisherr',
     maintainer_email='j.fisher.2021@alumnos.urjc.es',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    description='Services and clients for TTS/STT in a virtual museum tour system',
+    license='Apache License, Version 2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            # 'tts_service = my_python_pkg.src.tts_service:main',
             'stt_service = my_python_pkg.src.stt_service:main',
             'stt_client = my_python_pkg.src.stt_client:main',
             'tts_client = my_python_pkg.src.tts_client:main',
