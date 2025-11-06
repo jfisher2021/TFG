@@ -18,6 +18,7 @@
 #include <ctime>
 
 #include "plansys2_executor/ActionExecutorClient.hpp"
+#include "my_interfaces/srv/text_to_speech.hpp"
 
 using namespace std::chrono_literals;
 
@@ -27,36 +28,56 @@ public:
   WelcomeAction()
   : plansys2::ActionExecutorClient("start_welcome", 1s)
   {
-    success_ = 0.0;
-    retry = 0;
+    // Crear cliente del servicio TTS
+    node = rclcpp::Node::make_shared("welcome_client");
+    tts_client_ = node->create_client<my_interfaces::srv::TextToSpeech>("tts_service");
+
   }
+  rclcpp::Node::SharedPtr node;
 
 private:
   void do_work()
   {
-    srand(time(NULL));
-    success_ = static_cast<float>(std::rand())/ static_cast<float>(RAND_MAX);
+    
+    std::cout << "BIENVENIDO AL MUSEO VIRTUAL!!" << std::endl;
 
-    if (success_ > 0.1) {
-      std::cout << "WLECOMMMMMMMMMMMMMMMMEEEEEEEEEEE!!!" << std::endl;
-      finish(true, 1.0, "start_welcome completed");
-      success_ = 0.0;
-    } else {
-      if (retry >= 5) {
+    // Llamar al servicio TTS
+    while (!tts_client_->wait_for_service(std::chrono::seconds(1))) {
+      if (!rclcpp::ok()) {
+        RCLCPP_ERROR(node->get_logger(), "client interrupted while waiting for service to appear.");
         finish(false, 0.0, "start_welcome failed");
-        std::cout << std::endl;
-        retry = 0;
-        success_ = 0.0;
-      } else {
-        send_feedback(success_, "start_welcome running");
-        retry++;
       }
+      RCLCPP_INFO(node->get_logger(), "waiting for service to appear...");
     }
 
+    // Hacer la llamada al servicio TTS
+    auto request = std::make_shared<my_interfaces::srv::TextToSpeech::Request>();
+    request->text = "Bienvenido al museo virtual. Estoy listo para guiarte.";
+    auto result_future = tts_client_->async_send_request(request);
+    
+    // Esperar la respuesta del servicio
+    if (rclcpp::spin_until_future_complete(node, result_future) !=
+      rclcpp::FutureReturnCode::SUCCESS)
+    {
+      RCLCPP_ERROR(node->get_logger(), "service call failed :(");
+      tts_client_->remove_pending_request(result_future);
+      finish(false, 0.0, "start_welcome failed");
+    }
+
+    // Obtener el resultado de la llamada al servicio
+    auto result = result_future.get();
+    if (result->success) {
+      RCLCPP_INFO(get_logger(), "✅ TTS completado con éxito");
+      finish(true, 1.0, "explain_painting completed");
+    } else {
+      RCLCPP_ERROR(get_logger(), "❌ Error en TTS: %s", result->debug.c_str());
+      finish(false, 0.0, "TTS error");
+    }
+
+    finish(true, 1.0, "start_welcome completed");
   }
 
-  float success_;
-  int retry;
+  rclcpp::Client<my_interfaces::srv::TextToSpeech>::SharedPtr tts_client_;
 };
 
 int main(int argc, char ** argv)

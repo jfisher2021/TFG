@@ -38,7 +38,6 @@ public:
       "la_gran_ola_de_kanagawa", "el_beso", "autorretrato_con_collar_de_espinas", "el_carnaval_del_arlequin",
       "nighthawks", "retrato_de_adele_bloch_bauer_i", "campbells_soup_cans", "composition_viii"
     };
-    goals_ = {"(and explained_painting monalisa_ws)", "(and visited tiago monalisa_ws)", "(and visited tiago elgrito_ws)"};
 
     init_knowledge();
 
@@ -53,15 +52,12 @@ public:
     }
 
     problem_expert_->addInstance(plansys2::Instance{"tiago", "robot"});
-    problem_expert_->addInstance(plansys2::Instance{"pers_1", "person"});
 
     problem_expert_->addPredicate(plansys2::Predicate("(initial_state tiago)"));
     problem_expert_->addPredicate(plansys2::Predicate("(robot_at tiago home)"));
 
     problem_expert_->addPredicate(plansys2::Predicate("(charger_at home)"));
     problem_expert_->addFunction(plansys2::Function("(= (battery tiago) 100)"));
-
-    // problem_expert_->addPredicate(plansys2::Predicate("(person_at pers_1 door)"));
 
   }
 
@@ -71,23 +67,18 @@ public:
     {
     case PLANNING:
     {
-      // End when no goals left
-      if (goals_.empty()) {
-        state_ = ENDING;
-        break;
-      }
-      RCLCPP_INFO(get_logger(), "PLANNINGGGGGGGGGGGGGGGGGGGG!!");
+
+      RCLCPP_INFO(get_logger(), "PLANNING!!");
 
 
-
+      // ESTO NO SE USA, SOLO ESTA PARA QUE NO DE ERROR
       auto domain = domain_expert_->getDomain();
       auto problem = problem_expert_->getProblem();
-      auto plan = planner_client_->getPlan(domain, problem);
-      // for (const auto & plan_item : plan.value().items) {
-      //     std::cout << plan_item.time << ":\t" << plan_item.action << "\t[" <<
-      //       plan_item.duration << "]" << std::endl;
-      // }
-      RCLCPP_INFO(get_logger(), "WE HAVE PLANNNNNN!!");
+
+      // getPlan(domain, problem);  EL DOMAIN Y PROBLEM SE LES PASA AL LLM DIRECTAMENTE 
+      auto plan = planner_client_->getPlan(domain, problem); 
+
+      RCLCPP_INFO(get_logger(), "WE HAVE A PLAN!!");
 
       // if there is no plan, retry setting it
       if (!plan.has_value()) {
@@ -103,35 +94,32 @@ public:
       }
 
       state_ = DOING;
-      RCLCPP_INFO(get_logger(), "LESTTTT DOOO ITTTT!!");
+      RCLCPP_INFO(get_logger(), "LET'S DO IT!!");
 
       break;
     }
     case DOING:
     {
-      // RCLCPP_INFO(get_logger(), "11111111111111111111111111MOVEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!");
 
       if (!executor_client_->execute_and_check_plan()) {  // Plan finished
-        RCLCPP_INFO(get_logger(), "IM MOOVIINGGGG!!");
+        RCLCPP_INFO(get_logger(), "PLAN HAS STARTED!!");
 
         switch (executor_client_->getResult().value().result) {
           case plansys2_msgs::action::ExecutePlan::Result::SUCCESS:
-            RCLCPP_INFO(get_logger(), "TOUR FINISHEDDD !!");
+            RCLCPP_INFO(get_logger(), "TOUR FINISHED!!");
             state_ = ENDING;
-            // goals_.pop_back();
             break;
 
           case plansys2_msgs::action::ExecutePlan::Result::PREEMPT:
-            RCLCPP_INFO(get_logger(), "Plan preempted");
+            RCLCPP_INFO(get_logger(), "PLAN PREEMPTED!!");
             state_ = PLANNING;
             break;
 
           case plansys2_msgs::action::ExecutePlan::Result::FAILURE:
-            RCLCPP_ERROR(get_logger(), "RUBIK NOT SOLVED");
+            RCLCPP_ERROR(get_logger(), "HAS FAILED!!");
             state_ = PLANNING;
             break;
         }
-        // problem_expert_->clearGoal();
         
       }
       break;
@@ -139,7 +127,7 @@ public:
     case ENDING:
       static bool finished = false;
       if (!finished) {
-        RCLCPP_INFO(get_logger(), "All goals achieved...");
+        RCLCPP_INFO(get_logger(), "WE HAVE FINISHED THE TOUR!!");
         finished = true;
       }
       break;
@@ -159,8 +147,6 @@ private:
   std::shared_ptr<plansys2::ExecutorClient> executor_client_;
 
   std::vector<std::string> drawings;
-  std::vector<std::string> goals_;
-  std::string actual_goal_;
 
 };
 
