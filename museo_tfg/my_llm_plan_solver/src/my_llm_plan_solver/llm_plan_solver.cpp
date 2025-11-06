@@ -141,7 +141,7 @@ LLMPlanSolver::getPlan(
     auto stt_request = std::make_shared<my_interfaces::srv::SpeechToText::Request>();
     auto stt_future = stt_client_->async_send_request(stt_request);
     
-    if (stt_future.wait_for(std::chrono::seconds(10)) == std::future_status::ready) {
+    if (stt_future.wait_for(std::chrono::seconds(15)) == std::future_status::ready) {
       auto stt_result = stt_future.get();
       if (stt_result->success) {
         spoken_goal = stt_result->text;
@@ -186,9 +186,7 @@ LLMPlanSolver::getPlan(
   plan_out << result;
   plan_out.close();
 
-  const auto plan_file_path = output_dir / std::filesystem::path("plan");
-
-  return parse_plan_result(plan_file_path.string());
+  return parse_plan_result("/tmp/plan");
 }
 
 std::optional<plansys2_msgs::msg::Plan>

@@ -27,7 +27,7 @@
 #include "rclcpp/executors.hpp"
 
 // using namespace std::chrono_literals;
-using std::chrono_literals::operators;
+using std::chrono_literals::operator""s;
 
 namespace plansys2
 {
