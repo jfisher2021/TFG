@@ -96,7 +96,7 @@ def get_goal(state: State) -> State:
     return {"state_goal": final, "state_plan": "", "state_prompt": pddl_prompt.format(GOAL=final)}
 
 def gemini_chat(state: State):
-    print("USANDO GEMINI-2.5-PRO") 
+    print("USANDO GEMINI-2.5-flash") 
     selected_model = "gemini-2.5-flash"
     client = genai.Client()
     response = client.models.generate_content(
@@ -109,7 +109,7 @@ def gemini_chat(state: State):
     print("=" * 50)
     print(response.text)
     full_response = response.text
-    print_and_save_logs(selected_model, state.get("state_prompt"), full_response)
+    # print_and_save_logs(selected_model, state.get("state_prompt"), full_response)
     # Inicializar validation como [False, ""]; la validación real la hará el nodo validate
     return {"state_goal": state.get("state_goal", ""), "state_plan": full_response, "state_prompt": state.get("state_prompt", "")}
 
@@ -129,7 +129,7 @@ def chatgpt_chat(state: State):
 
     print("\nGenerando plan PDDL...")
     print("=" * 50)
-    print_and_save_logs(selected_model, state.get("state_prompt"), full_response)
+    # print_and_save_logs(selected_model, state.get("state_prompt"), full_response)
     return {"state_goal": state.get("state_goal", ""), "state_plan": full_response, "state_prompt": state.get("state_prompt", "")}
 
 def groq_chat(state: State):
@@ -157,7 +157,7 @@ def groq_chat(state: State):
     print(full_response)
     print("\nGenerando plan PDDL...")
     print("=" * 50)
-    print_and_save_logs(selected_model, state.get("state_prompt"), full_response)
+    # print_and_save_logs(selected_model, state.get("state_prompt"), full_response)
     return {"state_goal": state.get("state_goal", ""), "state_plan": full_response, "state_prompt": state.get("state_prompt", "")}
 
 
@@ -201,6 +201,8 @@ if __name__ == "__main__":
 
     # Compilar el grafo
     graph = graph_builder.compile()
+    # graph.get_graph().draw_mermaid_png(output_file_path="final_graph.png")
+    # print(graph.get_graph().draw_mermaid())
 
     # graph.get_graph().draw_mermaid_png(output_file_path="graph.png")
     # El estado inicial debe ser un dict, no un string

@@ -170,6 +170,8 @@ if __name__ == "__main__":
 
     # Compilando el grafo
     graph = graph_builder.compile()
+    # graph.get_graph().draw_mermaid_png(output_file_path="graph.png")
+    # print(graph.get_graph().draw_mermaid())
 
     # Ejecución
     initial_state = {"goal": "Explicar los 31 cuadros", "plan": "", "validation": [False, ""]}

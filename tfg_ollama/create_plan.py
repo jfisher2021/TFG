@@ -10,7 +10,7 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
 from prompts import prompt_con_3_ejemplos_input_goal
-from utils import select_model_ollama, write_log_txt, write_log_json
+from utils import write_log_txt, write_log_json
 
 client = ollama.Client()
 
@@ -19,13 +19,13 @@ def main():
         goal = " ".join(sys.argv[1:])
     else:
         goal = """    
-        (explain_painting tiago monalisa)
-        (visited tiago guernica)
-        (explained_painting elgrito)
+            (explain_painting tiago monalisa)
+            (visited tiago guernica)
+            (explained_painting elgrito)
         """
     print("Goal to achieve: ", goal)
-    
-    model = select_model_ollama()
+
+    model = "gpt-oss:120b-cloud"
     prompt = prompt_con_3_ejemplos_input_goal.format(GOAL=goal)
 
     response = client.generate(
