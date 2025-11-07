@@ -1,333 +1,572 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/dMkD-Mt7)
-# Trabajo Final Planificación - La Biblioteca
+# TFG - Sistema de Planificación con LLM para Robot Guía de Museo
 
-El trabajo final consiste en implementar en equipo un sistema de planificación para un robot que trabaje en una biblioteca.
-El robot será capaz de realizar una serie de tareas (misiones) que pueden estar compuestas por una o más acciones. Como mínimo el robot debe poder ejecutar 3 tareas distintas.
-A continuación se muestra un ejempo de posibles tareas a ejecutar:
+Este proyecto implementa un sistema de planificación inteligente para un robot guía de museo que utiliza un **Large Language Model (LLM)** para generar planes dinámicamente. El robot navega por un museo virtual, explica obras de arte y gestiona su batería de forma autónoma.
 
-* Atender visitas
-* Recoger los libros de las mesas
-* Resolver el cubo de Rubik
-* Buscar un libro en las estanterías
-* Recoger la basura
-* Mandar callar a las personas ruidosas
+## 🎯 Características Principales
 
-Se dispone de libertad para elegir las tareas y para definir el comportamiento del robot, con las siguientes condciones:
-
-* Se deben definir varios "waypoints" en la bilioteca (entrada, estanterías, mesas, etc.) para las distintas tareas.
-* Al menos una de las tareas deberá inlcuir una componente aleatoria. Por ejemplo:
-    * Que a la hora de buscar un libro, el robot vaya recorriendo estanterías hasta que lo encuentre, y que se pueda dar el caso en el que no exista el libro.
-    * Que la acción de atender las visitas implique acercarse a la puerta a ver si hay alguien. Si hay una persona, se acompaña a esa persona a un punto de la biblioteca. Si no hay ninguna persona, la misión termina. Que haya una persona o no se puede decidir de forma aleatoria en el instante de "detectar" a la persona.
+- **Planificación con LLM**: Generación de planes mediante inteligencia artificial (usando LangChain + Ollama)
+- **Navegación autónoma**: Integración con Nav2 para navegación real del robot TIAGo
+- **Sistema de voz**: Text-to-Speech (TTS) y Speech-to-Text (STT) para interacción
+- **Gestión de batería**: El robot recarga automáticamente cuando es necesario
+- **31 obras de arte**: Explicaciones detalladas de pinturas famosas
+- **Plugin personalizado**: Implementación de un solver LLM para PlanSys2
 
 
+## 📋 Requisitos Previos
 
-## Ejercicio 1 - Mundo simulado
+- ROS 2 (Humble/Rolling)
+- Python 3.8+
+- Gazebo
+- Nav2
+- PlanSys2
+- Robot TIAGo (simulador)
+- Modelo aws_robomaker_bookstore_world (adaptado como museo)
 
-### Mundo
-Se utilizará un mundo simulado en gazebo de una biblioteca. Podéis encontrar un mundo funcional en [este repositorio](https://github.com/Juancams/aws-robomaker-bookstore-world/tree/ros2):
+## 🚀 Instalación
 
-![world](assets/sim_world.png)
-
-### Robot
-Se puede utilizar el modelo de cualquier robot, aunque se recomiendan los simuladores del [Kobuki](https://github.com/IntelligentRoboticsLabs/kobuki) o del [TIAGo](https://github.com/Tiago-Harmonic/tiago_harmonic), que ya se han utilizado en otras asignaturas.
-
-Al utilizar un robot de verdad, las tareas de navegación deberán utilizar nav2 para que el robot se mueva de verdad. El resto de las acciones pueden seguir siendo sintéticas. Es decir, no es necesario que el robot interactúe con los objetos de la biblioteca.
-
-Indicar qué simulador se ha utilizado, cómo ejecutarlo y cómo lanzar el sistema de planificación para que actúe sobre el robot:
-
-## Respuesta
-
-Para poder lanzar el simulador y Nav2 hay que descargar varios paquetes.
-
-### Instalación de paquetes necesarios
-
-### 1. Kobuki
-
+### 1. Dependencias del Sistema
 
 ```bash
 source /opt/ros/<ROS-DISTRO>/setup.bash
+sudo apt update
+sudo apt install ros-dev-tools -y
 ```
 
-Clone the repository to your workspace:
+### 2. Clonar Repositorios Necesarios
+
 ```bash
 cd <ros2-workspace>/src
-git clone https://github.com/IntelligentRoboticsLabs/kobuki.git -b rolling
+# TIAGo Harmonic
+git clone https://github.com/Tiago-Harmonic/tiago_harmonic.git
+# Mundo del museo (bookstore modificado)
+git clone https://github.com/<tu-repo>/aws_robomaker_bookstore_world.git
 ```
 
-Prepare your thirparty repos:
-```bash
-sudo apt update && sudo apt install ros-dev-tools -y
-cd <ros2-workspace>/src/
-vcs import < kobuki/thirdparty.repos
-```
-*Please make sure that this last command has not failed. If this happens, run it again.*
+### 3. Instalar Dependencias con rosdep
 
-### Install libusb, libftdi & libuvc
-```bash
-sudo apt install libusb-1.0-0-dev libftdi1-dev libuvc-dev
-```
-
-### Install udev rules from astra camera, kobuki and rplidar
-When you connect a piece of hardware to your pc, it assigns `/dev/ttyUSB*` to it. This will not have the necessary read/write permissions, so we will not be able to use it correctly. The solution is to set up some udev rules that creates a symlink with another name (example: `/dev/ttyUSB0` -> `/dev/kobuki`) and grants it the necessary permissions.
 ```bash
 cd <ros2-workspace>
-sudo cp src/ThirdParty/ros_astra_camera/astra_camera/scripts/56-orbbec-usb.rules /etc/udev/rules.d/
-sudo cp src/ThirdParty/rplidar_ros/scripts/rplidar.rules /etc/udev/rules.d/
-sudo cp src/ThirdParty/kobuki_ros/60-kobuki.rules /etc/udev/rules.d/
-sudo udevadm control --reload-rules && sudo udevadm trigger
-```
-
-### Building project
-```bash
-sudo rosdep init
 rosdep update
 rosdep install --from-paths src --ignore-src -r -y
-colcon build --symlink-install 
 ```
 
->  If your terminal has crashed or closed while compiling, please try compiling your packages as follows `colcon build --symlink-install --parallel-workers 1` or do so by selecting the package that failed `colcon build --symlink-install --parallel-workers 1 --packages-select <package>`
-> 
-> Also, if you want to prevent it from recompiling that package, add a `COLCON_IGNORE` inside the package
- 
-### Run Navigation in ROS 2
+### 4. Configurar Entorno Python para LLM
 
-You can use [Nav2](https://navigation.ros.org/) using robot with this launcher:
+Este proyecto requiere un entorno Python con LangChain y Ollama:
 
 ```bash
-ros2 launch kobuki navigation.launch.py map:=<path-to-map>
-``` 
-
-or this other command if you need to navigate in the simulator
-```bash
-ros2 launch kobuki navigation_sim.launch.py
+cd <ros2-workspace>/src/TFG/tfg-ia
+python3 -m venv .venv
+source .venv/bin/activate
+pip install langchain langchain-ollama openai
 ```
 
-If you want to use another map, you have to put the route in the map parameter
+**Nota importante**: Asegúrate de que la ruta del entorno virtual en `llm_plan_solver.cpp` coincida con tu instalación.
 
-### 2. NAV2 
-
-Si tienes instalado Nav2 pero te da error al lanzar el nodo de navegación, ejecuta el siguiente comando:
+### 5. Compilar el Workspace
 
 ```bash
-cd <ros2-workspace>/src/nav2
-git checkout  fbd1d3e7964dc220c0861d5e8bdcfcc7b9ec2812
+cd <ros2-workspace>
+colcon build --symlink-install
 ```
 
-### 3. Common_interfaces
+> Si tienes problemas de memoria durante la compilación, usa:
+> ```bash
+> colcon build --symlink-install --parallel-workers 1
+> ```
 
-Al igual que con Nav2, si tienes problemas con el paquete `common_interfaces`, ejecuta el siguiente comando:
+## 🎮 Ejecución del Sistema
 
-```bash
-cd <ros2-workspace>/src/common_interfaces
-git checkout 0cf96ab111a3da980a1f94cf18d6867701d70939
-```
+El sistema requiere **2 terminales** para funcionar correctamente:
 
-### EJECUCIÓN
+### Terminal 1: Sistema Principal (Gazebo + PlanSys2 + Servicios)
 
-Para lanzar el simulador y el sistema de planificación, se deben ejecutar los siguientes comandos:
-
-Gazebo:
+Este comando lanza todo el sistema integrado:
 
 ```bash
 cd <ros2-workspace>
 source install/setup.bash
-ros2 launch kobuki simulation.launch.py world:=install/aws_robomaker_bookstore_world/share/aws_robomaker_bookstore_world/worlds/bookstore.world 
+ros2 launch museo_plansys trabajo_final_plansys_launch.py
 ```
 
-Nav2:
+**Este lanzamiento incluye:**
+- ✅ Gazebo con el mundo del museo (bookstore.world)
+- ✅ PlanSys2 con el dominio PDDL personalizado
+- ✅ Nodos de acción (move, explain, recharge, welcome)
+- ✅ Servicio TTS (Text-to-Speech)
+- ✅ Servicio STT (Speech-to-Text)
+
+### Terminal 2: Navegación Nav2
 
 ```bash
 cd <ros2-workspace>
 source install/setup.bash
-ros2 launch kobuki navigation_sim.launch.py map:=src/kobuki/maps/aws_bookstore.yaml 
+ros2 launch tiago_harmonic navigation_sim.launch.py map:=<path-to-museum-map>
 ```
 
+### Terminal 3: Controlador del Museo
 
-## Ejercicio 2 - Dominio PDDL
+Una vez que los sistemas anteriores estén activos:
 
-Hay que diseñar e implementar un dominio en PDDL desde cero, donde se modele el mundo en el que va a operar el robot y las distintas acciones que este puede ejecutar. A la hora de diseñar las acciones, es importante pensar en cómo van a estar implementadas (Ejercicio 3).
+```bash
+cd <ros2-workspace>
+source install/setup.bash
+ros2 run museo_plansys library_controller_node
+```
 
-Indicad la lista de acciones implementadas y la lista de tipos, predicados y fluents necesarios para vuestro modelo:
+**El controlador automáticamente:**
+1. Inicializa el conocimiento del mundo (31 ubicaciones de pinturas)
+2. Solicita al LLM que genere un plan de visita
+3. Ejecuta el plan: el robot navega y explica las obras
+4. Reproduce las explicaciones mediante TTS
 
-**Respuesta**
+### 🔍 Monitorización (Opcional)
 
-Para crear un plan, se utiliza un [dominio](museo_plansys/pddl/domain.pddl) en PDDL con las siguientes características:
+Para visualizar el estado de PlanSys2:
 
-#### Tipos
+```bash
+rqt
+```
 
-Se definen 5 tipos diferentes:
-- robot
-- location
-- person
-- rubik
-- book
+En RQT, ve a `Plugins > Planning System` para ver el estado del dominio, problema, plan y ejecución.
 
+---
+
+## 📐 Dominio PDDL
+
+El dominio PDDL modela un museo donde el robot puede moverse entre ubicaciones, explicar pinturas y recargar su batería.
+
+**Archivo**: [`museo_plansys/pddl/domain.pddl`](museo_plansys/pddl/domain.pddl)
+
+### Tipos
+
+```pddl
+(:types 
+  robot
+  location 
+)
+```
 
 ### Predicados
 
-Se definen 8 predicados:
-- (robot_at ?r - robot ?l - location) : establece la posición del robot
-- (rubik_at ?k - rubik ?l - location) : estable la posición del cubo de rubik
-- (book_at ?b - book ?l - location) : establece la posición del libro
-- (person_at ?p - person ?l - location) : estable la posición de la persona
-- (rubik_solved ?k - rubik) : indica si un cubo de rubik 'k' está resuelto
-- (book_found ?b - book) : indica si el libro 'b' se ha encontrado
-- (person_attended ?p - person) : indica si la persona 'p' ha sido atendida
-- (connected ?l1 ?l2 - location) : establece la conexión entre dos ubicaciones
+- `(robot_at ?r - robot ?l - location)`: Posición actual del robot
+- `(explained_painting ?p - location)`: Indica si una pintura ha sido explicada
+- `(can_start ?r - robot)`: Permite iniciar acciones
+- `(initial_state ?r - robot)`: Estado inicial del robot
+- `(visited ?r - robot ?l - location)`: Marca ubicaciones visitadas
+- `(charger_at ?wp - location)`: Ubicación del punto de recarga
 
-### Acciones
+### Funciones (Fluents)
 
-Con estos tipos y predicados se implementan 4 acciones durativas:
-1. *move* : cambia la posición del robot entre dos ubicaciones conectadas
-2. *solve_rubik* : establece `rubik_solved` en caso de que el robot y el cubo estén en la misma ubicación
-3. *search_book* : establece `book_found` en caso de que el robot y el libro estén en la misma ubicación
-4. *attend_visitors* : establece `person_attended` en caso de que el robot y la persona estén en la misma ubicación
+- `(battery ?r - robot)`: Nivel de batería del robot (0-100)
 
-## Ejercicio 3 - Acciones
+### Acciones Durativas
 
-Implementar las distintas acciones en PlanSys2 como nodos de BehaviorTree. Se pueden utilizar los nodos implementados en [plansys2_bt_example](https://github.com/PlanSys2/ros2_planning_system_examples/tree/rolling/plansys2_bt_example) como ejemplo.
+#### 1. **start_welcome**
+```pddl
+:duration 1 segundo
+:condition initial_state
+:effect can_start (permite comenzar el recorrido)
+```
 
-**Importante:** La acción de navegar para que el robot se mueva de un punto a otro debe utilizar el sistema de navegación de nav2. Es decir, esta acción deberá realizar llamadas a las acciones de nav2 para que el robot se mueva de un punto a otro, de una forma similar a la implementada en los ejemplos [plansys2_bt_example](https://github.com/PlanSys2/ros2_planning_system_examples/tree/rolling/plansys2_bt_example) y [plansys2_patrol_navigation_example](https://github.com/PlanSys2/ros2_planning_system_examples/tree/rolling/plansys2_patrol_navigation_example).
+#### 2. **move**
+```pddl
+:duration 15 segundos
+:condition batería >= 20, can_start, robot_at origen
+:effect 
+  - robot_at destino
+  - visited destino
+  - batería -= 20
+```
 
-El resto de acciones a realizar por el robot pueden ser sintéticas, donde la acción habrá terminado después de que haya pasado un tiempo determinado.
+#### 3. **explain_painting**
+```pddl
+:duration 15 segundos
+:condition batería >= 10, robot_at pintura, can_start
+:effect 
+  - explained_painting
+  - batería -= 10
+```
 
+#### 4. **recharge**
+```pddl
+:duration 5 segundos
+:condition batería <= 100, robot_at cargador, charger_at cargador
+:effect batería = 100
+```
 
-### Composición de acciones con nodos de BT
-Las acciones definidas en el dominio PDDL son equivalentes a un árbol de ejecución de BT. Ese árbol puede utilizar varias sub-acciones más pequeñas, que se implementarán como nodos del árbol. Por ejemplo, la acción de "resolver el cubo de Rubik" puede consistir en la secuencia de sub-acciones [detectar estado del cubo --> coger el cubo --> resolver el cubo --> soltar el cubo en la mesa]. Cada una de estas sub-acciones serán implementadas como un nodo de BehvaiorTree.
+### 🎨 Obras de Arte en el Museo
 
-Indicar cómo han sido definidas las acciones en el paquete y qué sub-acciones (nodos BT) han sido implementadas:
+El museo cuenta con **31 pinturas famosas**:
 
-**Respuesta**
+1. Mona Lisa
+2. La Noche Estrellada
+3. El Grito
+4. Guernica
+5. La Joven de la Perla
+6. Las Meninas
+7. El 3 de Mayo de 1808
+8. El Jardín de las Delicias
+9. Las Tres Gracias
+10. La Rendición de Breda
+... y 21 más
 
-Hemos creado varias composiciones de acciones para poder realizar las tareas de la biblioteca. Un ejemplo de ello es la tarea de "solve_rubik.xml" que se compone de las siguientes acciones:
+Cada pintura tiene su propia ubicación (`location`) y el robot puede navegar hasta ella y explicarla.
+
+---
+
+## 🤖 Implementación de Acciones
+
+Las acciones PDDL se implementan como nodos de ROS 2 en C++:
+
+**Directorio**: [`museo_plansys/src/`](museo_plansys/src/)
+
+### Acciones Implementadas
+
+#### 1. **move_action** (Navegación Real con Nav2)
+- **Archivo**: Usa `plansys2_bt_actions` con BehaviorTree
+- **XML**: [`behavior_trees_xml/move.xml`](museo_plansys/behavior_trees_xml/move.xml)
+- **Funcionalidad**: Navegación real del robot usando Nav2
+- **Duración**: Variable según distancia
+
+#### 2. **explain_action_node.cpp**
+- **Funcionalidad**: 
+  - Lee el archivo de explicación de la pintura desde `explicacion_respuestas/*.txt`
+  - Llama al servicio TTS para reproducir la explicación
+  - Marca la pintura como explicada
+- **Duración**: 15 segundos
+
+#### 3. **recharge_action_node.cpp**
+- **Funcionalidad**: Recarga la batería del robot al 100%
+- **Condición**: El robot debe estar en la ubicación `home` (donde está el cargador)
+- **Duración**: 5 segundos
+
+#### 4. **welcome_action_node.cpp**
+- **Funcionalidad**: Acción inicial de bienvenida
+- **Efecto**: Habilita `can_start` para permitir otras acciones
+- **Duración**: 1 segundo
+
+### 🌳 BehaviorTrees
+
+La acción de movimiento utiliza un BehaviorTree XML que integra Nav2:
 
 ```xml
-<root BTCPP_format="4" main_tree_to_execute = "MainTree" >
+<root BTCPP_format="4">
     <BehaviorTree ID="MainTree">
-       <Sequence name="root_sequence">
-           <OpenGripper    name="open_gripper"/>
-           <ApproachObject name="approach_object" />
-           <CloseGripper   name="close_gripper"/>
-           <SolveRubik     name="solve_rubik"/>
-           <OpenGripper    name="open_gripper"/>
-       </Sequence>
+        <Sequence name="root_sequence">
+            <Nav2Client name="nav2_client" goal="{waypoint}"/>
+        </Sequence>
     </BehaviorTree>
 </root>
 ```
-En este caso, la tarea de "solve_rubik" se compone de las siguientes acciones:
 
-- [OpenGripper](museo_plansys/src/behavior_tree_nodes/OpenGripper.cpp)
-- [ApproachObject](museo_plansys/src/behavior_tree_nodes/ApproachObject.cpp)
-- [CloseGripper](museo_plansys/src/behavior_tree_nodes/CloseGripper.cpp)
-- [SolveRubik](museo_plansys/src/behavior_tree_nodes/SolveRubik.cpp)
+---
 
-Y cada una de estas acciones se implementa como un nodo de BT.
+## 🧠 Plugin LLM Plan Solver
 
-### Cada Nodo de BT
+**Lo más innovador del proyecto**: Implementación de un planificador basado en LLM que reemplaza a POPF/TFD.
 
-Dentro de un nodo de BT hace falta obligatoriamente tener una función `tick` que se encargará de ejecutar la acción y la función `halt` que se encargará de parar la acción. En el caso de que la acción no se pueda parar, se puede dejar vacía. La logica del codigo es mas o menos igual a la de un nodo normal de plasys2. En BT para acanar y dar informacion del Nodo se puede devolver un `BT::NodeStatus::SUCCESS` si la acción ha sido completada con exito, `BT::NodeStatus::FAILURE` si ha fallado y `BT::NodeStatus::RUNNING` si la acción sigue en ejecución.
+**Paquete**: [`my_llm_plan_solver/`](my_llm_plan_solver/)
 
-Un ejemplo de un nodo de BT sería el siguiente:
+### Funcionamiento
 
-```cpp
+1. **Entrada**: El solver recibe el dominio PDDL y el problema actual
+2. **Interacción de voz**:
+   - Usa TTS para preguntar al usuario qué pinturas quiere visitar
+   - (Opcional) Usa STT para capturar la respuesta por voz
+3. **Generación de plan**:
+   - Llama a un script Python que usa LangChain + Ollama
+   - El LLM genera un plan PDDL válido considerando:
+     - Las pinturas solicitadas
+     - Las pinturas ya visitadas
+     - La gestión de batería
+     - Optimización de la ruta
+4. **Parsing**: Convierte el plan textual en mensajes `plansys2_msgs::msg::Plan`
+5. **Ejecución**: PlanSys2 ejecuta el plan generado
 
-namespace museo_plansys
-{
+### Archivos Clave
 
-SolveRubik::SolveRubik(
-  const std::string & xml_tag_name,
-  const BT::NodeConfiguration & conf)
-: BT::ActionNodeBase(xml_tag_name, conf), state_(CRUZ_BLANCA)
-{
-}
+- **C++**: [`llm_plan_solver.cpp`](my_llm_plan_solver/src/my_llm_plan_solver/llm_plan_solver.cpp)
+  - Plugin que hereda de `PlanSolverBase`
+  - Integra servicios TTS/STT
+  - Ejecuta script Python y parsea resultado
+  
+- **Python**: `tfg-ia/tfg_langchain/get_plan.py` (repositorio externo)
+  - Usa LangChain para interactuar con el LLM
+  - Genera planes PDDL válidos
+  - Considera contexto e historial de visitas
 
-void
-SolveRubik::halt()
-{
-  std::cout << "SolveRubik halt" << std::endl;
-}
+### Ventajas sobre Planificadores Tradicionales
 
-BT::NodeStatus
-SolveRubik::tick()
-{
-  rclcpp_lifecycle::LifecycleNode::SharedPtr node;
-  if (!config().blackboard->get("node", node)) {
-    RCLCPP_ERROR(node->get_logger(),
-    "Failed to get 'node' from the blackboard");
-  }
+- ✅ **Flexibilidad**: Entiende lenguaje natural
+- ✅ **Contextual**: Considera preferencias del usuario
+- ✅ **Adaptativo**: Puede ajustar planes según feedback
+- ✅ **Explicable**: Puede justificar sus decisiones
 
-  srand(time(NULL));
-  float detected_;
-  detected_ = static_cast<float>(std::rand())/ static_cast<float>(RAND_MAX);
+---
 
-  if (detected_ < 0.9){
-    switch (state_)
-    {
-    case CRUZ_BLANCA:
-      RCLCPP_INFO(node->get_logger(), "MADE THE WHITE CROSS");
-      state_ = ESQUINA_BLANCA;
-      break;
-    case ESQUINA_BLANCA:
-      RCLCPP_INFO(node->get_logger(), "PLACED WHITE CORNERS");
-    /* 
-      CODIGO SIMPLIFICADO
-     */
+## 🎙️ Servicios de Voz
 
-    case CUBO_COMPLETO:
-      RCLCPP_INFO(node->get_logger(), "SOLVED THE RUBIK'S CUBE");
-      return BT::NodeStatus::SUCCESS;
- 
-    default:
-      RCLCPP_INFO(node->get_logger(), "Unknown state");
-      return BT::NodeStatus::FAILURE;
-    }
-    return BT::NodeStatus::RUNNING;
-  }
+**Paquete**: [`my_python_pkg/`](my_python_pkg/)
 
-  RCLCPP_INFO(node->get_logger(), "I dont know how to solve Rubik's Cube :(");
-  return BT::NodeStatus::FAILURE;
-}
+### Text-to-Speech (TTS)
 
-}  // namespace museo_plansys
+- **Nodo**: `tts_service.py`
+- **Servicio**: `/tts_service` (TextToSpeech)
+- **Tecnología**: gTTS (Google Text-to-Speech)
+- **Uso**: Reproduce explicaciones de pinturas
 
-BT_REGISTER_NODES(factory)
-{
-  factory.registerNodeType<museo_plansys::SolveRubik>("SolveRubik");
-}
+```bash
+# Probar manualmente
+ros2 service call /tts_service my_interfaces/srv/TextToSpeech "{text: 'Bienvenido al museo'}"
 ```
 
-Esta parte del código se encarga de registrar el nodo en el sistema de BT para que pueda ser utilizado.
-```cpp
-BT_REGISTER_NODES(factory)
-{
-  factory.registerNodeType<museo_plansys::SolveRubik>("SolveRubik");
-}
+### Speech-to-Text (STT)
+
+- **Nodo**: `stt_service.py`
+- **Servicio**: `/stt_service` (SpeechToText)
+- **Tecnología**: OpenAI Whisper
+- **Idioma**: Español (`language='es'`)
+- **Uso**: Captura peticiones de pinturas por voz
+
+```bash
+# Probar manualmente
+ros2 service call /stt_service my_interfaces/srv/SpeechToText
 ```
 
-### Controlador
+---
 
-Una vez definidas las acciones, un [controlador](museo_plansys/src/library_controller_node.cpp) gestiona cuando se debe ejecutar cada acción mediante la definición de diferentes goals:
+## 🎯 Controlador del Museo
 
-```cpp
-// End when no goals left
-if (goals_.empty()) {
-  state_ = ENDING;
-  break;
-}
+**Archivo**: [`library_controller_node.cpp`](museo_plansys/src/library_controller_node.cpp)
 
-// set new goal
-actual_goal_ = goals_.back();
-problem_expert_->setGoal(plansys2::Goal("(and " + actual_goal_ + " )"));
+El controlador orquesta todo el sistema:
 
-// create new plan with goal
-auto domain = domain_expert_->getDomain();
-auto problem = problem_expert_->getProblem();
-auto plan = planner_client_->getPlan(domain, problem);
+1. **Inicialización**: Carga las 31 ubicaciones de pinturas
+2. **Bucle principal**:
+   ```
+   PLANNING → EXECUTING → PLANNING → ...
+   ```
+3. **Estados**:
+   - `PLANNING`: Solicita nuevo plan al LLM solver
+   - `EXECUTING`: Ejecuta el plan generado
+   - `ENDING`: Finaliza cuando se completan todas las metas
+
+### Flujo de Ejecución
+
+```
+┌─────────────────┐
+│  Inicializar    │
+│  conocimiento   │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  LLM genera     │
+│  plan           │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  PlanSys2       │
+│  ejecuta plan   │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  ¿Más pinturas? │
+│  → Loop         │
+└─────────────────┘
 ```
 
-Este snippet de código se ejecuta siempre que un nodo devuelve `SUCCESS` o `FAILURE` para poder replanificar:
-- En caso de que devuelva **fallo**, la meta del plan sigue siendo la misma.
-- En caso de que devuelva **éxito**, la meta del plan cambia para poder seguir iterando entre las metas buscadas.
+---
+
+## 🏗️ Estructura del Proyecto
+
+```
+museo_tfg/
+├── museo_plansys/              # Paquete principal ROS 2
+│   ├── pddl/
+│   │   ├── domain.pddl         # Dominio PDDL del museo
+│   │   └── problem.pddl        # Problema ejemplo
+│   ├── src/
+│   │   ├── explain_action_node.cpp
+│   │   ├── move_fake_action_node.cpp
+│   │   ├── recharge_action_node.cpp
+│   │   ├── welcome_action_node.cpp
+│   │   └── library_controller_node.cpp
+│   ├── behavior_trees_xml/
+│   │   └── move.xml            # BT para navegación Nav2
+│   ├── explicacion_respuestas/ # Textos de explicación (31 archivos)
+│   └── launch/
+│       └── trabajo_final_plansys_launch.py
+│
+├── my_llm_plan_solver/         # Plugin LLM para PlanSys2
+│   ├── include/my_llm_plan_solver/
+│   │   └── llm_plan_solver.hpp
+│   └── src/my_llm_plan_solver/
+│       └── llm_plan_solver.cpp # Solver que llama al LLM
+│
+├── my_python_pkg/              # Servicios de voz
+│   └── my_python_pkg/src/
+│       ├── tts_service.py      # Text-to-Speech
+│       └── stt_service.py      # Speech-to-Text
+│
+└── my_interfaces/              # Definiciones de servicios
+    └── srv/
+        ├── TextToSpeech.srv
+        └── SpeechToText.srv
+```
+
+---
+
+## 🔧 Resolución de Problemas
+
+### El LLM no genera planes
+
+**Problema**: El script Python no ejecuta o falla.
+
+**Solución**:
+1. Verifica que el entorno virtual esté activado y tenga las dependencias:
+   ```bash
+   source <path>/tfg-ia/.venv/bin/activate
+   pip list | grep langchain
+   ```
+
+2. Verifica la ruta del intérprete Python en `llm_plan_solver.cpp` (línea ~177):
+   ```cpp
+   std::string command = "/ruta/correcta/.venv/bin/python /ruta/correcta/get_plan.py " + ...
+   ```
+
+3. Verifica que Ollama esté ejecutándose:
+   ```bash
+   ollama list
+   ollama run llama3  # o el modelo que uses
+   ```
+
+### Nav2 no navega
+
+**Problema**: El robot no se mueve a los waypoints.
+
+**Solución**:
+1. Verifica que el mapa esté cargado correctamente
+2. Usa RViz para ver los costmaps y la localización
+3. Asegúrate de que los waypoints en el código coincidan con coordenadas del mapa
+
+### Servicios TTS/STT no responden
+
+**Problema**: Los servicios no están disponibles.
+
+**Solución**:
+```bash
+# Verifica que los nodos estén activos
+ros2 node list | grep tts
+ros2 node list | grep stt
+
+# Verifica los servicios
+ros2 service list | grep tts_service
+ros2 service list | grep stt_service
+```
+
+### Errores de compilación
+
+**Problema**: Faltan includes o dependencias.
+
+**Solución**:
+```bash
+# Reinstala dependencias
+cd <ros2-workspace>
+rosdep update
+rosdep install --from-paths src --ignore-src -r -y
+
+# Limpia y recompila
+rm -rf build/ install/ log/
+colcon build --symlink-install
+```
+
+---
+
+## 📊 Configuración Avanzada
+
+### Modificar la Lista de Pinturas por Defecto
+
+En `llm_plan_solver.cpp` (líneas 159-166), puedes cambiar las pinturas que se incluyen en el prompt al LLM:
+
+```cpp
+const std::vector<std::string> visited_tokens = {
+  "autorretrato_con_collar_de_espinas",
+  "el_carnaval_del_arlequin",
+  "nighthawks",
+  // Añade más pinturas aquí
+};
+```
+
+### Ajustar Parámetros de Batería
+
+En `domain.pddl`, modifica los costos de batería:
+
+```pddl
+(:durative-action move
+  ...
+  :effect (at start (decrease (battery ?r) 20))  ; Cambiar este valor
+)
+```
+
+### Personalizar Explicaciones
+
+Edita los archivos en `explicacion_respuestas/*.txt` para cambiar las explicaciones de las pinturas.
+
+---
+
+
+## 📹 Vídeo de Demostración
+
+Ver el sistema funcionando completo:
+
+
+https://github.com/user-attachments/assets/e53534b6-c863-4cac-b03d-f919722aff35
+
+
+---
+
+## 📚 Referencias y Tecnologías Utilizadas
+
+- **ROS 2**: Framework de robótica
+- **PlanSys2**: Sistema de planificación basado en PDDL
+- **Nav2**: Stack de navegación autónoma
+- **LangChain**: Framework para aplicaciones con LLM
+- **Ollama**: Servicio local de modelos LLM
+- **OpenAI Whisper**: Modelo de Speech-to-Text
+- **gTTS**: Google Text-to-Speech
+- **Gazebo**: Simulador de robótica
+- **TIAGo**: Robot humanoide de PAL Robotics
+
+---
+
+## 👥 Autores
+
+Trabajo Final de Grado - Planificación de Sistemas Robóticos
+Universidad Rey Juan Carlos
+
+---
+
+## 📝 Licencia
+
+Este proyecto está bajo licencia Apache 2.0. Ver archivo [LICENSE](LICENSE) para más detalles.
+
+---
+
+## 🆘 Soporte
+
+Para problemas o preguntas:
+1. Revisa la sección de **Resolución de Problemas**
+2. Verifica los logs de ROS 2: `ros2 topic echo /rosout`
+3. Consulta la documentación de [PlanSys2](https://plansys2.github.io/)
+4. Abre un issue en el repositorio
+
+---
+
+**¡Disfruta explorando el museo con inteligencia artificial!** 🎨🤖
 
 
 ## Ejercicio 4 - Planner
