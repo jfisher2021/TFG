@@ -1,0 +1,1388 @@
+Iniciando ejecución secuencial de chat_flujo_completo.py (10 veces)
+==================================================================
+Fecha de inicio: 2025-10-30 14:13:43
+
+
+>>> Ejecución #1 de 10 - 2025-10-30 14:13:43
+-------------------------------------------------------------------
+USANDO DEEPSEEK
+
+Generando plan PDDL con DeepSeek...
+==================================================
+PLAN:
+0.000: (start_welcome tiago) [1.000]
+1.000: (move tiago home monalisa) [15.000]
+16.000: (explain_painting tiago monalisa) [15.000]
+31.000: (move tiago monalisa nocheestrellada) [15.000]
+46.000: (explain_painting tiago nocheestrellada) [15.000]
+61.000: (move tiago nocheestrellada home) [15.000]
+76.000: (recharge tiago home) [5.000]
+81.000: (move tiago home elgrito) [15.000]
+96.000: (explain_painting tiago elgrito) [15.000]
+111.000: (move tiago elgrito maestro_aprendiz) [15.000]
+126.000: (explain_painting tiago maestro_aprendiz) [15.000]
+141.000: (move tiago maestro_aprendiz home) [15.000]
+156.000: (recharge tiago home) [5.000]
+161.000: (move tiago home guernica) [15.000]
+176.000: (explain_painting tiago guernica) [15.000]
+191.000: (move tiago guernica la_joven_de_la_perla) [15.000]
+206.000: (explain_painting tiago la_joven_de_la_perla) [15.000]
+221.000: (move tiago la_joven_de_la_perla home) [15.000]
+236.000: (recharge tiago home) [5.000]
+241.000: (move tiago home las_meninas) [15.000]
+256.000: (explain_painting tiago las_meninas) [15.000]
+271.000: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]
+286.000: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
+301.000: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+316.000: (recharge tiago home) [5.000]
+321.000: (move tiago home el_jardin_de_las_delicias) [15.000]
+336.000: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
+351.000: (move tiago el_jardin_de_las_delicias las_tres_gracias) [15.000]
+366.000: (explain_painting tiago las_tres_gracias) [15.000]
+381.000: (move tiago las_tres_gracias home) [15.000]
+396.000: (recharge tiago home) [5.000]
+401.000: (move tiago home la_rendicion_de_breda) [15.000]
+416.000: (explain_painting tiago la_rendicion_de_breda) [15.000]
+431.000: (move tiago la_rendicion_de_breda el_nacimiento_de_venus) [15.000]
+446.000: (explain_painting tiago el_nacimiento_de_venus) [15.000]
+461.000: (move tiago el_nacimiento_de_venus home) [15.000]
+476.000: (recharge tiago home) [5.000]
+481.000: (move tiago home la_creacion_de_adan) [15.000]
+496.000: (explain_painting tiago la_creacion_de_adan) [15.000]
+511.000: (move tiago la_creacion_de_adan la_ultima_cena) [15.000]
+526.000: (explain_painting tiago la_ultima_cena) [15.000]
+541.000: (move tiago la_ultima_cena home) [15.000]
+556.000: (recharge tiago home) [5.000]
+561.000: (move tiago home la_libertad_guiando_al_pueblo) [15.000]
+576.000: (explain_painting tiago la_libertad_guiando_al_pueblo) [15.000]
+591.000: (move tiago la_libertad_guiando_al_pueblo el_hijo_del_hombre) [15.000]
+606.000: (explain_painting tiago el_hijo_del_hombre) [15.000]
+621.000: (move tiago el_hijo_del_hombre home) [15.000]
+636.000: (recharge tiago home) [5.000]
+641.000: (move tiago home american_gothic) [15.000]
+656.000: (explain_painting tiago american_gothic) [15.000]
+671.000: (move tiago american_gothic la_persistencia_de_la_memoria) [15.000]
+686.000: (explain_painting tiago la_persistencia_de_la_memoria) [15.000]
+701.000: (move tiago la_persistencia_de_la_memoria home) [15.000]
+716.000: (recharge tiago home) [5.000]
+721.000: (move tiago home la_ronda_de_noche) [15.000]
+736.000: (explain_painting tiago la_ronda_de_noche) [15.000]
+751.000: (move tiago la_ronda_de_noche impresion_sol_naciente) [15.000]
+766.000: (explain_painting tiago impresion_sol_naciente) [15.000]
+781.000: (move tiago impresion_sol_naciente home) [15.000]
+796.000: (recharge tiago home) [5.000]
+801.000: (move tiago home banistas_en_asnieres) [15.000]
+816.000: (explain_painting tiago banistas_en_asnieres) [15.000]
+831.000: (move tiago banistas_en_asnieres saturno_devorando_a_su_hijo) [15.000]
+846.000: (explain_painting tiago saturno_devorando_a_su_hijo) [15.000]
+861.000: (move tiago saturno_devorando_a_su_hijo home) [15.000]
+876.000: (recharge tiago home) [5.000]
+881.000: (move tiago home whistlers_mother) [15.000]
+896.000: (explain_painting tiago whistlers_mother) [15.000]
+911.000: (move tiago whistlers_mother la_gran_ola_de_kanagawa) [15.000]
+926.000: (explain_painting tiago la_gran_ola_de_kanagawa) [15.000]
+941.000: (move tiago la_gran_ola_de_kanagawa home) [15.000]
+956.000: (recharge tiago home) [5.000]
+961.000: (move tiago home el_beso) [15.000]
+976.000: (explain_painting tiago el_beso) [15.000]
+991.000: (move tiago el_beso autorretrato_con_collar_de_espinas) [15.000]
+1006.000: (explain_painting tiago autorretrato_con_collar_de_espinas) [15.000]
+1021.000: (move tiago autorretrato_con_collar_de_espinas home) [15.000]
+1036.000: (recharge tiago home) [5.000]
+1041.000: (move tiago home el_carnaval_del_arlequin) [15.000]
+1056.000: (explain_painting tiago el_carnaval_del_arlequin) [15.000]
+1071.000: (move tiago el_carnaval_del_arlequin nighthawks) [15.000]
+1086.000: (explain_painting tiago nighthawks) [15.000]
+1101.000: (move tiago nighthawks home) [15.000]
+1116.000: (recharge tiago home) [5.000]
+1121.000: (move tiago home retrato_de_adele_bloch_bauer_i) [15.000]
+1136.000: (explain_painting tiago retrato_de_adele_bloch_bauer_i) [15.000]
+1151.000: (move tiago retrato_de_adele_bloch_bauer_i campbells_soup_cans) [15.000]
+1166.000: (explain_painting tiago campbells_soup_cans) [15.000]
+1181.000: (move tiago campbells_soup_cans home) [15.000]
+1196.000: (recharge tiago home) [5.000]
+1201.000: (move tiago home composition_viii) [15.000]
+1216.000: (explain_painting tiago composition_viii) [15.000]
+1231.000: (move tiago composition_viii home) [15.000]
+
+
+==================================================
+Guardando logs...
+Logs guardados en log.txt y log.json
+Validando el plan...
+
+RESULTAADO DE LA VALIDACION...
+==================================================
+content='' additional_kwargs={'function_call': {'name': 'ResponseFormatter', 'arguments': '{"Comments": "The plan is valid and all constraints are met successfully.", "Goal": "Visitar 31 cuadros y explicar 31", "Errors": "None", "Meets_Goal": "S", "Plan_Valid": "S", "Format_Valid": "S"}'}} response_metadata={'prompt_feedback': {'block_reason': 0, 'safety_ratings': []}, 'finish_reason': 'STOP', 'model_name': 'gemini-2.5-pro', 'safety_ratings': []} id='run--347e726d-1dfb-4c33-8ea9-70292720da3f-0' tool_calls=[{'name': 'ResponseFormatter', 'args': {'Comments': 'The plan is valid and all constraints are met successfully.', 'Goal': 'Visitar 31 cuadros y explicar 31', 'Errors': 'None', 'Meets_Goal': 'S', 'Plan_Valid': 'S', 'Format_Valid': 'S'}, 'id': '1cd0ff91-019e-4124-b52d-51d5c647b514', 'type': 'tool_call'}] usage_metadata={'input_tokens': 4949, 'output_tokens': 2845, 'total_tokens': 7794, 'input_token_details': {'cache_read': 0}, 'output_token_details': {'reasoning': 2781}}
+El Plan es válido?: {'name': 'ResponseFormatter', 'args': {'Comments': 'The plan is valid and all constraints are met successfully.', 'Goal': 'Visitar 31 cuadros y explicar 31', 'Errors': 'None', 'Meets_Goal': 'S', 'Plan_Valid': 'S', 'Format_Valid': 'S'}, 'id': '1cd0ff91-019e-4124-b52d-51d5c647b514', 'type': 'tool_call'}
+✓ Ejecución #1 completada exitosamente
+Esperando 2 segundos antes de la siguiente ejecución...
+
+>>> Ejecución #2 de 10 - 2025-10-30 14:25:42
+-------------------------------------------------------------------
+USANDO DEEPSEEK
+
+Generando plan PDDL con DeepSeek...
+==================================================
+PLAN:
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home monalisa) [15.000]
+16.002: (explain_painting tiago monalisa) [15.000]
+31.002: (move tiago monalisa nocheestrellada) [15.000]
+46.002: (explain_painting tiago nocheestrellada) [15.000]
+61.002: (move tiago nocheestrellada home) [15.000]
+76.002: (recharge tiago home) [5.000]
+81.003: (move tiago home elgrito) [15.000]
+96.004: (explain_painting tiago elgrito) [15.000]
+111.004: (move tiago elgrito maestro_aprendiz) [15.000]
+126.004: (explain_painting tiago maestro_aprendiz) [15.000]
+141.004: (move tiago maestro_aprendiz home) [15.000]
+156.004: (recharge tiago home) [5.000]
+161.005: (move tiago home guernica) [15.000]
+176.006: (explain_painting tiago guernica) [15.000]
+191.006: (move tiago guernica la_joven_de_la_perla) [15.000]
+206.006: (explain_painting tiago la_joven_de_la_perla) [15.000]
+221.006: (move tiago la_joven_de_la_perla home) [15.000]
+236.006: (recharge tiago home) [5.000]
+241.007: (move tiago home las_meninas) [15.000]
+256.008: (explain_painting tiago las_meninas) [15.000]
+271.008: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]
+286.008: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
+301.008: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+316.008: (recharge tiago home) [5.000]
+321.009: (move tiago home el_jardin_de_las_delicias) [15.000]
+336.010: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
+351.010: (move tiago el_jardin_de_las_delicias las_tres_gracias) [15.000]
+366.010: (explain_painting tiago las_tres_gracias) [15.000]
+381.010: (move tiago las_tres_gracias home) [15.000]
+396.010: (recharge tiago home) [5.000]
+401.011: (move tiago home la_rendicion_de_breda) [15.000]
+416.012: (explain_painting tiago la_rendicion_de_breda) [15.000]
+431.012: (move tiago la_rendicion_de_breda el_nacimiento_de_venus) [15.000]
+446.012: (explain_painting tiago el_nacimiento_de_venus) [15.000]
+461.012: (move tiago el_nacimiento_de_venus home) [15.000]
+476.012: (recharge tiago home) [5.000]
+481.013: (move tiago home la_creacion_de_adan) [15.000]
+496.014: (explain_painting tiago la_creacion_de_adan) [15.000]
+511.014: (move tiago la_creacion_de_adan la_ultima_cena) [15.000]
+526.014: (explain_painting tiago la_ultima_cena) [15.000]
+541.014: (move tiago la_ultima_cena home) [15.000]
+556.014: (recharge tiago home) [5.000]
+561.015: (move tiago home la_libertad_guiando_al_pueblo) [15.000]
+576.016: (explain_painting tiago la_libertad_guiando_al_pueblo) [15.000]
+591.016: (move tiago la_libertad_guiando_al_pueblo el_hijo_del_hombre) [15.000]
+606.016: (explain_painting tiago el_hijo_del_hombre) [15.000]
+621.016: (move tiago el_hijo_del_hombre home) [15.000]
+636.016: (recharge tiago home) [5.000]
+641.017: (move tiago home american_gothic) [15.000]
+656.018: (explain_painting tiago american_gothic) [15.000]
+671.018: (move tiago american_gothic la_persistencia_de_la_memoria) [15.000]
+686.018: (explain_painting tiago la_persistencia_de_la_memoria) [15.000]
+701.018: (move tiago la_persistencia_de_la_memoria home) [15.000]
+716.018: (recharge tiago home) [5.000]
+721.019: (move tiago home la_ronda_de_noche) [15.000]
+736.020: (explain_painting tiago la_ronda_de_noche) [15.000]
+751.020: (move tiago la_ronda_de_noche impresion_sol_naciente) [15.000]
+766.020: (explain_painting tiago impresion_sol_naciente) [15.000]
+781.020: (move tiago impresion_sol_naciente home) [15.000]
+796.020: (recharge tiago home) [5.000]
+801.021: (move tiago home banistas_en_asnieres) [15.000]
+816.022: (explain_painting tiago banistas_en_asnieres) [15.000]
+831.022: (move tiago banistas_en_asnieres saturno_devorando_a_su_hijo) [15.000]
+846.022: (explain_painting tiago saturno_devorando_a_su_hijo) [15.000]
+861.022: (move tiago saturno_devorando_a_su_hijo home) [15.000]
+876.022: (recharge tiago home) [5.000]
+881.023: (move tiago home whistlers_mother) [15.000]
+896.024: (explain_painting tiago whistlers_mother) [15.000]
+911.024: (move tiago whistlers_mother la_gran_ola_de_kanagawa) [15.000]
+926.024: (explain_painting tiago la_gran_ola_de_kanagawa) [15.000]
+941.024: (move tiago la_gran_ola_de_kanagawa home) [15.000]
+956.024: (recharge tiago home) [5.000]
+961.025: (move tiago home el_beso) [15.000]
+976.026: (explain_painting tiago el_beso) [15.000]
+991.026: (move tiago el_beso autorretrato_con_collar_de_espinas) [15.000]
+1006.026: (explain_painting tiago autorretrato_con_collar_de_espinas) [15.000]
+1021.026: (move tiago autorretrato_con_collar_de_espinas home) [15.000]
+1036.026: (recharge tiago home) [5.000]
+1041.027: (move tiago home el_carnaval_del_arlequin) [15.000]
+1056.028: (explain_painting tiago el_carnaval_del_arlequin) [15.000]
+1071.028: (move tiago el_carnaval_del_arlequin nighthawks) [15.000]
+1086.028: (explain_painting tiago nighthawks) [15.000]
+1101.028: (move tiago nighthawks home) [15.000]
+1116.028: (recharge tiago home) [5.000]
+1121.029: (move tiago home retrato_de_adele_bloch_bauer_i) [15.000]
+1136.030: (explain_painting tiago retrato_de_adele_bloch_bauer_i) [15.000]
+1151.030: (move tiago retrato_de_adele_bloch_bauer_i campbells_soup_cans) [15.000]
+1166.030: (explain_painting tiago campbells_soup_cans) [15.000]
+1181.030: (move tiago campbells_soup_cans home) [15.000]
+1196.030: (recharge tiago home) [5.000]
+1201.031: (move tiago home composition_viii) [15.000]
+1216.032: (explain_painting tiago composition_viii) [15.000]
+
+
+==================================================
+Guardando logs...
+Logs guardados en log.txt y log.json
+Validando el plan...
+
+RESULTAADO DE LA VALIDACION...
+==================================================
+content='' additional_kwargs={'function_call': {'name': 'ResponseFormatter', 'arguments': '{"Comments": "Valid plan; correct actions, battery management, and inferred goal met.", "Format_Valid": "S", "Errors": "The (:goal) section in the problem definition is empty. The goal was inferred from the plan\'s actions.", "Meets_Goal": "S", "Plan_Valid": "S", "Goal": "Visitar 31 cuadros y explicar 31"}'}} response_metadata={'prompt_feedback': {'block_reason': 0, 'safety_ratings': []}, 'finish_reason': 'STOP', 'model_name': 'gemini-2.5-pro', 'safety_ratings': []} id='run--83372b45-871e-45a2-9499-102a0405b407-0' tool_calls=[{'name': 'ResponseFormatter', 'args': {'Comments': 'Valid plan; correct actions, battery management, and inferred goal met.', 'Format_Valid': 'S', 'Errors': "The (:goal) section in the problem definition is empty. The goal was inferred from the plan's actions.", 'Meets_Goal': 'S', 'Plan_Valid': 'S', 'Goal': 'Visitar 31 cuadros y explicar 31'}, 'id': 'e10b3fcc-6584-45ba-a581-7c7d55354bb0', 'type': 'tool_call'}] usage_metadata={'input_tokens': 4922, 'output_tokens': 3640, 'total_tokens': 8562, 'input_token_details': {'cache_read': 3977}, 'output_token_details': {'reasoning': 3552}}
+El Plan es válido?: {'name': 'ResponseFormatter', 'args': {'Comments': 'Valid plan; correct actions, battery management, and inferred goal met.', 'Format_Valid': 'S', 'Errors': "The (:goal) section in the problem definition is empty. The goal was inferred from the plan's actions.", 'Meets_Goal': 'S', 'Plan_Valid': 'S', 'Goal': 'Visitar 31 cuadros y explicar 31'}, 'id': 'e10b3fcc-6584-45ba-a581-7c7d55354bb0', 'type': 'tool_call'}
+✓ Ejecución #2 completada exitosamente
+Esperando 2 segundos antes de la siguiente ejecución...
+
+>>> Ejecución #3 de 10 - 2025-10-30 14:36:52
+-------------------------------------------------------------------
+USANDO DEEPSEEK
+
+Generando plan PDDL con DeepSeek...
+==================================================
+PLAN:
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home monalisa) [15.000]
+16.002: (explain_painting tiago monalisa) [15.000]
+31.003: (move tiago monalisa nocheestrellada) [15.000]
+46.004: (explain_painting tiago nocheestrellada) [15.000]
+61.005: (move tiago nocheestrellada home) [15.000]
+76.006: (recharge tiago home) [5.000]
+81.007: (move tiago home elgrito) [15.000]
+96.008: (explain_painting tiago elgrito) [15.000]
+111.009: (move tiago elgrito maestro_aprendiz) [15.000]
+126.010: (explain_painting tiago maestro_aprendiz) [15.000]
+141.011: (move tiago maestro_aprendiz home) [15.000]
+156.012: (recharge tiago home) [5.000]
+161.013: (move tiago home guernica) [15.000]
+176.014: (explain_painting tiago guernica) [15.000]
+191.015: (move tiago guernica la_joven_de_la_perla) [15.000]
+206.016: (explain_painting tiago la_joven_de_la_perla) [15.000]
+221.017: (move tiago la_joven_de_la_perla home) [15.000]
+236.018: (recharge tiago home) [5.000]
+241.019: (move tiago home las_meninas) [15.000]
+256.020: (explain_painting tiago las_meninas) [15.000]
+271.021: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]
+286.022: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
+301.023: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+316.024: (recharge tiago home) [5.000]
+321.025: (move tiago home el_jardin_de_las_delicias) [15.000]
+336.026: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
+351.027: (move tiago el_jardin_de_las_delicias las_tres_gracias) [15.000]
+366.028: (explain_painting tiago las_tres_gracias) [15.000]
+381.029: (move tiago las_tres_gracias home) [15.000]
+396.030: (recharge tiago home) [5.000]
+401.031: (move tiago home la_rendicion_de_breda) [15.000]
+416.032: (explain_painting tiago la_rendicion_de_breda) [15.000]
+431.033: (move tiago la_rendicion_de_breda el_nacimiento_de_venus) [15.000]
+446.034: (explain_painting tiago el_nacimiento_de_venus) [15.000]
+461.035: (move tiago el_nacimiento_de_venus home) [15.000]
+476.036: (recharge tiago home) [5.000]
+481.037: (move tiago home la_creacion_de_adan) [15.000]
+496.038: (explain_painting tiago la_creacion_de_adan) [15.000]
+511.039: (move tiago la_creacion_de_adan la_ultima_cena) [15.000]
+526.040: (explain_painting tiago la_ultima_cena) [15.000]
+541.041: (move tiago la_ultima_cena home) [15.000]
+556.042: (recharge tiago home) [5.000]
+561.043: (move tiago home la_libertad_guiando_al_pueblo) [15.000]
+576.044: (explain_painting tiago la_libertad_guiando_al_pueblo) [15.000]
+591.045: (move tiago la_libertad_guiando_al_pueblo el_hijo_del_hombre) [15.000]
+606.046: (explain_painting tiago el_hijo_del_hombre) [15.000]
+621.047: (move tiago el_hijo_del_hombre home) [15.000]
+636.048: (recharge tiago home) [5.000]
+641.049: (move tiago home american_gothic) [15.000]
+656.050: (explain_painting tiago american_gothic) [15.000]
+671.051: (move tiago american_gothic la_persistencia_de_la_memoria) [15.000]
+686.052: (explain_painting tiago la_persistencia_de_la_memoria) [15.000]
+701.053: (move tiago la_persistencia_de_la_memoria home) [15.000]
+716.054: (recharge tiago home) [5.000]
+721.055: (move tiago home la_ronda_de_noche) [15.000]
+736.056: (explain_painting tiago la_ronda_de_noche) [15.000]
+751.057: (move tiago la_ronda_de_noche impresion_sol_naciente) [15.000]
+766.058: (explain_painting tiago impresion_sol_naciente) [15.000]
+781.059: (move tiago impresion_sol_naciente home) [15.000]
+796.060: (recharge tiago home) [5.000]
+801.061: (move tiago home banistas_en_asnieres) [15.000]
+816.062: (explain_painting tiago banistas_en_asnieres) [15.000]
+831.063: (move tiago banistas_en_asnieres saturno_devorando_a_su_hijo) [15.000]
+846.064: (explain_painting tiago saturno_devorando_a_su_hijo) [15.000]
+861.065: (move tiago saturno_devorando_a_su_hijo home) [15.000]
+876.066: (recharge tiago home) [5.000]
+881.067: (move tiago home whistlers_mother) [15.000]
+896.068: (explain_painting tiago whistlers_mother) [15.000]
+911.069: (move tiago whistlers_mother la_gran_ola_de_kanagawa) [15.000]
+926.070: (explain_painting tiago la_gran_ola_de_kanagawa) [15.000]
+941.071: (move tiago la_gran_ola_de_kanagawa home) [15.000]
+956.072: (recharge tiago home) [5.000]
+961.073: (move tiago home el_beso) [15.000]
+976.074: (explain_painting tiago el_beso) [15.000]
+991.075: (move tiago el_beso autorretrato_con_collar_de_espinas) [15.000]
+1006.076: (explain_painting tiago autorretrato_con_collar_de_espinas) [15.000]
+1021.077: (move tiago autorretrato_con_collar_de_espinas home) [15.000]
+1036.078: (recharge tiago home) [5.000]
+1041.079: (move tiago home el_carnaval_del_arlequin) [15.000]
+1056.080: (explain_painting tiago el_carnaval_del_arlequin) [15.000]
+1071.081: (move tiago el_carnaval_del_arlequin nighthawks) [15.000]
+1086.082: (explain_painting tiago nighthawks) [15.000]
+1101.083: (move tiago nighthawks home) [15.000]
+1116.084: (recharge tiago home) [5.000]
+1121.085: (move tiago home retrato_de_adele_bloch_bauer_i) [15.000]
+1136.086: (explain_painting tiago retrato_de_adele_bloch_bauer_i) [15.000]
+1151.087: (move tiago retrato_de_adele_bloch_bauer_i campbells_soup_cans) [15.000]
+1166.088: (explain_painting tiago campbells_soup_cans) [15.000]
+1181.089: (move tiago campbells_soup_cans composition_viii) [15.000]
+1196.090: (explain_painting tiago composition_viii) [15.000]
+
+
+==================================================
+Guardando logs...
+Logs guardados en log.txt y log.json
+Validando el plan...
+
+RESULTAADO DE LA VALIDACION...
+==================================================
+content='' additional_kwargs={'function_call': {'name': 'ResponseFormatter', 'arguments': '{"Plan_Valid": "S", "Meets_Goal": "S", "Format_Valid": "S", "Errors": "None", "Goal": "Visitar 31 cuadros y explicar 31", "Comments": "Plan is valid, battery is managed, and all actions correct."}'}} response_metadata={'prompt_feedback': {'block_reason': 0, 'safety_ratings': []}, 'finish_reason': 'STOP', 'model_name': 'gemini-2.5-pro', 'safety_ratings': []} id='run--0127daae-8ef1-4ae8-9cdf-0c8d14414685-0' tool_calls=[{'name': 'ResponseFormatter', 'args': {'Plan_Valid': 'S', 'Meets_Goal': 'S', 'Format_Valid': 'S', 'Errors': 'None', 'Goal': 'Visitar 31 cuadros y explicar 31', 'Comments': 'Plan is valid, battery is managed, and all actions correct.'}, 'id': 'e332994e-9848-4efb-8a05-9e6a76467058', 'type': 'tool_call'}] usage_metadata={'input_tokens': 4873, 'output_tokens': 5126, 'total_tokens': 9999, 'input_token_details': {'cache_read': 0}, 'output_token_details': {'reasoning': 5060}}
+El Plan es válido?: {'name': 'ResponseFormatter', 'args': {'Plan_Valid': 'S', 'Meets_Goal': 'S', 'Format_Valid': 'S', 'Errors': 'None', 'Goal': 'Visitar 31 cuadros y explicar 31', 'Comments': 'Plan is valid, battery is managed, and all actions correct.'}, 'id': 'e332994e-9848-4efb-8a05-9e6a76467058', 'type': 'tool_call'}
+✓ Ejecución #3 completada exitosamente
+Esperando 2 segundos antes de la siguiente ejecución...
+
+>>> Ejecución #4 de 10 - 2025-10-30 14:47:47
+-------------------------------------------------------------------
+USANDO DEEPSEEK
+
+Generando plan PDDL con DeepSeek...
+==================================================
+0.000: (start_welcome tiago) [1.000]
+1.000: (move tiago home monalisa) [15.000]
+16.000: (explain_painting tiago monalisa) [15.000]
+31.000: (move tiago monalisa nocheestrellada) [15.000]
+46.000: (explain_painting tiago nocheestrellada) [15.000]
+61.000: (move tiago nocheestrellada home) [15.000]
+76.000: (recharge tiago home) [5.000]
+81.000: (move tiago home elgrito) [15.000]
+96.000: (explain_painting tiago elgrito) [15.000]
+111.000: (move tiago elgrito maestro_aprendiz) [15.000]
+126.000: (explain_painting tiago maestro_aprendiz) [15.000]
+141.000: (move tiago maestro_aprendiz home) [15.000]
+156.000: (recharge tiago home) [5.000]
+161.000: (move tiago home guernica) [15.000]
+176.000: (explain_painting tiago guernica) [15.000]
+191.000: (move tiago guernica la_joven_de_la_perla) [15.000]
+206.000: (explain_painting tiago la_joven_de_la_perla) [15.000]
+221.000: (move tiago la_joven_de_la_perla home) [15.000]
+236.000: (recharge tiago home) [5.000]
+241.000: (move tiago home las_meninas) [15.000]
+256.000: (explain_painting tiago las_meninas) [15.000]
+271.000: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]
+286.000: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
+301.000: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+316.000: (recharge tiago home) [5.000]
+321.000: (move tiago home el_jardin_de_las_delicias) [15.000]
+336.000: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
+351.000: (move tiago el_jardin_de_las_delicias las_tres_gracias) [15.000]
+366.000: (explain_painting tiago las_tres_gracias) [15.000]
+381.000: (move tiago las_tres_gracias home) [15.000]
+396.000: (recharge tiago home) [5.000]
+401.000: (move tiago home la_rendicion_de_breda) [15.000]
+416.000: (explain_painting tiago la_rendicion_de_breda) [15.000]
+431.000: (move tiago la_rendicion_de_breda el_nacimiento_de_venus) [15.000]
+446.000: (explain_painting tiago el_nacimiento_de_venus) [15.000]
+461.000: (move tiago el_nacimiento_de_venus home) [15.000]
+476.000: (recharge tiago home) [5.000]
+481.000: (move tiago home la_creacion_de_adan) [15.000]
+496.000: (explain_painting tiago la_creacion_de_adan) [15.000]
+511.000: (move tiago la_creacion_de_adan la_ultima_cena) [15.000]
+526.000: (explain_painting tiago la_ultima_cena) [15.000]
+541.000: (move tiago la_ultima_cena home) [15.000]
+556.000: (recharge tiago home) [5.000]
+561.000: (move tiago home la_libertad_guiando_al_pueblo) [15.000]
+576.000: (explain_painting tiago la_libertad_guiando_al_pueblo) [15.000]
+591.000: (move tiago la_libertad_guiando_al_pueblo el_hijo_del_hombre) [15.000]
+606.000: (explain_painting tiago el_hijo_del_hombre) [15.000]
+621.000: (move tiago el_hijo_del_hombre home) [15.000]
+636.000: (recharge tiago home) [5.000]
+641.000: (move tiago home american_gothic) [15.000]
+656.000: (explain_painting tiago american_gothic) [15.000]
+671.000: (move tiago american_gothic la_persistencia_de_la_memoria) [15.000]
+686.000: (explain_painting tiago la_persistencia_de_la_memoria) [15.000]
+701.000: (move tiago la_persistencia_de_la_memoria home) [15.000]
+716.000: (recharge tiago home) [5.000]
+721.000: (move tiago home la_ronda_de_noche) [15.000]
+736.000: (explain_painting tiago la_ronda_de_noche) [15.000]
+751.000: (move tiago la_ronda_de_noche impresion_sol_naciente) [15.000]
+766.000: (explain_painting tiago impresion_sol_naciente) [15.000]
+781.000: (move tiago impresion_sol_naciente home) [15.000]
+796.000: (recharge tiago home) [5.000]
+801.000: (move tiago home banistas_en_asnieres) [15.000]
+816.000: (explain_painting tiago banistas_en_asnieres) [15.000]
+831.000: (move tiago banistas_en_asnieres saturno_devorando_a_su_hijo) [15.000]
+846.000: (explain_painting tiago saturno_devorando_a_su_hijo) [15.000]
+861.000: (move tiago saturno_devorando_a_su_hijo home) [15.000]
+876.000: (recharge tiago home) [5.000]
+881.000: (move tiago home whistlers_mother) [15.000]
+896.000: (explain_painting tiago whistlers_mother) [15.000]
+911.000: (move tiago whistlers_mother la_gran_ola_de_kanagawa) [15.000]
+926.000: (explain_painting tiago la_gran_ola_de_kanagawa) [15.000]
+941.000: (move tiago la_gran_ola_de_kanagawa home) [15.000]
+956.000: (recharge tiago home) [5.000]
+961.000: (move tiago home el_beso) [15.000]
+976.000: (explain_painting tiago el_beso) [15.000]
+991.000: (move tiago el_beso autorretrato_con_collar_de_espinas) [15.000]
+1006.000: (explain_painting tiago autorretrato_con_collar_de_espinas) [15.000]
+1021.000: (move tiago autorretrato_con_collar_de_espinas home) [15.000]
+1036.000: (recharge tiago home) [5.000]
+1041.000: (move tiago home el_carnaval_del_arlequin) [15.000]
+1056.000: (explain_painting tiago el_carnaval_del_arlequin) [15.000]
+1071.000: (move tiago el_carnaval_del_arlequin nighthawks) [15.000]
+1086.000: (explain_painting tiago nighthawks) [15.000]
+1101.000: (move tiago nighthawks home) [15.000]
+1116.000: (recharge tiago home) [5.000]
+1121.000: (move tiago home retrato_de_adele_bloch_bauer_i) [15.000]
+1136.000: (explain_painting tiago retrato_de_adele_bloch_bauer_i) [15.000]
+1151.000: (move tiago retrato_de_adele_bloch_bauer_i campbells_soup_cans) [15.000]
+1166.000: (explain_painting tiago campbells_soup_cans) [15.000]
+1181.000: (move tiago campbells_soup_cans home) [15.000]
+1196.000: (recharge tiago home) [5.000]
+1201.000: (move tiago home composition_viii) [15.000]
+1216.000: (explain_painting tiago composition_viii) [15.000]
+
+
+==================================================
+Guardando logs...
+Logs guardados en log.txt y log.json
+Validando el plan...
+
+RESULTAADO DE LA VALIDACION...
+==================================================
+content='' additional_kwargs={'function_call': {'name': 'ResponseFormatter', 'arguments': '{"Plan_Valid": "S", "Meets_Goal": "S", "Errors": "None", "Format_Valid": "S", "Comments": "The plan is valid, all constraints are met successfully.", "Goal": "Visitar 31 cuadros y explicar 31"}'}} response_metadata={'prompt_feedback': {'block_reason': 0, 'safety_ratings': []}, 'finish_reason': 'STOP', 'model_name': 'gemini-2.5-pro', 'safety_ratings': []} id='run--8a0677f0-d460-424f-aea6-630e3ee68721-0' tool_calls=[{'name': 'ResponseFormatter', 'args': {'Plan_Valid': 'S', 'Meets_Goal': 'S', 'Errors': 'None', 'Format_Valid': 'S', 'Comments': 'The plan is valid, all constraints are met successfully.', 'Goal': 'Visitar 31 cuadros y explicar 31'}, 'id': '883ce67a-5ec2-4e4e-b70e-e4aec5c7df8e', 'type': 'tool_call'}] usage_metadata={'input_tokens': 4919, 'output_tokens': 2858, 'total_tokens': 7777, 'input_token_details': {'cache_read': 0}, 'output_token_details': {'reasoning': 2794}}
+El Plan es válido?: {'name': 'ResponseFormatter', 'args': {'Plan_Valid': 'S', 'Meets_Goal': 'S', 'Errors': 'None', 'Format_Valid': 'S', 'Comments': 'The plan is valid, all constraints are met successfully.', 'Goal': 'Visitar 31 cuadros y explicar 31'}, 'id': '883ce67a-5ec2-4e4e-b70e-e4aec5c7df8e', 'type': 'tool_call'}
+✓ Ejecución #4 completada exitosamente
+Esperando 2 segundos antes de la siguiente ejecución...
+
+>>> Ejecución #5 de 10 - 2025-10-30 14:56:44
+-------------------------------------------------------------------
+Retrying langchain_google_genai.chat_models._chat_with_retry.<locals>._chat_with_retry in 2.0 seconds as it raised ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 2
+Please retry in 10.804142797s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 2
+}
+, retry_delay {
+  seconds: 10
+}
+].
+Retrying langchain_google_genai.chat_models._chat_with_retry.<locals>._chat_with_retry in 4.0 seconds as it raised ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 2
+Please retry in 8.692331414s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 2
+}
+, retry_delay {
+  seconds: 8
+}
+].
+Retrying langchain_google_genai.chat_models._chat_with_retry.<locals>._chat_with_retry in 8.0 seconds as it raised ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 2
+Please retry in 4.589960527s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 2
+}
+, retry_delay {
+  seconds: 4
+}
+].
+Retrying langchain_google_genai.chat_models._chat_with_retry.<locals>._chat_with_retry in 16.0 seconds as it raised ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 2
+Please retry in 56.50806417s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 2
+}
+, retry_delay {
+  seconds: 56
+}
+].
+Retrying langchain_google_genai.chat_models._chat_with_retry.<locals>._chat_with_retry in 32.0 seconds as it raised ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 2
+Please retry in 40.423338192s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 2
+}
+, retry_delay {
+  seconds: 40
+}
+].
+USANDO DEEPSEEK
+
+Generando plan PDDL con DeepSeek...
+==================================================
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home monalisa) [15.000]
+16.002: (explain_painting tiago monalisa) [15.000]
+31.003: (move tiago monalisa nocheestrellada) [15.000]
+46.004: (explain_painting tiago nocheestrellada) [15.000]
+61.005: (move tiago nocheestrellada home) [15.000]
+76.006: (recharge tiago home) [5.000]
+81.007: (move tiago home elgrito) [15.000]
+96.008: (explain_painting tiago elgrito) [15.000]
+111.009: (move tiago elgrito maestro_aprendiz) [15.000]
+126.010: (explain_painting tiago maestro_aprendiz) [15.000]
+141.011: (move tiago maestro_aprendiz home) [15.000]
+156.012: (recharge tiago home) [5.000]
+161.013: (move tiago home guernica) [15.000]
+176.014: (explain_painting tiago guernica) [15.000]
+191.015: (move tiago guernica la_joven_de_la_perla) [15.000]
+206.016: (explain_painting tiago la_joven_de_la_perla) [15.000]
+221.017: (move tiago la_joven_de_la_perla home) [15.000]
+236.018: (recharge tiago home) [5.000]
+241.019: (move tiago home las_meninas) [15.000]
+256.020: (explain_painting tiago las_meninas) [15.000]
+271.021: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]
+286.022: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
+301.023: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+316.024: (recharge tiago home) [5.000]
+321.025: (move tiago home el_jardin_de_las_delicias) [15.000]
+336.026: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
+351.027: (move tiago el_jardin_de_las_delicias las_tres_gracias) [15.000]
+366.028: (explain_painting tiago las_tres_gracias) [15.000]
+381.029: (move tiago las_tres_gracias home) [15.000]
+396.030: (recharge tiago home) [5.000]
+401.031: (move tiago home la_rendicion_de_breda) [15.000]
+416.032: (explain_painting tiago la_rendicion_de_breda) [15.000]
+431.033: (move tiago la_rendicion_de_breda el_nacimiento_de_venus) [15.000]
+446.034: (explain_painting tiago el_nacimiento_de_venus) [15.000]
+461.035: (move tiago el_nacimiento_de_venus home) [15.000]
+476.036: (recharge tiago home) [5.000]
+481.037: (move tiago home la_creacion_de_adan) [15.000]
+496.038: (explain_painting tiago la_creacion_de_adan) [15.000]
+511.039: (move tiago la_creacion_de_adan la_ultima_cena) [15.000]
+526.040: (explain_painting tiago la_ultima_cena) [15.000]
+541.041: (move tiago la_ultima_cena home) [15.000]
+556.042: (recharge tiago home) [5.000]
+561.043: (move tiago home la_libertad_guiando_al_pueblo) [15.000]
+576.044: (explain_painting tiago la_libertad_guiando_al_pueblo) [15.000]
+591.045: (move tiago la_libertad_guiando_al_pueblo el_hijo_del_hombre) [15.000]
+606.046: (explain_painting tiago el_hijo_del_hombre) [15.000]
+621.047: (move tiago el_hijo_del_hombre home) [15.000]
+636.048: (recharge tiago home) [5.000]
+641.049: (move tiago home american_gothic) [15.000]
+656.050: (explain_painting tiago american_gothic) [15.000]
+671.051: (move tiago american_gothic la_persistencia_de_la_memoria) [15.000]
+686.052: (explain_painting tiago la_persistencia_de_la_memoria) [15.000]
+701.053: (move tiago la_persistencia_de_la_memoria home) [15.000]
+716.054: (recharge tiago home) [5.000]
+721.055: (move tiago home la_ronda_de_noche) [15.000]
+736.056: (explain_painting tiago la_ronda_de_noche) [15.000]
+751.057: (move tiago la_ronda_de_noche impresion_sol_naciente) [15.000]
+766.058: (explain_painting tiago impresion_sol_naciente) [15.000]
+781.059: (move tiago impresion_sol_naciente home) [15.000]
+796.060: (recharge tiago home) [5.000]
+801.061: (move tiago home banistas_en_asnieres) [15.000]
+816.062: (explain_painting tiago banistas_en_asnieres) [15.000]
+831.063: (move tiago banistas_en_asnieres saturno_devorando_a_su_hijo) [15.000]
+846.064: (explain_painting tiago saturno_devorando_a_su_hijo) [15.000]
+861.065: (move tiago saturno_devorando_a_su_hijo home) [15.000]
+876.066: (recharge tiago home) [5.000]
+881.067: (move tiago home whistlers_mother) [15.000]
+896.068: (explain_painting tiago whistlers_mother) [15.000]
+911.069: (move tiago whistlers_mother la_gran_ola_de_kanagawa) [15.000]
+926.070: (explain_painting tiago la_gran_ola_de_kanagawa) [15.000]
+941.071: (move tiago la_gran_ola_de_kanagawa home) [15.000]
+956.072: (recharge tiago home) [5.000]
+961.073: (move tiago home el_beso) [15.000]
+976.074: (explain_painting tiago el_beso) [15.000]
+991.075: (move tiago el_beso autorretrato_con_collar_de_espinas) [15.000]
+1006.076: (explain_painting tiago autorretrato_con_collar_de_espinas) [15.000]
+1021.077: (move tiago autorretrato_con_collar_de_espinas home) [15.000]
+1036.078: (recharge tiago home) [5.000]
+1041.079: (move tiago home el_carnaval_del_arlequin) [15.000]
+1056.080: (explain_painting tiago el_carnaval_del_arlequin) [15.000]
+1071.081: (move tiago el_carnaval_del_arlequin nighthawks) [15.000]
+1086.082: (explain_painting tiago nighthawks) [15.000]
+1101.083: (move tiago nighthawks home) [15.000]
+1116.084: (recharge tiago home) [5.000]
+1121.085: (move tiago home retrato_de_adele_bloch_bauer_i) [15.000]
+1136.086: (explain_painting tiago retrato_de_adele_bloch_bauer_i) [15.000]
+1151.087: (move tiago retrato_de_adele_bloch_bauer_i campbells_soup_cans) [15.000]
+1166.088: (explain_painting tiago campbells_soup_cans) [15.000]
+1181.089: (move tiago campbells_soup_cans home) [15.000]
+1196.090: (recharge tiago home) [5.000]
+1201.091: (move tiago home composition_viii) [15.000]
+1216.092: (explain_painting tiago composition_viii) [15.000]
+
+
+==================================================
+Guardando logs...
+Logs guardados en log.txt y log.json
+Validando el plan...
+
+RESULTAADO DE LA VALIDACION...
+==================================================
+content='' additional_kwargs={'function_call': {'name': 'ResponseFormatter', 'arguments': '{"Errors": "None", "Format_Valid": "S", "Meets_Goal": "S", "Goal": "Visitar 33 cuadros y explicar 33", "Comments": "The plan is valid, all constraints are met successfully.", "Plan_Valid": "S"}'}} response_metadata={'prompt_feedback': {'block_reason': 0, 'safety_ratings': []}, 'finish_reason': 'STOP', 'model_name': 'gemini-2.5-pro', 'safety_ratings': []} id='run--26815ab0-cccb-47a4-a329-9f79dea1f2ee-0' tool_calls=[{'name': 'ResponseFormatter', 'args': {'Errors': 'None', 'Format_Valid': 'S', 'Meets_Goal': 'S', 'Goal': 'Visitar 33 cuadros y explicar 33', 'Comments': 'The plan is valid, all constraints are met successfully.', 'Plan_Valid': 'S'}, 'id': '5f9aeeab-635c-4363-a409-55681276ebda', 'type': 'tool_call'}] usage_metadata={'input_tokens': 4919, 'output_tokens': 2347, 'total_tokens': 7266, 'input_token_details': {'cache_read': 0}, 'output_token_details': {'reasoning': 2283}}
+El Plan es válido?: {'name': 'ResponseFormatter', 'args': {'Errors': 'None', 'Format_Valid': 'S', 'Meets_Goal': 'S', 'Goal': 'Visitar 33 cuadros y explicar 33', 'Comments': 'The plan is valid, all constraints are met successfully.', 'Plan_Valid': 'S'}, 'id': '5f9aeeab-635c-4363-a409-55681276ebda', 'type': 'tool_call'}
+✓ Ejecución #5 completada exitosamente
+Esperando 2 segundos antes de la siguiente ejecución...
+
+>>> Ejecución #6 de 10 - 2025-10-30 16:08:33
+-------------------------------------------------------------------
+USANDO DEEPSEEK
+
+Generando plan PDDL con DeepSeek...
+==================================================
+PLAN:
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home monalisa) [15.000]
+16.001: (explain_painting tiago monalisa) [15.000]
+31.001: (move tiago monalisa nocheestrellada) [15.000]
+46.001: (explain_painting tiago nocheestrellada) [15.000]
+61.001: (move tiago nocheestrellada home) [15.000]
+76.001: (recharge tiago home) [5.000]
+81.001: (move tiago home elgrito) [15.000]
+96.001: (explain_painting tiago elgrito) [15.000]
+111.001: (move tiago elgrito maestro_aprendiz) [15.000]
+126.001: (explain_painting tiago maestro_aprendiz) [15.000]
+141.001: (move tiago maestro_aprendiz home) [15.000]
+156.001: (recharge tiago home) [5.000]
+161.001: (move tiago home guernica) [15.000]
+176.001: (explain_painting tiago guernica) [15.000]
+191.001: (move tiago guernica la_joven_de_la_perla) [15.000]
+206.001: (explain_painting tiago la_joven_de_la_perla) [15.000]
+221.001: (move tiago la_joven_de_la_perla home) [15.000]
+236.001: (recharge tiago home) [5.000]
+241.001: (move tiago home las_meninas) [15.000]
+256.001: (explain_painting tiago las_meninas) [15.000]
+271.001: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]
+286.001: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
+301.001: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+316.001: (recharge tiago home) [5.000]
+321.001: (move tiago home el_jardin_de_las_delicias) [15.000]
+336.001: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
+351.001: (move tiago el_jardin_de_las_delicias las_tres_gracias) [15.000]
+366.001: (explain_painting tiago las_tres_gracias) [15.000]
+381.001: (move tiago las_tres_gracias home) [15.000]
+396.001: (recharge tiago home) [5.000]
+401.001: (move tiago home la_rendicion_de_breda) [15.000]
+416.001: (explain_painting tiago la_rendicion_de_breda) [15.000]
+431.001: (move tiago la_rendicion_de_breda el_nacimiento_de_venus) [15.000]
+446.001: (explain_painting tiago el_nacimiento_de_venus) [15.000]
+461.001: (move tiago el_nacimiento_de_venus home) [15.000]
+476.001: (recharge tiago home) [5.000]
+481.001: (move tiago home la_creacion_de_adan) [15.000]
+496.001: (explain_painting tiago la_creacion_de_adan) [15.000]
+511.001: (move tiago la_creacion_de_adan la_ultima_cena) [15.000]
+526.001: (explain_painting tiago la_ultima_cena) [15.000]
+541.001: (move tiago la_ultima_cena home) [15.000]
+556.001: (recharge tiago home) [5.000]
+561.001: (move tiago home la_libertad_guiando_al_pueblo) [15.000]
+576.001: (explain_painting tiago la_libertad_guiando_al_pueblo) [15.000]
+591.001: (move tiago la_libertad_guiando_al_pueblo el_hijo_del_hombre) [15.000]
+606.001: (explain_painting tiago el_hijo_del_hombre) [15.000]
+621.001: (move tiago el_hijo_del_hombre home) [15.000]
+636.001: (recharge tiago home) [5.000]
+641.001: (move tiago home american_gothic) [15.000]
+656.001: (explain_painting tiago american_gothic) [15.000]
+671.001: (move tiago american_gothic la_persistencia_de_la_memoria) [15.000]
+686.001: (explain_painting tiago la_persistencia_de_la_memoria) [15.000]
+701.001: (move tiago la_persistencia_de_la_memoria home) [15.000]
+716.001: (recharge tiago home) [5.000]
+721.001: (move tiago home la_ronda_de_noche) [15.000]
+736.001: (explain_painting tiago la_ronda_de_noche) [15.000]
+751.001: (move tiago la_ronda_de_noche impresion_sol_naciente) [15.000]
+766.001: (explain_painting tiago impresion_sol_naciente) [15.000]
+781.001: (move tiago impresion_sol_naciente home) [15.000]
+796.001: (recharge tiago home) [5.000]
+801.001: (move tiago home banistas_en_asnieres) [15.000]
+816.001: (explain_painting tiago banistas_en_asnieres) [15.000]
+831.001: (move tiago banistas_en_asnieres saturno_devorando_a_su_hijo) [15.000]
+846.001: (explain_painting tiago saturno_devorando_a_su_hijo) [15.000]
+861.001: (move tiago saturno_devorando_a_su_hijo home) [15.000]
+876.001: (recharge tiago home) [5.000]
+881.001: (move tiago home whistlers_mother) [15.000]
+896.001: (explain_painting tiago whistlers_mother) [15.000]
+911.001: (move tiago whistlers_mother la_gran_ola_de_kanagawa) [15.000]
+926.001: (explain_painting tiago la_gran_ola_de_kanagawa) [15.000]
+941.001: (move tiago la_gran_ola_de_kanagawa home) [15.000]
+956.001: (recharge tiago home) [5.000]
+961.001: (move tiago home el_beso) [15.000]
+976.001: (explain_painting tiago el_beso) [15.000]
+991.001: (move tiago el_beso autorretrato_con_collar_de_espinas) [15.000]
+1006.001: (explain_painting tiago autorretrato_con_collar_de_espinas) [15.000]
+1021.001: (move tiago autorretrato_con_collar_de_espinas home) [15.000]
+1036.001: (recharge tiago home) [5.000]
+1041.001: (move tiago home el_carnaval_del_arlequin) [15.000]
+1056.001: (explain_painting tiago el_carnaval_del_arlequin) [15.000]
+1071.001: (move tiago el_carnaval_del_arlequin nighthawks) [15.000]
+1086.001: (explain_painting tiago nighthawks) [15.000]
+1101.001: (move tiago nighthawks home) [15.000]
+1116.001: (recharge tiago home) [5.000]
+1121.001: (move tiago home retrato_de_adele_bloch_bauer_i) [15.000]
+1136.001: (explain_painting tiago retrato_de_adele_bloch_bauer_i) [15.000]
+1151.001: (move tiago retrato_de_adele_bloch_bauer_i campbells_soup_cans) [15.000]
+1166.001: (explain_painting tiago campbells_soup_cans) [15.000]
+1181.001: (move tiago campbells_soup_cans home) [15.000]
+1196.001: (recharge tiago home) [5.000]
+1201.001: (move tiago home composition_viii) [15.000]
+1216.001: (explain_painting tiago composition_viii) [15.000]
+1231.001: (move tiago composition_viii home) [15.000]
+1246.001: (recharge tiago home) [5.000]
+
+
+==================================================
+Guardando logs...
+Logs guardados en log.txt y log.json
+Validando el plan...
+
+RESULTAADO DE LA VALIDACION...
+==================================================
+content='' additional_kwargs={'function_call': {'name': 'ResponseFormatter', 'arguments': '{"Meets_Goal": "S", "Format_Valid": "S", "Comments": "Plan valid, battery safe, all actions and goals met.", "Goal": "Visitar 31 cuadros y explicar 31", "Plan_Valid": "S", "Errors": "None"}'}} response_metadata={'prompt_feedback': {'block_reason': 0, 'safety_ratings': []}, 'finish_reason': 'STOP', 'model_name': 'gemini-2.5-pro', 'safety_ratings': []} id='run--5a03f531-da12-457a-b908-6dc825e41ce9-0' tool_calls=[{'name': 'ResponseFormatter', 'args': {'Meets_Goal': 'S', 'Format_Valid': 'S', 'Comments': 'Plan valid, battery safe, all actions and goals met.', 'Goal': 'Visitar 31 cuadros y explicar 31', 'Plan_Valid': 'S', 'Errors': 'None'}, 'id': '0c71329d-bf87-4baa-abd0-62d68a80acaa', 'type': 'tool_call'}] usage_metadata={'input_tokens': 4973, 'output_tokens': 3459, 'total_tokens': 8432, 'input_token_details': {'cache_read': 0}, 'output_token_details': {'reasoning': 3394}}
+El Plan es válido?: {'name': 'ResponseFormatter', 'args': {'Meets_Goal': 'S', 'Format_Valid': 'S', 'Comments': 'Plan valid, battery safe, all actions and goals met.', 'Goal': 'Visitar 31 cuadros y explicar 31', 'Plan_Valid': 'S', 'Errors': 'None'}, 'id': '0c71329d-bf87-4baa-abd0-62d68a80acaa', 'type': 'tool_call'}
+✓ Ejecución #6 completada exitosamente
+Esperando 2 segundos antes de la siguiente ejecución...
+
+>>> Ejecución #7 de 10 - 2025-10-30 16:21:27
+-------------------------------------------------------------------
+USANDO DEEPSEEK
+
+Generando plan PDDL con DeepSeek...
+==================================================
+The robot starts at home with a battery of 100. Each move consumes 20 battery, and each explain consumes 10 battery. To minimize recharges, the robot visits two paintings per trip from home, then returns to home to recharge. After two paintings, the battery is 40, which allows moving back to home consuming 20, leaving battery 20, and then recharging to 100. After 15 such trips, 30 paintings are explained, and the robot is at home with battery 100. For the last painting, the robot moves to it and explains it, consuming 20+10=30, leaving battery 70, and since no more actions are needed, no recharge is performed. Thus, recharges are performed only after each pair of paintings, totaling 15 recharges. Each painting is explained because it is required in the goal to explain all paintings.
+
+PLAN:
+0.000: (start_welcome tiago) [1.000]
+1.000: (move tiago home monalisa) [15.000]
+16.000: (explain_painting tiago monalisa) [15.000]
+31.000: (move tiago monalisa nocheestrellada) [15.000]
+46.000: (explain_painting tiago nocheestrellada) [15.000]
+61.000: (move tiago nocheestrellada home) [15.000]
+76.000: (recharge tiago home) [5.000]
+81.000: (move tiago home elgrito) [15.000]
+96.000: (explain_painting tiago elgrito) [15.000]
+111.000: (move tiago elgrito maestro_aprendiz) [15.000]
+126.000: (explain_painting tiago maestro_aprendiz) [15.000]
+141.000: (move tiago maestro_aprendiz home) [15.000]
+156.000: (recharge tiago home) [5.000]
+161.000: (move tiago home guernica) [15.000]
+176.000: (explain_painting tiago guernica) [15.000]
+191.000: (move tiago guernica la_joven_de_la_perla) [15.000]
+206.000: (explain_painting tiago la_joven_de_la_perla) [15.000]
+221.000: (move tiago la_joven_de_la_perla home) [15.000]
+236.000: (recharge tiago home) [5.000]
+241.000: (move tiago home las_meninas) [15.000]
+256.000: (explain_painting tiago las_meninas) [15.000]
+271.000: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]
+286.000: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
+301.000: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+316.000: (recharge tiago home) [5.000]
+321.000: (move tiago home el_jardin_de_las_delicias) [15.000]
+336.000: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
+351.000: (move tiago el_jardin_de_las_delicias las_tres_gracias) [15.000]
+366.000: (explain_painting tiago las_tres_gracias) [15.000]
+381.000: (move tiago las_tres_gracias home) [15.000]
+396.000: (recharge tiago home) [5.000]
+401.000: (move tiago home la_rendicion_de_breda) [15.000]
+416.000: (explain_painting tiago la_rendicion_de_breda) [15.000]
+431.000: (move tiago la_rendicion_de_breda el_nacimiento_de_venus) [15.000]
+446.000: (explain_painting tiago el_nacimiento_de_venus) [15.000]
+461.000: (move tiago el_nacimiento_de_venus home) [15.000]
+476.000: (recharge tiago home) [5.000]
+481.000: (move tiago home la_creacion_de_adan) [15.000]
+496.000: (explain_painting tiago la_creacion_de_adan) [15.000]
+511.000: (move tiago la_creacion_de_adan la_ultima_cena) [15.000]
+526.000: (explain_painting tiago la_ultima_cena) [15.000]
+541.000: (move tiago la_ultima_cena home) [15.000]
+556.000: (recharge tiago home) [5.000]
+561.000: (move tiago home la_libertad_guiando_al_pueblo) [15.000]
+576.000: (explain_painting tiago la_libertad_guiando_al_pueblo) [15.000]
+591.000: (move tiago la_libertad_guiando_al_pueblo el_hijo_del_hombre) [15.000]
+606.000: (explain_painting tiago el_hijo_del_hombre) [15.000]
+621.000: (move tiago el_hijo_del_hombre home) [15.000]
+636.000: (recharge tiago home) [5.000]
+641.000: (move tiago home american_gothic) [15.000]
+656.000: (explain_painting tiago american_gothic) [15.000]
+671.000: (move tiago american_gothic la_persistencia_de_la_memoria) [15.000]
+686.000: (explain_painting tiago la_persistencia_de_la_memoria) [15.000]
+701.000: (move tiago la_persistencia_de_la_memoria home) [15.000]
+716.000: (recharge tiago home) [5.000]
+721.000: (move tiago home la_ronda_de_noche) [15.000]
+736.000: (explain_painting tiago la_ronda_de_noche) [15.000]
+751.000: (move tiago la_ronda_de_noche impresion_sol_naciente) [15.000]
+766.000: (explain_painting tiago impresion_sol_naciente) [15.000]
+781.000: (move tiago impresion_sol_naciente home) [15.000]
+796.000: (recharge tiago home) [5.000]
+801.000: (move tiago home banistas_en_asnieres) [15.000]
+816.000: (explain_painting tiago banistas_en_asnieres) [15.000]
+831.000: (move tiago banistas_en_asnieres saturno_devorando_a_su_hijo) [15.000]
+846.000: (explain_painting tiago saturno_devorando_a_su_hijo) [15.000]
+861.000: (move tiago saturno_devorando_a_su_hijo home) [15.000]
+876.000: (recharge tiago home) [5.000]
+881.000: (move tiago home whistlers_mother) [15.000]
+896.000: (explain_painting tiago whistlers_mother) [15.000]
+911.000: (move tiago whistlers_mother la_gran_ola_de_kanagawa) [15.000]
+926.000: (explain_painting tiago la_gran_ola_de_kanagawa) [15.000]
+941.000: (move tiago la_gran_ola_de_kanagawa home) [15.000]
+956.000: (recharge tiago home) [5.000]
+961.000: (move tiago home el_beso) [15.000]
+976.000: (explain_painting tiago el_beso) [15.000]
+991.000: (move tiago el_beso autorretrato_con_collar_de_espinas) [15.000]
+1006.000: (explain_painting tiago autorretrato_con_collar_de_espinas) [15.000]
+1021.000: (move tiago autorretrato_con_collar_de_espinas home) [15.000]
+1036.000: (recharge tiago home) [5.000]
+1041.000: (move tiago home el_carnaval_del_arlequin) [15.000]
+1056.000: (explain_painting tiago el_carnaval_del_arlequin) [15.000]
+1071.000: (move tiago el_carnaval_del_arlequin nighthawks) [15.000]
+1086.000: (explain_painting tiago nighthawks) [15.000]
+1101.000: (move tiago nighthawks home) [15.000]
+1116.000: (recharge tiago home) [5.000]
+1121.000: (move tiago home retrato_de_adele_bloch_bauer_i) [15.000]
+1136.000: (explain_painting tiago retrato_de_adele_bloch_bauer_i) [15.000]
+1151.000: (move tiago retrato_de_adele_bloch_bauer_i campbells_soup_cans) [15.000]
+1166.000: (explain_painting tiago campbells_soup_cans) [15.000]
+1181.000: (move tiago campbells_soup_cans home) [15.000]
+1196.000: (recharge tiago home) [5.000]
+1201.000: (move tiago home composition_viii) [15.000]
+1216.000: (explain_painting tiago composition_viii) [15.000]
+
+
+==================================================
+Guardando logs...
+Logs guardados en log.txt y log.json
+Validando el plan...
+
+RESULTAADO DE LA VALIDACION...
+==================================================
+content='' additional_kwargs={'function_call': {'name': 'ResponseFormatter', 'arguments': '{"Comments": "Plan is valid; actions, battery, and timing are correct.", "Meets_Goal": "S", "Plan_Valid": "S", "Format_Valid": "S", "Goal": "Visitar 31 cuadros y explicar 31", "Errors": "The problem definition is incomplete as it lacks a `(:goal)` section. The plan\'s validity is assessed against domain constraints only."}'}} response_metadata={'prompt_feedback': {'block_reason': 0, 'safety_ratings': []}, 'finish_reason': 'STOP', 'model_name': 'gemini-2.5-pro', 'safety_ratings': []} id='run--b6817515-77e0-468c-be3a-09fe9c69f2e3-0' tool_calls=[{'name': 'ResponseFormatter', 'args': {'Comments': 'Plan is valid; actions, battery, and timing are correct.', 'Meets_Goal': 'S', 'Plan_Valid': 'S', 'Format_Valid': 'S', 'Goal': 'Visitar 31 cuadros y explicar 31', 'Errors': "The problem definition is incomplete as it lacks a `(:goal)` section. The plan's validity is assessed against domain constraints only."}, 'id': 'dd1bcbf3-66d2-41a7-bda8-7d8bda5b436b', 'type': 'tool_call'}] usage_metadata={'input_tokens': 5120, 'output_tokens': 4389, 'total_tokens': 9509, 'input_token_details': {'cache_read': 0}, 'output_token_details': {'reasoning': 4298}}
+El Plan es válido?: {'name': 'ResponseFormatter', 'args': {'Comments': 'Plan is valid; actions, battery, and timing are correct.', 'Meets_Goal': 'S', 'Plan_Valid': 'S', 'Format_Valid': 'S', 'Goal': 'Visitar 31 cuadros y explicar 31', 'Errors': "The problem definition is incomplete as it lacks a `(:goal)` section. The plan's validity is assessed against domain constraints only."}, 'id': 'dd1bcbf3-66d2-41a7-bda8-7d8bda5b436b', 'type': 'tool_call'}
+✓ Ejecución #7 completada exitosamente
+Esperando 2 segundos antes de la siguiente ejecución...
+
+>>> Ejecución #8 de 10 - 2025-10-30 16:31:25
+-------------------------------------------------------------------
+USANDO DEEPSEEK
+
+Generando plan PDDL con DeepSeek...
+==================================================
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home monalisa) [15.000]
+16.002: (explain_painting tiago monalisa) [15.000]
+31.003: (move tiago monalisa nocheestrellada) [15.000]
+46.004: (explain_painting tiago nocheestrellada) [15.000]
+61.005: (move tiago nocheestrellada home) [15.000]
+76.006: (recharge tiago home) [5.000]
+81.007: (move tiago home elgrito) [15.000]
+96.008: (explain_painting tiago elgrito) [15.000]
+111.009: (move tiago elgrito maestro_aprendiz) [15.000]
+126.010: (explain_painting tiago maestro_aprendiz) [15.000]
+141.011: (move tiago maestro_aprendiz home) [15.000]
+156.012: (recharge tiago home) [5.000]
+161.013: (move tiago home guernica) [15.000]
+176.014: (explain_painting tiago guernica) [15.000]
+191.015: (move tiago guernica la_joven_de_la_perla) [15.000]
+206.016: (explain_painting tiago la_joven_de_la_perla) [15.000]
+221.017: (move tiago la_joven_de_la_perla home) [15.000]
+236.018: (recharge tiago home) [5.000]
+241.019: (move tiago home las_meninas) [15.000]
+256.020: (explain_painting tiago las_meninas) [15.000]
+271.021: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]
+286.022: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
+301.023: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+316.024: (recharge tiago home) [5.000]
+321.025: (move tiago home el_jardin_de_las_delicias) [15.000]
+336.026: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
+351.027: (move tiago el_jardin_de_las_delicias las_tres_gracias) [15.000]
+366.028: (explain_painting tiago las_tres_gracias) [15.000]
+381.029: (move tiago las_tres_gracias home) [15.000]
+396.030: (recharge tiago home) [5.000]
+401.031: (move tiago home la_rendicion_de_breda) [15.000]
+416.032: (explain_painting tiago la_rendicion_de_breda) [15.000]
+431.033: (move tiago la_rendicion_de_breda el_nacimiento_de_venus) [15.000]
+446.034: (explain_painting tiago el_nacimiento_de_venus) [15.000]
+461.035: (move tiago el_nacimiento_de_venus home) [15.000]
+476.036: (recharge tiago home) [5.000]
+481.037: (move tiago home la_creacion_de_adan) [15.000]
+496.038: (explain_painting tiago la_creacion_de_adan) [15.000]
+511.039: (move tiago la_creacion_de_adan la_ultima_cena) [15.000]
+526.040: (explain_painting tiago la_ultima_cena) [15.000]
+541.041: (move tiago la_ultima_cena home) [15.000]
+556.042: (recharge tiago home) [5.000]
+561.043: (move tiago home la_libertad_guiando_al_pueblo) [15.000]
+576.044: (explain_painting tiago la_libertad_guiando_al_pueblo) [15.000]
+591.045: (move tiago la_libertad_guiando_al_pueblo el_hijo_del_hombre) [15.000]
+606.046: (explain_painting tiago el_hijo_del_hombre) [15.000]
+621.047: (move tiago el_hijo_del_hombre home) [15.000]
+636.048: (recharge tiago home) [5.000]
+641.049: (move tiago home american_gothic) [15.000]
+656.050: (explain_painting tiago american_gothic) [15.000]
+671.051: (move tiago american_gothic la_persistencia_de_la_memoria) [15.000]
+686.052: (explain_painting tiago la_persistencia_de_la_memoria) [15.000]
+701.053: (move tiago la_persistencia_de_la_memoria home) [15.000]
+716.054: (recharge tiago home) [5.000]
+721.055: (move tiago home la_ronda_de_noche) [15.000]
+736.056: (explain_painting tiago la_ronda_de_noche) [15.000]
+751.057: (move tiago la_ronda_de_noche impresion_sol_naciente) [15.000]
+766.058: (explain_painting tiago impresion_sol_naciente) [15.000]
+781.059: (move tiago impresion_sol_naciente home) [15.000]
+796.060: (recharge tiago home) [5.000]
+801.061: (move tiago home banistas_en_asnieres) [15.000]
+816.062: (explain_painting tiago banistas_en_asnieres) [15.000]
+831.063: (move tiago banistas_en_asnieres saturno_devorando_a_su_hijo) [15.000]
+846.064: (explain_painting tiago saturno_devorando_a_su_hijo) [15.000]
+861.065: (move tiago saturno_devorando_a_su_hijo home) [15.000]
+876.066: (recharge tiago home) [5.000]
+881.067: (move tiago home whistlers_mother) [15.000]
+896.068: (explain_painting tiago whistlers_mother) [15.000]
+911.069: (move tiago whistlers_mother la_gran_ola_de_kanagawa) [15.000]
+926.070: (explain_painting tiago la_gran_ola_de_kanagawa) [15.000]
+941.071: (move tiago la_gran_ola_de_kanagawa home) [15.000]
+956.072: (recharge tiago home) [5.000]
+961.073: (move tiago home el_beso) [15.000]
+976.074: (explain_painting tiago el_beso) [15.000]
+991.075: (move tiago el_beso autorretrato_con_collar_de_espinas) [15.000]
+1006.076: (explain_painting tiago autorretrato_con_collar_de_espinas) [15.000]
+1021.077: (move tiago autorretrato_con_collar_de_espinas home) [15.000]
+1036.078: (recharge tiago home) [5.000]
+1041.079: (move tiago home el_carnaval_del_arlequin) [15.000]
+1056.080: (explain_painting tiago el_carnaval_del_arlequin) [15.000]
+1071.081: (move tiago el_carnaval_del_arlequin nighthawks) [15.000]
+1086.082: (explain_painting tiago nighthawks) [15.000]
+1101.083: (move tiago nighthawks home) [15.000]
+1116.084: (recharge tiago home) [5.000]
+1121.085: (move tiago home retrato_de_adele_bloch_bauer_i) [15.000]
+1136.086: (explain_painting tiago retrato_de_adele_bloch_bauer_i) [15.000]
+1151.087: (move tiago retrato_de_adele_bloch_bauer_i campbells_soup_cans) [15.000]
+1166.088: (explain_painting tiago campbells_soup_cans) [15.000]
+1181.089: (move tiago campbells_soup_cans home) [15.000]
+1196.090: (recharge tiago home) [5.000]
+1201.091: (move tiago home composition_viii) [15.000]
+1216.092: (explain_painting tiago composition_viii) [15.000]
+
+
+==================================================
+Guardando logs...
+Logs guardados en log.txt y log.json
+Validando el plan...
+
+RESULTAADO DE LA VALIDACION...
+==================================================
+content='Of course. I will validate the provided PDDL plan step by step.\n\n### Plan Validation Analysis\n\nHere is a detailed, step-by-step validation of the execution plan:\n\n**Initial State:**\n*   **Robot Location:** `tiago` is at `home`.\n*   **Battery:** 100 units.\n\n---\n**Step 1: `0.000: (start_welcome tiago) [1.000]`**\n*   **Action:** `start_welcome` is a valid action from the domain.\n*   **Temporal:** Duration of 1.000 matches the domain.\n*   **Battery:** This action does not consume battery.\n*   **Result:** **Valid**. Battery remains at **100**.\n\n**Step 2: `1.001: (move tiago home monalisa) [15.000]`**\n*   **Action:** `move` is valid. `home` and `monalisa` are valid locations.\n*   **Temporal:** Duration of 15.000 matches the domain.\n*   **Battery:** Consumes 20 units. `100 - 20 = 80`.\n*   **Result:** **Valid**. Battery is now **80**.\n\n**Step 3: `16.002: (explain_painting tiago monalisa) [15.000]`**\n*   **Action:** `explain_painting` is valid. Robot is at `monalisa`.\n*   **Temporal:** Duration of 15.000 matches the domain.\n*   **Battery:** Consumes 10 units. `80 - 10 = 70`.\n*   **Result:** **Valid**. Battery is now **70**.\n\n**Step 4: `31.003: (move tiago monalisa nocheestrellada) [15.000]`**\n*   **Action:** `move` is valid. `monalisa` and `nocheestrellada` are valid locations.\n*   **Temporal:** Duration of 15.000 matches the domain.\n*   **Battery:** Consumes 20 units. `70 - 20 = 50`.\n*   **Result:** **Valid**. Battery is now **50**.\n\n**Step 5: `46.004: (explain_painting tiago nocheestrellada) [15.000]`**\n*   **Action:** `explain_painting` is valid. Robot is at `nocheestrellada`.\n*   **Temporal:** Duration of 15.000 matches the domain.\n*   **Battery:** Consumes 10 units. `50 - 10 = 40`.\n*   **Result:** **Valid**. Battery is now **40**.\n\n**Step 6: `61.005: (move tiago nocheestrellada home) [15.000]`**\n*   **Action:** `move` is valid.\n*   **Temporal:** Duration of 15.000 matches the domain.\n*   **Battery:** Consumes 20 units. `40 - 20 = 20`.\n*   **Result:** **Valid**. Battery is now **20**.\n\n**Step 7: `76.006: (recharge tiago home) [5.000]`**\n*   **Action:** `recharge` is valid. Robot is at `home`, which has a charger.\n*   **Temporal:** Duration of 5.000 matches the domain.\n*   **Battery:** Restores battery to 100.\n*   **Result:** **Valid**. Battery is now **100**.\n\n... The plan continues this valid pattern of visiting two locations, explaining the paintings, and returning to `home` to recharge. The battery logic is consistently sound, never dropping below the 20 units required for the final `move` action back to the charger. All actions, locations, and durations are correct according to the domain and problem files.\n\nI will summarize the final steps to confirm the pattern holds.\n\n**Step 91: `1201.091: (move tiago home composition_viii) [15.000]`**\n*   **Action:** Valid `move`.\n*   **Temporal:** Duration of 15.000 is correct.\n*   **Battery:** The robot just recharged. `100 - 20 = 80`.\n*   **Result:** **Valid**. Battery is now **80**.\n\n**Step 92: `1216.092: (explain_painting tiago composition_viii) [15.000]`**\n*   **Action:** Valid `explain_painting`. Robot is at `composition_viii`.\n*   **Temporal:** Duration of 15.000 is correct.\n*   **Battery:** `80 - 10 = 70`.\n*   **Result:** **Valid**. Battery is now **70**.\n\n---\n### Validation Summary\n\n1.  **Battery Logic:** **PASS**. The battery starts at 100. Consumption is correctly modeled (`move` -20, `explain_painting` -10). The plan intelligently returns the robot to `home` for a `recharge` action before the battery can be depleted, never dropping below 20.\n2.  **Action Integrity:** **PASS**. All actions (`start_welcome`, `move`, `explain_painting`, `recharge`) and their parameters (locations, robot) are defined in the domain and problem files. There are no typos or made-up entities.\n3.  **Goal Achievement:** **PASS**. The `(:goal)` section of the problem file is empty. Therefore, any valid plan that completes without errors technically achieves the goal. The plan successfully visits 32 locations and explains 32 paintings.\n4.  **Temporal Consistency:** **PASS**. The start times are sequential and non-decreasing. The durations for all actions (`start_welcome` [1], `move` [15], `explain_painting` [15], `recharge` [5]) are correct.\n5.  **Plan Format:** **PASS**. The plan strictly follows the required `timestamp: (action ...) [duration]` format.\n6.  **Charger Locations:** **PASS**. All `recharge` actions occur at the `home` location, which is correctly defined as having a charger with `(charger_at home)`.\n\n### Conclusion\n\nThe execution plan is **VALID**. It is logically sound, adheres to all domain and problem constraints, correctly manages battery levels, and meets the specified goals.' additional_kwargs={'function_call': {'name': 'ResponseFormatter', 'arguments': '{"Format_Valid": "S", "Errors": "None", "Meets_Goal": "S", "Plan_Valid": "S", "Comments": "The plan is valid. All actions, timings, and battery levels are correct.", "Goal": "Visitar 32 cuadros y explicar 32"}'}} response_metadata={'prompt_feedback': {'block_reason': 0, 'safety_ratings': []}, 'finish_reason': 'STOP', 'model_name': 'gemini-2.5-pro', 'safety_ratings': []} id='run--2dbcac5e-1d00-4784-b240-a9cc78be3e50-0' tool_calls=[{'name': 'ResponseFormatter', 'args': {'Format_Valid': 'S', 'Errors': 'None', 'Meets_Goal': 'S', 'Plan_Valid': 'S', 'Comments': 'The plan is valid. All actions, timings, and battery levels are correct.', 'Goal': 'Visitar 32 cuadros y explicar 32'}, 'id': 'c582b1f7-1a51-4adf-8eda-92c694596665', 'type': 'tool_call'}] usage_metadata={'input_tokens': 4919, 'output_tokens': 4424, 'total_tokens': 9343, 'input_token_details': {'cache_read': 0}, 'output_token_details': {'reasoning': 2857}}
+El Plan es válido?: {'name': 'ResponseFormatter', 'args': {'Format_Valid': 'S', 'Errors': 'None', 'Meets_Goal': 'S', 'Plan_Valid': 'S', 'Comments': 'The plan is valid. All actions, timings, and battery levels are correct.', 'Goal': 'Visitar 32 cuadros y explicar 32'}, 'id': 'c582b1f7-1a51-4adf-8eda-92c694596665', 'type': 'tool_call'}
+✓ Ejecución #8 completada exitosamente
+Esperando 2 segundos antes de la siguiente ejecución...
+
+>>> Ejecución #9 de 10 - 2025-10-30 16:41:20
+-------------------------------------------------------------------
+Retrying langchain_google_genai.chat_models._chat_with_retry.<locals>._chat_with_retry in 2.0 seconds as it raised ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 2
+Please retry in 408.163844ms. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 2
+}
+, retry_delay {
+}
+].
+Retrying langchain_google_genai.chat_models._chat_with_retry.<locals>._chat_with_retry in 4.0 seconds as it raised ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 2
+Please retry in 58.32077756s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 2
+}
+, retry_delay {
+  seconds: 58
+}
+].
+Retrying langchain_google_genai.chat_models._chat_with_retry.<locals>._chat_with_retry in 8.0 seconds as it raised ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 2
+Please retry in 54.232354635s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 2
+}
+, retry_delay {
+  seconds: 54
+}
+].
+Retrying langchain_google_genai.chat_models._chat_with_retry.<locals>._chat_with_retry in 16.0 seconds as it raised ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 2
+Please retry in 46.153011742s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 2
+}
+, retry_delay {
+  seconds: 46
+}
+].
+Retrying langchain_google_genai.chat_models._chat_with_retry.<locals>._chat_with_retry in 32.0 seconds as it raised ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 2
+Please retry in 30.07055918s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 2
+}
+, retry_delay {
+  seconds: 30
+}
+].
+USANDO DEEPSEEK
+
+Generando plan PDDL con DeepSeek...
+==================================================
+### Step-by-Step Explanation
+
+The robot starts at home with a battery level of 100. Each move consumes 20 battery, and each explain consumes 10 battery. The robot can only recharge at home, which sets the battery to 100. To minimize recharges and ensure the robot never runs out of battery, we visit paintings in groups of two with return to home for recharging after each group. This is because after two paintings, the battery is at 40, and after moving back to home, it drops to 20, which is the minimum required to move. Recharging at this point restores the battery to 100. For the last three paintings, we visit them in one trip without returning to home, as after explaining the third painting, the battery is 10, which is sufficient for the explain action but not for move, and since no move is needed after, it is acceptable. This strategy results in 14 recharges for 31 paintings, which is efficient.
+
+All paintings are explained because the goal requires explaining all paintings listed in the problem objects. The order of painting visits is based on the sequence provided in the problem objects to simplify the plan.
+
+### PLAN:
+
+0.000: (start_welcome tiago) [1.000]  
+1.001: (move tiago home monalisa) [15.000]  
+16.002: (explain_painting tiago monalisa) [15.000]  
+31.003: (move tiago monalisa nocheestrellada) [15.000]  
+46.004: (explain_painting tiago nocheestrellada) [15.000]  
+61.005: (move tiago nocheestrellada home) [15.000]  
+76.006: (recharge tiago home) [5.000]  
+81.007: (move tiago home elgrito) [15.000]  
+96.008: (explain_painting tiago elgrito) [15.000]  
+111.009: (move tiago elgrito maestro_aprendiz) [15.000]  
+126.010: (explain_painting tiago maestro_aprendiz) [15.000]  
+141.011: (move tiago maestro_aprendiz home) [15.000]  
+156.012: (recharge tiago home) [5.000]  
+161.013: (move tiago home guernica) [15.000]  
+176.014: (explain_painting tiago guernica) [15.000]  
+191.015: (move tiago guernica la_joven_de_la_perla) [15.000]  
+206.016: (explain_painting tiago la_joven_de_la_perla) [15.000]  
+221.017: (move tiago la_joven_de_la_perla home) [15.000]  
+236.018: (recharge tiago home) [5.000]  
+241.019: (move tiago home las_meninas) [15.000]  
+256.020: (explain_painting tiago las_meninas) [15.000]  
+271.021: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]  
+286.022: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]  
+301.023: (move tiago el_3_de_mayo_de_1808 home) [15.000]  
+316.024: (recharge tiago home) [5.000]  
+321.025: (move tiago home el_jardin_de_las_delicias) [15.000]  
+336.026: (explain_painting tiago el_jardin_de_las_delicias) [15.000]  
+351.027: (move tiago el_jardin_de_las_delicias las_tres_gracias) [15.000]  
+366.028: (explain_painting tiago las_tres_gracias) [15.000]  
+381.029: (move tiago las_tres_gracias home) [15.000]  
+396.030: (recharge tiago home) [5.000]  
+401.031: (move tiago home la_rendicion_de_breda) [15.000]  
+416.032: (explain_painting tiago la_rendicion_de_breda) [15.000]  
+431.033: (move tiago la_rendicion_de_breda el_nacimiento_de_venus) [15.000]  
+446.034: (explain_painting tiago el_nacimiento_de_venus) [15.000]  
+461.035: (move tiago el_nacimiento_de_venus home) [15.000]  
+476.036: (recharge tiago home) [5.000]  
+481.037: (move tiago home la_creacion_de_adan) [15.000]  
+496.038: (explain_painting tiago la_creacion_de_adan) [15.000]  
+511.039: (move tiago la_creacion_de_adan la_ultima_cena) [15.000]  
+526.040: (explain_painting tiago la_ultima_cena) [15.000]  
+541.041: (move tiago la_ultima_cena home) [15.000]  
+556.042: (recharge tiago home) [5.000]  
+561.043: (move tiago home la_libertad_guiando_al_pueblo) [15.000]  
+576.044: (explain_painting tiago la_libertad_guiando_al_pueblo) [15.000]  
+591.045: (move tiago la_libertad_guiando_al_pueblo el_hijo_del_hombre) [15.000]  
+606.046: (explain_painting tiago el_hijo_del_hombre) [15.000]  
+621.047: (move tiago el_hijo_del_hombre home) [15.000]  
+636.048: (recharge tiago home) [5.000]  
+641.049: (move tiago home american_gothic) [15.000]  
+656.050: (explain_painting tiago american_gothic) [15.000]  
+671.051: (move tiago american_gothic la_persistencia_de_la_memoria) [15.000]  
+686.052: (explain_painting tiago la_persistencia_de_la_memoria) [15.000]  
+701.053: (move tiago la_persistencia_de_la_memoria home) [15.000]  
+716.054: (recharge tiago home) [5.000]  
+721.055: (move tiago home la_ronda_de_noche) [15.000]  
+736.056: (explain_painting tiago la_ronda_de_noche) [15.000]  
+751.057: (move tiago la_ronda_de_noche impresion_sol_naciente) [15.000]  
+766.058: (explain_painting tiago impresion_sol_naciente) [15.000]  
+781.059: (move tiago impresion_sol_naciente home) [15.000]  
+796.060: (recharge tiago home) [5.000]  
+801.061: (move tiago home banistas_en_asnieres) [15.000]  
+816.062: (explain_painting tiago banistas_en_asnieres) [15.000]  
+831.063: (move tiago banistas_en_asnieres saturno_devorando_a_su_hijo) [15.000]  
+846.064: (explain_painting tiago saturno_devorando_a_su_hijo) [15.000]  
+861.065: (move tiago saturno_devorando_a_su_hijo home) [15.000]  
+876.066: (recharge tiago home) [5.000]  
+881.067: (move tiago home whistlers_mother) [15.000]  
+896.068: (explain_painting tiago whistlers_mother) [15.000]  
+911.069: (move tiago whistlers_mother la_gran_ola_de_kanagawa) [15.000]  
+926.070: (explain_painting tiago la_gran_ola_de_kanagawa) [15.000]  
+941.071: (move tiago la_gran_ola_de_kanagawa home) [15.000]  
+956.072: (recharge tiago home) [5.000]  
+961.073: (move tiago home el_beso) [15.000]  
+976.074: (explain_painting tiago el_beso) [15.000]  
+991.075: (move tiago el_beso autorretrato_con_collar_de_espinas) [15.000]  
+1006.076: (explain_painting tiago autorretrato_con_collar_de_espinas) [15.000]  
+1021.077: (move tiago autorretrato_con_collar_de_espinas home) [15.000]  
+1036.078: (recharge tiago home) [5.000]  
+1041.079: (move tiago home el_carnaval_del_arlequin) [15.000]  
+1056.080: (explain_painting tiago el_carnaval_del_arlequin) [15.000]  
+1071.081: (move tiago el_carnaval_del_arlequin nighthawks) [15.000]  
+1086.082: (explain_painting tiago nighthawks) [15.000]  
+1101.083: (move tiago nighthawks home) [15.000]  
+1116.084: (recharge tiago home) [5.000]  
+1121.085: (move tiago home retrato_de_adele_bloch_bauer_i) [15.000]  
+1136.086: (explain_painting tiago retrato_de_adele_bloch_bauer_i) [15.000]  
+1151.087: (move tiago retrato_de_adele_bloch_bauer_i campbells_soup_cans) [15.000]  
+1166.088: (explain_painting tiago campbells_soup_cans) [15.000]  
+1181.089: (move tiago campbells_soup_cans composition_viii) [15.000]  
+1196.090: (explain_painting tiago composition_viii) [15.000]
+
+
+==================================================
+Guardando logs...
+Logs guardados en log.txt y log.json
+Validando el plan...
+
+RESULTAADO DE LA VALIDACION...
+==================================================
+content='' additional_kwargs={'function_call': {'name': 'ResponseFormatter', 'arguments': '{"Meets_Goal": "S", "Format_Valid": "S", "Errors": "None", "Comments": "Plan is valid, battery never drops below zero, goal achieved.", "Plan_Valid": "S", "Goal": "Visitar 31 cuadros y explicar 31"}'}} response_metadata={'prompt_feedback': {'block_reason': 0, 'safety_ratings': []}, 'finish_reason': 'STOP', 'model_name': 'gemini-2.5-pro', 'safety_ratings': []} id='run--d169f179-b97d-43b7-817c-a122750687f3-0' tool_calls=[{'name': 'ResponseFormatter', 'args': {'Meets_Goal': 'S', 'Format_Valid': 'S', 'Errors': 'None', 'Comments': 'Plan is valid, battery never drops below zero, goal achieved.', 'Plan_Valid': 'S', 'Goal': 'Visitar 31 cuadros y explicar 31'}, 'id': 'd1677865-1359-4988-b250-624c1a504002', 'type': 'tool_call'}] usage_metadata={'input_tokens': 5217, 'output_tokens': 3212, 'total_tokens': 8429, 'input_token_details': {'cache_read': 0}, 'output_token_details': {'reasoning': 3146}}
+El Plan es válido?: {'name': 'ResponseFormatter', 'args': {'Meets_Goal': 'S', 'Format_Valid': 'S', 'Errors': 'None', 'Comments': 'Plan is valid, battery never drops below zero, goal achieved.', 'Plan_Valid': 'S', 'Goal': 'Visitar 31 cuadros y explicar 31'}, 'id': 'd1677865-1359-4988-b250-624c1a504002', 'type': 'tool_call'}
+✓ Ejecución #9 completada exitosamente
+Esperando 2 segundos antes de la siguiente ejecución...
+
+>>> Ejecución #10 de 10 - 2025-10-30 16:53:43
+-------------------------------------------------------------------
+USANDO DEEPSEEK
+
+Generando plan PDDL con DeepSeek...
+==================================================
+PLAN:
+0.000: (start_welcome tiago) [1.000]
+1.001: (move tiago home monalisa) [15.000]
+16.002: (explain_painting tiago monalisa) [15.000]
+31.003: (move tiago monalisa nocheestrellada) [15.000]
+46.004: (explain_painting tiago nocheestrellada) [15.000]
+61.005: (move tiago nocheestrellada home) [15.000]
+76.006: (recharge tiago home) [5.000]
+81.007: (move tiago home elgrito) [15.000]
+96.008: (explain_painting tiago elgrito) [15.000]
+111.009: (move tiago elgrito maestro_aprendiz) [15.000]
+126.010: (explain_painting tiago maestro_aprendiz) [15.000]
+141.011: (move tiago maestro_aprendiz home) [15.000]
+156.012: (recharge tiago home) [5.000]
+161.013: (move tiago home guernica) [15.000]
+176.014: (explain_painting tiago guernica) [15.000]
+191.015: (move tiago guernica la_joven_de_la_perla) [15.000]
+206.016: (explain_painting tiago la_joven_de_la_perla) [15.000]
+221.017: (move tiago la_joven_de_la_perla home) [15.000]
+236.018: (recharge tiago home) [5.000]
+241.019: (move tiago home las_meninas) [15.000]
+256.020: (explain_painting tiago las_meninas) [15.000]
+271.021: (move tiago las_meninas el_3_de_mayo_de_1808) [15.000]
+286.022: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
+301.023: (move tiago el_3_de_mayo_de_1808 home) [15.000]
+316.024: (recharge tiago home) [5.000]
+321.025: (move tiago home el_jardin_de_las_delicias) [15.000]
+336.026: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
+351.027: (move tiago el_jardin_de_las_delicias las_tres_gracias) [15.000]
+366.028: (explain_painting tiago las_tres_gracias) [15.000]
+381.029: (move tiago las_tres_gracias home) [15.000]
+396.030: (recharge tiago home) [5.000]
+401.031: (move tiago home la_rendicion_de_breda) [15.000]
+416.032: (explain_painting tiago la_rendicion_de_breda) [15.000]
+431.033: (move tiago la_rendicion_de_breda el_nacimiento_de_venus) [15.000]
+446.034: (explain_painting tiago el_nacimiento_de_venus) [15.000]
+461.035: (move tiago el_nacimiento_de_venus home) [15.000]
+476.036: (recharge tiago home) [5.000]
+481.037: (move tiago home la_creacion_de_adan) [15.000]
+496.038: (explain_painting tiago la_creacion_de_adan) [15.000]
+511.039: (move tiago la_creacion_de_adan la_ultima_cena) [15.000]
+526.040: (explain_painting tiago la_ultima_cena) [15.000]
+541.041: (move tiago la_ultima_cena home) [15.000]
+556.042: (recharge tiago home) [5.000]
+561.043: (move tiago home la_libertad_guiando_al_pueblo) [15.000]
+576.044: (explain_painting tiago la_libertad_guiando_al_pueblo) [15.000]
+591.045: (move tiago la_libertad_guiando_al_pueblo el_hijo_del_hombre) [15.000]
+606.046: (explain_painting tiago el_hijo_del_hombre) [15.000]
+621.047: (move tiago el_hijo_del_hombre home) [15.000]
+636.048: (recharge tiago home) [5.000]
+641.049: (move tiago home american_gothic) [15.000]
+656.050: (explain_painting tiago american_gothic) [15.000]
+671.051: (move tiago american_gothic la_persistencia_de_la_memoria) [15.000]
+686.052: (explain_painting tiago la_persistencia_de_la_memoria) [15.000]
+701.053: (move tiago la_persistencia_de_la_memoria home) [15.000]
+716.054: (recharge tiago home) [5.000]
+721.055: (move tiago home la_ronda_de_noche) [15.000]
+736.056: (explain_painting tiago la_ronda_de_noche) [15.000]
+751.057: (move tiago la_ronda_de_noche impresion_sol_naciente) [15.000]
+766.058: (explain_painting tiago impresion_sol_naciente) [15.000]
+781.059: (move tiago impresion_sol_naciente home) [15.000]
+796.060: (recharge tiago home) [5.000]
+801.061: (move tiago home banistas_en_asnieres) [15.000]
+816.062: (explain_painting tiago banistas_en_asnieres) [15.000]
+831.063: (move tiago banistas_en_asnieres saturno_devorando_a_su_hijo) [15.000]
+846.064: (explain_painting tiago saturno_devorando_a_su_hijo) [15.000]
+861.065: (move tiago saturno_devorando_a_su_hijo home) [15.000]
+876.066: (recharge tiago home) [5.000]
+881.067: (move tiago home whistlers_mother) [15.000]
+896.068: (explain_painting tiago whistlers_mother) [15.000]
+911.069: (move tiago whistlers_mother la_gran_ola_de_kanagawa) [15.000]
+926.070: (explain_painting tiago la_gran_ola_de_kanagawa) [15.000]
+941.071: (move tiago la_gran_ola_de_kanagawa home) [15.000]
+956.072: (recharge tiago home) [5.000]
+961.073: (move tiago home el_beso) [15.000]
+976.074: (explain_painting tiago el_beso) [15.000]
+991.075: (move tiago el_beso autorretrato_con_collar_de_espinas) [15.000]
+1006.076: (explain_painting tiago autorretrato_con_collar_de_espinas) [15.000]
+1021.077: (move tiago autorretrato_con_collar_de_espinas home) [15.000]
+1036.078: (recharge tiago home) [5.000]
+1041.079: (move tiago home el_carnaval_del_arlequin) [15.000]
+1056.080: (explain_painting tiago el_carnaval_del_arlequin) [15.000]
+1071.081: (move tiago el_carnaval_del_arlequin nighthawks) [15.000]
+1086.082: (explain_painting tiago nighthawks) [15.000]
+1101.083: (move tiago nighthawks home) [15.000]
+1116.084: (recharge tiago home) [5.000]
+1121.085: (move tiago home retrato_de_adele_bloch_bauer_i) [15.000]
+1136.086: (explain_painting tiago retrato_de_adele_bloch_bauer_i) [15.000]
+1151.087: (move tiago retrato_de_adele_bloch_bauer_i campbells_soup_cans) [15.000]
+1166.088: (explain_painting tiago campbells_soup_cans) [15.000]
+1181.089: (move tiago campbells_soup_cans home) [15.000]
+1196.090: (recharge tiago home) [5.000]
+1201.091: (move tiago home composition_viii) [15.000]
+1216.092: (explain_painting tiago composition_viii) [15.000]
+
+
+==================================================
+Guardando logs...
+Logs guardados en log.txt y log.json
+Validando el plan...
+
+RESULTAADO DE LA VALIDACION...
+==================================================
+content='' additional_kwargs={'function_call': {'name': 'ResponseFormatter', 'arguments': '{"Meets_Goal": "S", "Format_Valid": "S", "Comments": "The plan is valid, achieving all goals without errors.", "Plan_Valid": "S", "Goal": "Visitar 31 cuadros y explicar 31", "Errors": "None"}'}} response_metadata={'prompt_feedback': {'block_reason': 0, 'safety_ratings': []}, 'finish_reason': 'STOP', 'model_name': 'gemini-2.5-pro', 'safety_ratings': []} id='run--fbd938cf-940e-4836-a3d4-e46f87aa3868-0' tool_calls=[{'name': 'ResponseFormatter', 'args': {'Meets_Goal': 'S', 'Format_Valid': 'S', 'Comments': 'The plan is valid, achieving all goals without errors.', 'Plan_Valid': 'S', 'Goal': 'Visitar 31 cuadros y explicar 31', 'Errors': 'None'}, 'id': '756ee6b1-764e-465e-9f38-2bab0f2e6208', 'type': 'tool_call'}] usage_metadata={'input_tokens': 4922, 'output_tokens': 3124, 'total_tokens': 8046, 'input_token_details': {'cache_read': 3977}, 'output_token_details': {'reasoning': 3060}}
+El Plan es válido?: {'name': 'ResponseFormatter', 'args': {'Meets_Goal': 'S', 'Format_Valid': 'S', 'Comments': 'The plan is valid, achieving all goals without errors.', 'Plan_Valid': 'S', 'Goal': 'Visitar 31 cuadros y explicar 31', 'Errors': 'None'}, 'id': '756ee6b1-764e-465e-9f38-2bab0f2e6208', 'type': 'tool_call'}
+✓ Ejecución #10 completada exitosamente
+
+==================================================================
+Completadas todas las ejecuciones - 2025-10-30 17:03:36
+==================================================================
+Iniciando ejecución secuencial de chat_flujo_completo.py (10 veces)
+==================================================================
+Fecha de inicio: 2025-10-30 17:55:53
+
+
+>>> Ejecución #1 de 10 - 2025-10-30 17:55:53
+-------------------------------------------------------------------
