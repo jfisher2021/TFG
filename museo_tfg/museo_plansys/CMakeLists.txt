@@ -75,7 +75,7 @@ add_executable(library_controller_node src/library_controller_node.cpp)
 ament_target_dependencies(library_controller_node ${dependencies})
 
 
-install(DIRECTORY launch pddl behavior_trees_xml config DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY launch pddl behavior_trees_xml config explicacion_respuestas DESTINATION share/${PROJECT_NAME})
 
 install(TARGETS
   plansys2_move_bt_node

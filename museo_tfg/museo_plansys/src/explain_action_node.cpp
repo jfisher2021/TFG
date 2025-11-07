@@ -13,16 +13,13 @@
 // limitations under the License.
 
 #include <memory>
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
 #include <fstream>
+#include <filesystem>
+
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/string.hpp"
-
-
 #include "plansys2_executor/ActionExecutorClient.hpp"
 #include "my_interfaces/srv/text_to_speech.hpp"
+#include "ament_index_cpp/get_package_share_directory.hpp"
 
 using namespace std::chrono_literals;
 using std::placeholders::_1;
@@ -42,7 +39,6 @@ public:
 private:
   void do_work()
   {
-    
     std::string arg_robot = get_arguments()[0];
     std::string drawing = get_arguments()[1];
     // std::cout << "\r\e[K" << std::flush;
@@ -51,36 +47,65 @@ private:
 
     std_msgs::msg::String msg;
 
-    std::fstream my_file;
-    std::string ch;
-    my_file.open("/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/museo_tfg/museo_plansys/explicacion_respuestas/" + drawing + ".txt", std::ios::in);
-    if (!my_file) {
-      RCLCPP_ERROR(get_logger(), "No such file");
+    // Obtener el directorio share del paquete
+    std::string pkg_share;
+    try {
+      pkg_share = ament_index_cpp::get_package_share_directory("museo_plansys");
+      RCLCPP_DEBUG(get_logger(), "Directorio share del paquete: %s", pkg_share.c_str());
+    } catch (const std::exception & e) {
+      RCLCPP_ERROR(get_logger(), "No se ha podido encontrar el directorio share del paquete: %s", e.what());
+      finish(false, 0.0, "Package directory no encontrado");
+      return;
     }
-    else {
 
-      std::string line;
-      while (std::getline(my_file, line)) {
-        ch += line + "\n";
-      }
+    // Construir ruta al archivo de explicación
+    std::filesystem::path file_path = std::filesystem::path(pkg_share) / 
+                                      "explicacion_respuestas" / 
+                                      (drawing + ".txt");
 
+    RCLCPP_DEBUG(get_logger(), "Leyendo explicación desde: %s", file_path.string().c_str());
+
+    // Verificar que el archivo existe
+    if (!std::filesystem::exists(file_path)) {
+      RCLCPP_ERROR(get_logger(), "Archivo de explicación no encontrado: %s", file_path.string().c_str());
+      finish(false, 0.0, "Archivo de explicación no encontrado");
+      return;
+    }
+
+    // Leer el contenido del archivo
+    std::ifstream my_file(file_path.string(), std::ios::in);
+    if (!my_file.is_open()) {
+      RCLCPP_ERROR(get_logger(), "No se pudo abrir el archivo: %s", file_path.string().c_str());
+      finish(false, 0.0, "No se pudo abrir el archivo de explicación");
+      return;
+    }
+
+    std::string explanation_text;
+    std::string line;
+    while (std::getline(my_file, line)) {
+      explanation_text += line + "\n";
     }
     my_file.close();
 
-    RCLCPP_INFO(get_logger(), "INICIO DE LA EXPLICACION:\n%s\n FIN DE LA EXPLICACION", ch.c_str());
-    // Crear solicitud
+    if (explanation_text.empty()) {
+      RCLCPP_WARN(get_logger(), "Archivo de explicación vacío: %s", drawing.c_str());
+      finish(false, 0.0, "Archivo de explicación vacío");
+      return;
+    }
+
+    // Crear solicitud TTS
     auto request = std::make_shared<my_interfaces::srv::TextToSpeech::Request>();
-    request->text = ch;
+    request->text = explanation_text;
 
     RCLCPP_INFO(get_logger(), "📢 Enviando solicitud TTS");
 
-    // Enviar solicitud
+    // Enviar solicitud asíncrona
     auto future = gtts_client_->async_send_request(request);
     RCLCPP_INFO(get_logger(), "⏳ Esperando respuesta de TTS...");
 
-    // Esperar resultado
-    if (rclcpp::spin_until_future_complete(node_, future) ==
-      rclcpp::FutureReturnCode::SUCCESS)
+    // Esperar resultado con timeout
+    if (rclcpp::spin_until_future_complete(node_, future, std::chrono::seconds(120)) ==
+        rclcpp::FutureReturnCode::SUCCESS)
     {
       auto result = future.get();
       if (result->success) {
@@ -94,9 +119,6 @@ private:
       RCLCPP_ERROR(get_logger(), "❌ Error al llamar al servicio TTS");
       finish(false, 0.0, "TTS call error");
     }
-    
-    finish(true, 1.0, "explain_painting completed");
-
   }
   rclcpp::Client<my_interfaces::srv::TextToSpeech>::SharedPtr gtts_client_;
 
