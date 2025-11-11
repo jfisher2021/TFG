@@ -1,12 +1,15 @@
 #!/bin/bash
-
 # Script para ejecutar chat_flujo_completo.py 10 veces de forma secuencial
 # Cada ejecución espera a que termine la anterior
-# Todos los logs se guardan en logs_script.txt
+# Determinar ruta relativa a la carpeta del script (proyecto tfg-ia)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"  # asumiendo que scripts/ está dentro de tfg-ia/
 
-PYTHON_BIN="/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/tfg-ia/.venv/bin/python"
-SCRIPT_PATH="/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/tfg-ia/tfg_langchain/scripts_evaluacion/chat_flujo_completo.py"
-LOG_FILE="/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/tfg-ia/logs_script.txt"
+# Rutas relativas dentro del proyecto (comienzan en tfg-ia/...)
+PYTHON_BIN="$PROJECT_ROOT/.venv/bin/python"
+SCRIPT_PATH="$PROJECT_ROOT/tfg_langchain/scripts_evaluacion/chat_flujo_completo.py"
+LOG_FILE="$PROJECT_ROOT/logs_script.txt"
+
 
 # Redirigir toda la salida al fichero de logs
 {
