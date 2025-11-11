@@ -1,3 +1,4 @@
+import os
 import json
 import sys
 from typing import List, TypedDict
@@ -11,6 +12,7 @@ from langchain_openai import ChatOpenAI
 from langgraph.graph import END, StateGraph
 from langchain_core.tools import tool
 from langchain.chat_models import init_chat_model
+from openai import OpenAI
 
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -135,25 +137,24 @@ def chatgpt_chat(state: State):
 def groq_chat(state: State):
     # Crear el modelo de LangChain con OpenAI
     print("USANDO GROQ")
-    client = Groq()
-    completion = client.chat.completions.create(
-        model="openai/gpt-oss-20b",        
+    selected_model = "meta-llama/llama-4-maverick-17b-128e-instruct"
+    api_key = os.getenv("GROQ_API_KEY")
+    base_url = "https://api.groq.com/openai/v1"
+    client = OpenAI(base_url=base_url, api_key=api_key)
+
+    response = client.chat.completions.create(
+        model=selected_model,
         messages=[
             {
                 "role": "user",
                 "content": state.get("state_prompt")
             }
         ],
-        temperature=0.3,
-        max_completion_tokens=8192,
-        top_p=1,
-        reasoning_effort="medium",
-        stop=None
+        # temperature=0.2,
+        stream=False
     )
-
-    full_response = completion.choices[0].message.content
-    selected_model = "openai/gpt-oss-20b"
     
+    full_response = response.choices[0].message.content
     print(full_response)
     print("\nGenerando plan PDDL...")
     print("=" * 50)
@@ -191,13 +192,13 @@ if __name__ == "__main__":
     # Añadir los nodos
     graph_builder.add_node("get_goal", get_goal)
     # graph_builder.add_node("chatgpt", chatgpt_chat)
-    # graph_builder.add_node("groq", groq_chat)
-    graph_builder.add_node("gemini", gemini_chat)
+    graph_builder.add_node("groq", groq_chat)
+    # graph_builder.add_node("gemini", gemini_chat)
 
     # Conectar los nodos
     graph_builder.set_entry_point("get_goal")
-    graph_builder.add_edge("get_goal", "gemini")
-    graph_builder.add_edge("gemini", END)
+    graph_builder.add_edge("get_goal", "groq")
+    graph_builder.add_edge("groq", END)
 
     # Compilar el grafo
     graph = graph_builder.compile()
