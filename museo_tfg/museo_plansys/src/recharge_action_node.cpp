@@ -74,10 +74,10 @@ private:
     // Obtener el resultado de la llamada al servicio
     auto result = result_future.get();
     if (result->success) {
-      RCLCPP_INFO(get_logger(), "✅ TTS completado con éxito");
+      RCLCPP_INFO(get_logger(), "TTS completado con éxito");
       finish(true, 1.0, "recharge completed");
     } else {
-      RCLCPP_ERROR(get_logger(), "❌ Error en TTS: %s", result->debug.c_str());
+      RCLCPP_ERROR(get_logger(), "Error en TTS: %s", result->debug.c_str());
       finish(false, 0.0, "TTS error");
     }
     

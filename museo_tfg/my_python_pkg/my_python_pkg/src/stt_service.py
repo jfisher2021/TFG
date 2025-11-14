@@ -105,9 +105,9 @@ class AudioInput(Node):
         self.srv = self.create_service(SpeechToText, "stt_service", self.gstt_callback)
         
         # Cargar modelo Whisper UNA SOLA VEZ al inicializar
-        self.get_logger().info('📥 Cargando modelo Whisper...')
+        self.get_logger().info('Cargando modelo Whisper...')
         self.whisper_model = whisper.load_model("small")
-        self.get_logger().info('✅ GSTTService con Whisper API inicializado')
+        self.get_logger().info('GSTTService con Whisper API inicializado')
         
         # Archivo de audio local
         self.audio_file = "/tmp/user_audio_input.wav"
@@ -121,7 +121,7 @@ class AudioInput(Node):
             volume_gain_multiplier = config.volume_gain_multiplier
             
             # Grabar audio
-            self.get_logger().info("🎤 Grabando audio...")
+            self.get_logger().info("Grabando audio...")
             audio_data = sd.rec(
             int(duration * sample_rate), samplerate=sample_rate, channels=1, dtype="float32"
             )
@@ -132,23 +132,23 @@ class AudioInput(Node):
 
             # Guardar archivo de audio
             write(self.audio_file, sample_rate, (audio_data * 32767).astype("int16"))
-            self.get_logger().info("✅ Grabación completada.")
+            self.get_logger().info("Grabación completada.")
 
             # Transcribir con Whisper 
-            self.get_logger().info("📝 Transcribiendo con Whisper")
+            self.get_logger().info("Transcribiendo con Whisper")
             result = self.whisper_model.transcribe(self.audio_file, language='es')
 
             transcript_text = result["text"].strip()
 
         except Exception as e:
             tb = traceback.format_exc()
-            self.get_logger().error(f"❌ Error en gstt_callback: {e}\n{tb}")
+            self.get_logger().error(f"Error en gstt_callback: {e}\n{tb}")
             # Informar el error en la respuesta del servicio
             response.success = False
             response.text = ""
             response.debug = tb
             return response
-        self.get_logger().info(f"🗣️ Transcripción: {transcript_text}")
+        self.get_logger().info(f"Transcripción: {transcript_text}")
 
         # Retornar la transcripción directamente en la respuesta del servicio
         response.success = True

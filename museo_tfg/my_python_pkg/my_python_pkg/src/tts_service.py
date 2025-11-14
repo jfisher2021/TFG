@@ -101,14 +101,14 @@ class GTTSService(Node):
 
         self.srv = self.create_service(TextToSpeech, "tts_service", self.gtts_callback)
 
-        self.get_logger().info("✅ GTTSService Server initialized.")
+        self.get_logger().info("GTTSService Server initialized.")
 
     def gtts_callback(self, request, response):
         reqText = request.text.strip()
 
         if not reqText:
             response.success = False
-            response.debug = "⚠️ Texto vacío para convertir"
+            response.debug = "Texto vacío para convertir"
             self.get_logger().warn(response.debug)
             return response
 
@@ -121,9 +121,9 @@ class GTTSService(Node):
         with open(audio_path, "wb") as out:
             out.write(tts_response.audio_content)
 
-        self.get_logger().info(f"🔊 Reproduciendo audio generado: {audio_path}")
+        self.get_logger().info(f"Reproduciendo audio generado: {audio_path}")
 
-        # ⚠️ Reproducir usando ffplay
+        # Reproducir usando ffplay
         # Reproduce y espera a que termine
         try:
             subprocess.run(
@@ -137,7 +137,7 @@ class GTTSService(Node):
             return response
 
         response.success = True
-        response.debug = "✅ TTS completado correctamente"
+        response.debug = "TTS completado correctamente"
         self.get_logger().info(response.debug)
         return response
 

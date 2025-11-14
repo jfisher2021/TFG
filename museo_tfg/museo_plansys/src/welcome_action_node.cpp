@@ -52,7 +52,10 @@ private:
 
     // Hacer la llamada al servicio TTS
     auto request = std::make_shared<my_interfaces::srv::TextToSpeech::Request>();
-    request->text = "Bienvenido al museo virtual. Estoy listo para guiarte.";
+    request->text = "Bienvenidos a todos! Es un placer ser vuestro guía en este recorrido por nuestras piezas más icónicas y que más trasmiten."
+    " Estas piezas no son solo pigmento y tela, son espejos del alma que transmiten la experiencia, la emoción y la esencia humana en su estado más puro."
+    " Os invito a aprovechar y valorar profundamente este arte humano mientras podamos, antes de que la creación del lienzo sea una mera función generada por la inteligencia artificial.";
+
     auto result_future = tts_client_->async_send_request(request);
     
     // Esperar la respuesta del servicio
@@ -67,10 +70,10 @@ private:
     // Obtener el resultado de la llamada al servicio
     auto result = result_future.get();
     if (result->success) {
-      RCLCPP_INFO(get_logger(), "✅ TTS completado con éxito");
+      RCLCPP_INFO(get_logger(), "TTS completado con éxito");
       finish(true, 1.0, "explain_painting completed");
     } else {
-      RCLCPP_ERROR(get_logger(), "❌ Error en TTS: %s", result->debug.c_str());
+      RCLCPP_ERROR(get_logger(), "Error en TTS: %s", result->debug.c_str());
       finish(false, 0.0, "TTS error");
     }
 

@@ -97,11 +97,11 @@ private:
     auto request = std::make_shared<my_interfaces::srv::TextToSpeech::Request>();
     request->text = explanation_text;
 
-    RCLCPP_INFO(get_logger(), "📢 Enviando solicitud TTS");
+    RCLCPP_INFO(get_logger(), "Enviando solicitud TTS");
 
     // Enviar solicitud asíncrona
     auto future = gtts_client_->async_send_request(request);
-    RCLCPP_INFO(get_logger(), "⏳ Esperando respuesta de TTS...");
+    RCLCPP_INFO(get_logger(), "Esperando respuesta de TTS...");
 
     // Esperar resultado con timeout
     if (rclcpp::spin_until_future_complete(node_, future, std::chrono::seconds(120)) ==
@@ -109,14 +109,14 @@ private:
     {
       auto result = future.get();
       if (result->success) {
-        RCLCPP_INFO(get_logger(), "✅ CUADRO EXPLICADO CON ÉXITO");
+        RCLCPP_INFO(get_logger(), "CUADRO EXPLICADO CON ÉXITO");
         finish(true, 1.0, "explain_painting completed");
       } else {
-        RCLCPP_ERROR(get_logger(), "❌ Error en TTS: %s", result->debug.c_str());
+        RCLCPP_ERROR(get_logger(), "Error en TTS: %s", result->debug.c_str());
         finish(false, 0.0, "TTS error");
       }
     } else {
-      RCLCPP_ERROR(get_logger(), "❌ Error al llamar al servicio TTS");
+      RCLCPP_ERROR(get_logger(), "Error al llamar al servicio TTS");
       finish(false, 0.0, "TTS call error");
     }
   }

@@ -101,7 +101,7 @@ if __name__ == "__main__":
     # "plan": """adios""", "validation": [False, ""]}
     final_state = graph.invoke(initial_state)
     print("\n" + "="*60)
-    print("✅ FLUJO COMPLETADO")
+    print("FLUJO COMPLETADO")
     print("="*60)
     print("Estado final:", final_state)
 
