@@ -13,6 +13,8 @@ planner:
       plugin: "plansys2/POPFPlanSolver"
     LLM:
       plugin: "plansys2/LLMPlanSolver"
+      python_command: "/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/tfg-ia/tfg_langchain/get_plan.py"
+      python_env: "/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/tfg-ia/.venv/bin/python"
     TFD:
       plugin: "plansys2/TFDPlanSolver"
 executor:

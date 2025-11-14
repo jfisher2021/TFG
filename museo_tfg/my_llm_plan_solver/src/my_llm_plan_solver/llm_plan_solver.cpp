@@ -30,20 +30,6 @@ LLMPlanSolver::LLMPlanSolver()
 {
 }
 
-LLMPlanSolver::~LLMPlanSolver()
-{
-  if (executor_thread_.joinable()) {
-    executor_.cancel();
-    executor_thread_.join();
-  }
-  
-  // Limpiar el nodo
-  if (nodos_servicios) {
-    executor_.remove_node(nodos_servicios);
-    nodos_servicios.reset();
-  }
-}
-
 std::optional<std::filesystem::path>
 LLMPlanSolver::create_folders(const std::string & node_namespace)
 {
@@ -86,6 +72,8 @@ void LLMPlanSolver::configure(
 
   arguments_parameter_name_ = plugin_name + ".arguments";
   output_dir_parameter_name_ = plugin_name + ".output_dir";
+  python_command_parameter_ = plugin_name + ".python_command";
+  python_env_parameter_ = plugin_name + ".python_env";
 
   if (!lc_node_->has_parameter(arguments_parameter_name_)) {
     lc_node_->declare_parameter<std::string>(arguments_parameter_name_, "");
@@ -95,17 +83,20 @@ void LLMPlanSolver::configure(
       output_dir_parameter_name_, std::filesystem::temp_directory_path());
   }
 
+  if (!lc_node_->has_parameter(python_command_parameter_)) {
+      lc_node_->declare_parameter<std::string>(python_command_parameter_, "");
+    }
+    if (!lc_node_->has_parameter(python_env_parameter_)) {
+      lc_node_->declare_parameter<std::string>(python_env_parameter_, "");
+    }
+
   // Crear nodo independiente para no bloquear el lifecycle node de plansys2
   nodos_servicios = rclcpp::Node::make_shared("llm_plan_solver_services_node");
   
   // Crear clientes del servicio en el nodo independiente
   tts_client_ = nodos_servicios->create_client<my_interfaces::srv::TextToSpeech>("tts_service");
   stt_client_ = nodos_servicios->create_client<my_interfaces::srv::SpeechToText>("stt_service");
-  
-  // Añadir el nodo al executor y lanzar en un thread separado
-  executor_.add_node(nodos_servicios);
-  executor_thread_ = std::thread([this]() { executor_.spin(); });
-  
+    
   RCLCPP_INFO(lc_node_->get_logger(), "LLM Plan Solver configured with independent service node");
 }
 
@@ -121,39 +112,53 @@ LLMPlanSolver::getPlan(
     return {};
   }
   const auto & output_dir = output_dir_maybe.value();
+  std::string result;
 
+  std::string spoken_goal = "";
+  std::string python_arg;
 
-  // ========== LLAMADA SÍNCRONA AL SERVICIO TTS ==========
+  std::string python_env = lc_node_->get_parameter(python_env_parameter_).value_to_string();
+  std::string python_command = lc_node_->get_parameter(python_command_parameter_).value_to_string();
+  std::string command;
+  RCLCPP_INFO(lc_node_->get_logger(), "python_env: %s", python_env.c_str());
+  RCLCPP_INFO(lc_node_->get_logger(), "python_command: %s", python_command.c_str());
+
+  char buffer[128];
+
+  // TTS 
   if (tts_client_->wait_for_service(std::chrono::seconds(5))) {
     auto tts_request = std::make_shared<my_interfaces::srv::TextToSpeech::Request>();
     tts_request->text = "elige tu goal";
     auto tts_future = tts_client_->async_send_request(tts_request);
-    
-    if (tts_future.wait_for(std::chrono::seconds(15)) != std::future_status::ready) {
+
+    if (rclcpp::spin_until_future_complete(nodos_servicios, tts_future, std::chrono::seconds(15))
+        != rclcpp::FutureReturnCode::SUCCESS) {
       RCLCPP_WARN(lc_node_->get_logger(), "TTS service timeout");
     }
   }
 
-  // ========== LLAMADA SÍNCRONA AL SERVICIO STT ==========
-  std::string spoken_goal = "";
-  
+  // STT 
   if (stt_client_->wait_for_service(std::chrono::seconds(5))) {
     auto stt_request = std::make_shared<my_interfaces::srv::SpeechToText::Request>();
     auto stt_future = stt_client_->async_send_request(stt_request);
-    
-    if (stt_future.wait_for(std::chrono::seconds(15)) == std::future_status::ready) {
+
+    if (rclcpp::spin_until_future_complete(nodos_servicios, stt_future, std::chrono::seconds(120))
+        == rclcpp::FutureReturnCode::SUCCESS) {
       auto stt_result = stt_future.get();
       if (stt_result->success) {
         spoken_goal = stt_result->text;
-        RCLCPP_INFO(lc_node_->get_logger(), "Goal received: %s", spoken_goal.c_str());
+        RCLCPP_INFO(lc_node_->get_logger(), "Transcripción recibida con éxito");
+      } else {
+        RCLCPP_ERROR(lc_node_->get_logger(), "Error en STT: %s", stt_result->debug.c_str());
       }
     } else {
-      RCLCPP_WARN(lc_node_->get_logger(), "STT service timeout");
+      RCLCPP_ERROR(lc_node_->get_logger(), "Timeout al llamar al servicio STT");
     }
+  } else {
+    RCLCPP_ERROR(lc_node_->get_logger(), "STT service no disponible tras 5s");
   }
 
   // Build command argument from captured goal or use default
-  std::string python_arg;
   if (spoken_goal.empty()) {
     python_arg = "Explicame el siguiente cuadro: ";
   } else {
@@ -161,10 +166,8 @@ LLMPlanSolver::getPlan(
   }
   RCLCPP_INFO(lc_node_->get_logger(), "%s", python_arg.c_str());
   // std::string command = "ssh dedalo.tsc.urjc.es '/home/jfisher/miniconda3/bin/python /home/jfisher/tfg/tfg_ollama/create_plan.py " + python_arg + "'";
-  std::string command = "/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/tfg-ia/.venv/bin/python /home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/tfg-ia/tfg_langchain/get_plan.py " + python_arg ;
+  command = python_env + " " + python_command + " " + python_arg;
   
-  std::string result;
-  char buffer[128];
 
   FILE* pipe = popen(command.c_str(), "r");
   if (!pipe) {
@@ -201,47 +204,41 @@ LLMPlanSolver::parse_plan_result(const std::string & plan_path)
   if (plan_file.is_open()) {
     while (getline(plan_file, line)) {
 
-      // solo entrar una vez al encontrar el primer item "0.000: (start_welcome tiago) [1.000]"
-      if (!solution) {
-        if (line.find("0.000: (start_welcome tiago) [1.000]") != std::string::npos) {
-          plansys2_msgs::msg::PlanItem item;
-          size_t colon_pos = line.find(":");
-          size_t colon_par = line.find(")");
-          size_t colon_bra = line.find("[");
+      if (line == "0.000: (start_welcome tiago) [1.000]") {
+        plansys2_msgs::msg::PlanItem item;
+        size_t colon_pos = line.find(":");
+        size_t colon_par = line.find(")");
+        size_t colon_bra = line.find("[");
 
-          std::string time = line.substr(0, colon_pos);
-          std::string action = line.substr(colon_pos + 2, colon_par - colon_pos - 1);
-          std::string duration = line.substr(colon_bra + 1);
-          duration.pop_back();
+        std::string time = line.substr(0, colon_pos);
+        std::string action = line.substr(colon_pos + 2, colon_par - colon_pos - 1);
+        std::string duration = line.substr(colon_bra + 1);
+        duration.pop_back();
 
-          item.time = std::stof(time);
-          item.action = action;
-          item.duration = std::stof(duration);
+        item.time = std::stof(time);
+        item.action = action;
+        item.duration = std::stof(duration);
+        plan.items.clear(); // No duplicar el plan si el LLM da varias versiones
+        plan.items.push_back(item);
 
-          plan.items.push_back(item);
-          solution = true;
-        }
-      } else if (!line.empty() && line.front() != ';') {
+        solution = true;
+      }
+      // solo procesar líneas que tengan el formato esperado ":" ")" "[" "tiago"
+      else if (line.find(":") != std::string::npos && line.find(")") != std::string::npos
+      && line.find("[") != std::string::npos && line.find("tiago") != std::string::npos) {
+        plansys2_msgs::msg::PlanItem item;
+        size_t colon_pos = line.find(":");
+        size_t colon_par = line.find(")");
+        size_t colon_bra = line.find("[");
 
-        // solo procesar líneas que tengan el formato esperado ":" ")" "[" "tiago"
-        if (line.find(":") != std::string::npos && line.find(")") != std::string::npos 
-        && line.find("[") != std::string::npos && line.find("tiago") != std::string::npos) {
-          plansys2_msgs::msg::PlanItem item;
-          size_t colon_pos = line.find(":");
-          size_t colon_par = line.find(")");
-          size_t colon_bra = line.find("[");
-
-          std::string time = line.substr(0, colon_pos);
-          std::string action = line.substr(colon_pos + 2, colon_par - colon_pos - 1);
-          std::string duration = line.substr(colon_bra + 1);
-          duration.pop_back();
-
-          item.time = std::stof(time);
-          item.action = action;
-          item.duration = std::stof(duration);
-
-          plan.items.push_back(item);
-        }
+        std::string time = line.substr(0, colon_pos);
+        std::string action = line.substr(colon_pos + 2, colon_par - colon_pos - 1);
+        std::string duration = line.substr(colon_bra + 1);
+        duration.pop_back();
+        item.time = std::stof(time);
+        item.action = action;
+        item.duration = std::stof(duration);
+        plan.items.push_back(item);
       }
     }
     plan_file.close();

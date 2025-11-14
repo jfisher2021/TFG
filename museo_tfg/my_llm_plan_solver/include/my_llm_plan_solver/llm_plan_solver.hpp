@@ -37,15 +37,14 @@ class LLMPlanSolver : public PlanSolverBase
 private:
   std::string arguments_parameter_name_;
   std::string output_dir_parameter_name_;
+  std::string python_command_parameter_;
+  std::string python_env_parameter_;
+
   bool cancel_requested_;
   
   // Nodo independiente para servicios
   rclcpp::Node::SharedPtr nodos_servicios;
   
-  // Executor y thread para ejecutar el nodo independiente
-  rclcpp::executors::SingleThreadedExecutor executor_;
-  std::thread executor_thread_;
-
   // Cliente del servicio TTS
   rclcpp::Client<my_interfaces::srv::TextToSpeech>::SharedPtr tts_client_;
   
@@ -54,7 +53,6 @@ private:
 
 public:
   LLMPlanSolver();
-  ~LLMPlanSolver();
 
   std::optional<std::filesystem::path> create_folders(const std::string & node_namespace);
 
