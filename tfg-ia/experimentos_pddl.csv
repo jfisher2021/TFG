@@ -349,3 +349,13 @@ gpt-4o,2,Visitar 4 cuadros y explicar 8,full_response,S,N,N,"Battery too low for
 gpt-4o,3,Visitar 4 cuadros y explicar 8,full_response,S,N,N,Battery level (10) is insufficient for move action (cost 20) at 91.007. Recharge should occur earlier.,Invalid plan: insufficient battery for move action.,4.6112306118011475
 gpt-4o,4,Visitar 4 cuadros y explicar 8,full_response,N,N,N,Tool call ausente o con esquema inválido,Sin contenido de validación,3.7844252586364746
 gpt-4o,5,Visitar 4 cuadros y explicar 8,full_response,S,N,N,"Action `(move tiago maestro_aprendiz guernica)` at 91.002 failed: Insufficient battery. Required 20, but only 10 available.",Plan invalid: battery ran out before completing all actions.,5.078686237335205
+minimax-m2:230b,1,Visitar 31 cuadros y explicar 31,full_response,S,N,N,"Battery level drops below 0 ",Plan invalid due to battery dropping below zero before recharge.,30.123213
+minimax-m2:230b,2,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"Plan valid; all conditions met, battery fine, goals achieved.",232.98767823
+minimax-m2:230b,3,Visitar 31 cuadros y explicar 31,full_response,S,N,N,"Battery level drops below 0 ",Plan invalid due to battery dropping below zero before recharge.,30.343
+minimax-m2:230b,4,Visitar 31 cuadros y explicar 31,full_response,S,N,N,"Battery level drops below 0 ",Plan invalid due to battery dropping below zero before recharge.,36.911
+minimax-m2:230b,5,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"Plan valid; all conditions met, battery fine, goals achieved.",241.964
+minimax-m2:230b,6,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"Plan valid; all conditions met, battery fine, goals achieved.",210.365
+minimax-m2:230b,7,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"Plan valid; all conditions met, battery fine, goals achieved.",195.204
+minimax-m2:230b,8,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"Plan valid; all conditions met, battery fine, goals achieved.",215.192
+minimax-m2:230b,9,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"Plan valid; all conditions met, battery fine, goals achieved.",182.469
+minimax-m2:230b,10,Visitar 31 cuadros y explicar 31,full_response,S,N,N,"Battery level drops below 0 ",Plan invalid due to battery dropping below zero before recharge.,43.565
