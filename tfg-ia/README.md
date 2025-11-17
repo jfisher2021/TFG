@@ -140,8 +140,18 @@ Ver `prompts.py` para los prompts completos:
 
 ## 📦 Dependencias
 
+Instalar dependencias con uv:
+
+Instala uv si no lo tienes:
+
 ```bash
-pip install -e .
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Luego, en el directorio tfg_ia, ejecuta:
+
+```bash
+uv sync
 ```
 
 Requiere: langchain, langgraph, ollama, pandas, google-genai, groq, openai
