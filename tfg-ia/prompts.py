@@ -973,21 +973,8 @@ If the plan is valid but the format is incorrect, return the same plan with corr
 
 If the plan is invalid (due to battery, logic, or syntax errors), return a corrected and valid plan that satisfies the goal and format.
 
-PLAN TO EVALUATE 
+PLAN TO EVALUATE:
+\"\"\"{{PLAN}}\"\"\"
 
-"
-0.000: (start_welcome tiago) [1.000]
-1.001: (move tiago home maestro_aprendiz) [15.000]
-16.002: (explain_painting tiago maestro_aprendiz) [15.000]
-31.002: (move tiago maestro_aprendiz elgrito) [15.000]
-46.002: (explain_painting tiago elgrito) [15.000]
-61.002: (move tiago elgrito guernica) [15.000]
-76.002: (explain_painting tiago guernica) [15.000]
-91.003: (recharge tiago guernica) [5.000]
-96.003: (move tiago guernica home) [15.000]
-111.003: (recharge tiago home) [5.000]
-116.004: (move tiago home monalisa) [15.000]
-131.004: (explain_painting tiago monalisa) [15.000]
-146.004: (move tiago monalisa nocheestrellada) [15.000]
-"
+
 """

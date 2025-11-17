@@ -35,3 +35,12 @@ Visitar 4 cuadros y explicar 8:
   
   )
 )
+
+Explicar 31 cuadros:
+
+(:goal
+  (and
+    explicame TODOS los cuadros
+    (explained_painting ...)
+  )
+)

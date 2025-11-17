@@ -1,6 +1,8 @@
 # Fichero creado para hacer pruebas con el fin de evaluar los distintos modelos
 # de LLMs. Se intenta ver si poniendo un modelo validador, mejora el plan y se puede evaluar.
 # Está pensado para iteración rápida y pruebas.
+# IMPORTANTE: Este formato de doble modelo no resulto efectivo y no se usó en la versión final del TFG.
+# se deja aquí como referencia.
 
 import re
 import sys
