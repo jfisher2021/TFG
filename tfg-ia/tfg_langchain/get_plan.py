@@ -31,6 +31,7 @@ else:
 
 load_dotenv(override=True)
 pddl_prompt = prompts.prompt_sin_ejemplos_input_goal
+STREAMING = True
 
 
 
@@ -50,7 +51,7 @@ def consult_csv() -> List[dict]:
 
 def get_goal(state: State) -> State:
     # model_with_csv_tool = init_chat_model("gpt-4o-mini", model_provider="openai").bind_tools([consult_csv])
-    model_with_csv_tool = init_chat_model("gemini-2.5-flash", model_provider="google_genai").bind_tools([consult_csv])
+    model_with_csv_tool = init_chat_model("openai/gpt-oss-120b", model_provider="groq").bind_tools([consult_csv])
     
     prompt_text = prompts.prompt_get_goal_con_csv.format(goal=state['state_goal'])
 
@@ -86,78 +87,93 @@ def get_goal(state: State) -> State:
                 - El objetivo original del usuario: {state['state_goal']}
 
                 Responde ÚNICAMENTE con el objetivo en formato PDDL, usando unicamente  los predicados (visited ...) y (explained_painting ...)"""
-                        
-            response2 = model_with_csv_tool.invoke(follow_up)
-            print("Respuesta final tras ejecutar la tool:", getattr(response2, 'content', None))
-            final_content = getattr(response2, 'content', '')
-            return {"state_goal": final_content, "state_plan": "", "state_prompt": pddl_prompt.format(GOAL=final_content)}
+            final_content = ""
+            if STREAMING:
+                print("Iniciando respuesta en streaming tras ejecutar la tool...")
+                for chunk in model_with_csv_tool.stream(follow_up):
+                    content = getattr(chunk, 'content', '')
+                    if content:
+                        print(content, end='', flush=True)
+                        final_content += content
+                print("\n")
+                return {"state_goal": final_content, "state_plan": "", "state_prompt": pddl_prompt.format(GOAL=final_content)}
+            else:        
+                response2 = model_with_csv_tool.invoke(follow_up)
+                print("Respuesta final tras ejecutar la tool:", getattr(response2, 'content', None))
+                final_content = getattr(response2, 'content', '')
+                return {"state_goal": final_content, "state_plan": "", "state_prompt": pddl_prompt.format(GOAL=final_content)}
 
     # Si no hay llamadas a tools, usar el contenido devuelto (si existe)
     print("No hace falta llamar a ninguna tool")
     final = getattr(response, 'content', '') or ''
     return {"state_goal": final, "state_plan": "", "state_prompt": pddl_prompt.format(GOAL=final)}
 
-def gemini_chat(state: State):
-    print("USANDO GEMINI-2.5-flash") 
-    selected_model = "gemini-2.5-flash"
-    client = genai.Client()
-    response = client.models.generate_content(
-        model=selected_model, contents=state.get("state_prompt"),
-        config=genai.types.GenerateContentConfig(
-            temperature=0.0,
-        ),
-    )
-    print("\nGenerando plan PDDL...")
-    print("=" * 50)
-    print(response.text)
-    full_response = response.text
-    # print_and_save_logs(selected_model, state.get("state_prompt"), full_response)
-    # Inicializar validation como [False, ""]; la validación real la hará el nodo validate
-    return {"state_goal": state.get("state_goal", ""), "state_plan": full_response, "state_prompt": state.get("state_prompt", "")}
-
-def chatgpt_chat(state: State):
-    # Crear el modelo de LangChain con OpenAI
-    print("USANDO GPT-4O-MINI")
-    selected_model = "gpt-4o-mini"
-    model = ChatOpenAI(
-        model=selected_model,
-        temperature=1.0,
-    )
-    full_response = ""
-    print(state.get("state_prompt"))
-    for chunk in model.stream(state.get("state_prompt")):
-        print(chunk.content, end='', flush=True)
-        full_response += chunk.content
-
-    print("\nGenerando plan PDDL...")
-    print("=" * 50)
-    # print_and_save_logs(selected_model, state.get("state_prompt"), full_response)
-    return {"state_goal": state.get("state_goal", ""), "state_plan": full_response, "state_prompt": state.get("state_prompt", "")}
-
-def groq_chat(state: State):
-    # Crear el modelo de LangChain con OpenAI
-    print("USANDO GROQ")
-    selected_model = "meta-llama/llama-4-maverick-17b-128e-instruct"
-    api_key = os.getenv("GROQ_API_KEY")
-    base_url = "https://api.groq.com/openai/v1"
-    client = OpenAI(base_url=base_url, api_key=api_key)
-
-    response = client.chat.completions.create(
-        model=selected_model,
-        messages=[
-            {
-                "role": "user",
-                "content": state.get("state_prompt")
-            }
-        ],
-        # temperature=0.2,
-        stream=False
-    )
+def generate_plan(state: State):
+    """Genera un plan PDDL usando el modelo especificado."""
+    # Configurar el modelo a usar (puedes cambiar esta variable)
+    MODEL_TO_USE = "groq"  # Opciones: "gemini", "chatgpt", "groq"
     
-    full_response = response.choices[0].message.content
-    print(full_response)
-    print("\nGenerando plan PDDL...")
-    print("=" * 50)
+    full_response = ""
+    
+    if MODEL_TO_USE == "gemini":
+        print("USANDO GEMINI-2.5-flash") 
+        selected_model = "gemini-2.5-flash"
+        client = genai.Client()
+        response = client.models.generate_content(
+            model=selected_model, contents=state.get("state_prompt"),
+            config=genai.types.GenerateContentConfig(
+                temperature=0.0,
+            ),
+        )
+        print("\nGenerando plan PDDL...")
+        print("=" * 50)
+        print(response.text)
+        full_response = response.text
+        
+    elif MODEL_TO_USE == "chatgpt":
+        print("USANDO GPT-4O-MINI")
+        selected_model = "gpt-4o-mini"
+        model = ChatOpenAI(
+            model=selected_model,
+            temperature=1.0,
+        )
+        print(state.get("state_prompt"))
+        for chunk in model.stream(state.get("state_prompt")):
+            print(chunk.content, end='', flush=True)
+            full_response += chunk.content
+        print("\nGenerando plan PDDL...")
+        print("=" * 50)
+        
+    elif MODEL_TO_USE == "groq":
+        print("USANDO GROQ")
+        selected_model = "openai/gpt-oss-120b"
+        api_key = os.getenv("GROQ_API_KEY")
+        base_url = "https://api.groq.com/openai/v1"
+        client = OpenAI(base_url=base_url, api_key=api_key)
+
+        response = client.chat.completions.create(
+            model=selected_model,
+            messages=[
+                {
+                    "role": "user",
+                    "content": state.get("state_prompt")
+                }
+            ],
+            # temperature=0.2,
+            stream=STREAMING
+        )
+        if STREAMING:
+            for sse_chunk in response:
+                content = sse_chunk.choices[0].delta.content
+                if content:
+                    print(content, end="")
+                    full_response += content
+        else:
+            full_response = response.choices[0].message.content
+            print(full_response)
+        print("\nGenerando plan PDDL...")
+        print("=" * 50)
+    
     # print_and_save_logs(selected_model, state.get("state_prompt"), full_response)
     return {"state_goal": state.get("state_goal", ""), "state_plan": full_response, "state_prompt": state.get("state_prompt", "")}
 
@@ -191,38 +207,17 @@ if __name__ == "__main__":
 
     # Añadir los nodos
     graph_builder.add_node("get_goal", get_goal)
-    # graph_builder.add_node("chatgpt", chatgpt_chat)
-    graph_builder.add_node("groq", groq_chat)
-    # graph_builder.add_node("gemini", gemini_chat)
+    graph_builder.add_node("generate_plan", generate_plan)
 
     # Conectar los nodos
     graph_builder.set_entry_point("get_goal")
-    graph_builder.add_edge("get_goal", "groq")
-    graph_builder.add_edge("groq", END)
+    graph_builder.add_edge("get_goal", "generate_plan")
+    graph_builder.add_edge("generate_plan", END)
 
     # Compilar el grafo
     graph = graph_builder.compile()
     # graph.get_graph().draw_mermaid_png(output_file_path="final_graph.png")
     # print(graph.get_graph().draw_mermaid())
-
-    # graph.get_graph().draw_mermaid_png(output_file_path="graph.png")
-    # El estado inicial debe ser un dict, no un string
     initial_state = {"state_goal": user_input, "state_plan": "", "state_prompt": pddl_prompt}
-
     final_state = graph.invoke(initial_state)
-
-    # plan = """
-    # 0.000: (start_welcome tiago)  [1.000]
-    # 1.001: (move tiago home monalisa_ws)  [15.000]
-    # 16.002: (explain_painting tiago monalisa_ws)  [15.000]
-    # 31.002: (move tiago monalisa_ws dibejo_ws)  [15.000]
-    # 46.003: (explain_painting tiago dibejo_ws)  [15.000]
-    # 61.003: (move tiago dibejo_ws elgrito_ws)  [15.000]
-    # 76.004: (explain_painting tiago elgrito_ws)  [15.000]
-    # 91.005: (move tiago elgrito_ws guernica_ws)  [15.000]
-    # 106.006: (explain_painting tiago guernica_ws)  [15.000]
-    # 121.007: (move tiago guernica_ws nocheestrellada_ws)  [15.000]
-    # 136.008: (recharge tiago nocheestrellada_ws)  [5.000]
-    # 141.009: (move tiago nocheestrellada_ws home)  [15.000]
-    # """
-
+    

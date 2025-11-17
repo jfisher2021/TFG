@@ -24,8 +24,7 @@ load_dotenv(override=True)
 pddl_prompt = prompt_inicial_sin_ejemplos
 
 # Elegir el modelo global para la generación del plan
-MODEL_TEST = "gpt-5" # Opciones: "deepseek-chat", "gemini-2.5-pro", "gpt-5-mini"
-
+MODEL_TEST = "gpt-5"
 class State(TypedDict):
     goal: str
     plan: str
@@ -35,13 +34,13 @@ class State(TypedDict):
 class ResponseFormatter(BaseModel):
     """Always use this tool to structure your response to the user."""
 
-    Format_Valid: Literal["S", "N"] = Field(description="The plan has a valid format (<S/N>)")
-    Meets_Goal: Literal["S", "N"] = Field(description="The plan meets the goal (<S/N>) or not")
-    Plan_Valid: Literal["S", "N"] = Field(description="The plan is valid (<S/N>) or not (correct format and meets the goal)")
-    Goal: str = Field(description="The goal to be achieved")
-    Errors: str = Field(description="Any errors found in the plan, if any")
-    Comments: str = Field(description="Resume in 10 words the response")
-    Tiempo: float = Field(description="Time taken for validation in seconds")
+    Format_Valid: Literal["S", "N"] = Field(description="Plan format valid: S or N")
+    Meets_Goal: Literal["S", "N"] = Field(description="Goal met: S or N")
+    Plan_Valid: Literal["S", "N"] = Field(description="Overall validity (format and goals): S or N")
+    Goal: str = Field(description="Summary like: 'Visitar X cuadros y explicar Y'")
+    Errors: str = Field(description="Errors found; empty string if none")
+    Comments: str = Field(description="Short summary (<= 12 words)")
+    Tiempo: float = Field(description="Validation time in seconds")
 
 
 def generate_plan(state: State) -> Dict[str, Any]:
@@ -59,27 +58,38 @@ def generate_plan(state: State) -> Dict[str, Any]:
 
     try:
         if "deepseek" in MODEL_TEST.lower():
+            print("Usando el proveedor de DeepSeek")
             selected_model = "deepseek-chat"
             api_key = os.getenv("DEEPSEEK_API_KEY")
             base_url = "https://api.deepseek.com/v1"
             client = OpenAI(base_url=base_url, api_key=api_key)
         elif "gemini" in MODEL_TEST.lower():
+            print("Usando el proveedor de Gemini")
             selected_model = MODEL_TEST
             api_key = os.getenv("GEMINI_API_KEY")
             base_url = "https://generativelanguage.googleapis.com/v1beta/openai/"
             client = OpenAI(base_url=base_url, api_key=api_key)
-        elif "llama" in MODEL_TEST.lower() or "moonshotai" in MODEL_TEST.lower() or "openai" in MODEL_TEST.lower():
+        elif "llama" in MODEL_TEST.lower() or "moonshotai" in MODEL_TEST.lower() or "openai" in MODEL_TEST.lower() or "groq" in MODEL_TEST.lower():
+            print("Usando el proveedor de Groq")
             selected_model = MODEL_TEST
             api_key = os.getenv("GROQ_API_KEY")
             base_url = "https://api.groq.com/openai/v1"
             client = OpenAI(base_url=base_url, api_key=api_key)
         elif "cloud" in MODEL_TEST.lower():
+            print("Usando el proveedor de Ollama")
             client = ollama.Client()
             selected_model = MODEL_TEST
             is_ollama_model = True
         elif "gpt" in MODEL_TEST.lower():
+            print("Usando el proveedor de OpenAI")
             selected_model = MODEL_TEST
             client = OpenAI()
+        elif "claude" in MODEL_TEST.lower():
+            print("Usando el proveedor de Claude")
+            selected_model = MODEL_TEST
+            api_key = os.getenv("ANTHROPIC_API_KEY")
+            base_url = "https://api.anthropic.com/v1"
+            client = OpenAI(base_url=base_url, api_key=api_key)
         else:
             raise ValueError(f"Modelo '{MODEL_TEST}' no soportado.")
 
@@ -99,7 +109,7 @@ def generate_plan(state: State) -> Dict[str, Any]:
         else:
             response = client.chat.completions.create(
                 model=selected_model,
-                service_tier="flex",
+                # service_tier="flex",
                 messages=[
                     {"role": "user", "content": pddl_prompt},
                 ],
@@ -155,13 +165,52 @@ def save_validation_in_csv(state: State) -> Dict[str, Any]:
     tiempo = state.get("time_taken", 0.0)
     print("Validando el plan...")
 
-    # Se mantiene la lógica de validación usando LangChain/Google GenAI ya que requieren imports específicos.
     model = init_chat_model("gemini-2.5-flash", model_provider="google_genai")
+    # model = init_chat_model("openai/gpt-oss-120b", model_provider="groq")
+
     model_with_tools = model.bind_tools([ResponseFormatter])
-    response = model_with_tools.invoke(validate_plan_prompt.format(PLAN=plan, GOAL=goal))
-    
-    # Extracción de la llamada a tool
-    validation_args = response.tool_calls[0]['args']
+    response = model_with_tools.invoke(
+        validate_plan_prompt.format(PLAN=plan, GOAL=goal, TIEMPO=f"{tiempo:.3f}")
+    )
+
+    def _counts_from_goal(goal_text: str) -> str:
+        try:
+            visited = goal_text.count("(visited ")
+            explained = goal_text.count("(explained_painting ")
+            if visited == 0 and explained == 0:
+                return "Visitar 31 cuadros y explicar 31"
+            return f"Visitar {visited} cuadros y explicar {explained}"
+        except Exception:
+            return "Visitar 0 cuadros y explicar 0"
+
+    validation_args: Dict[str, Any] = {}
+    try:
+        if getattr(response, "tool_calls", None):
+            first_call = response.tool_calls[0]
+            if isinstance(first_call, dict):
+                validation_args = first_call.get("args", {})
+            else:
+                validation_args = getattr(first_call, "args", {}) or {}
+        else:
+            validation_args = {}
+    except Exception as _:
+        validation_args = {}
+
+    required_keys = {"Format_Valid", "Meets_Goal", "Plan_Valid", "Goal", "Errors", "Comments", "Tiempo"}
+    if not validation_args or not required_keys.issubset(set(validation_args.keys())):
+        print("No se recibió una tool call válida. Aplicando valores por defecto (plan inválido) y guardando contexto.")
+        summary = (getattr(response, "content", None) or "").strip()
+        if not summary:
+            summary = "Sin contenido de validación"
+        validation_args = {
+            "Format_Valid": "N",
+            "Meets_Goal": "N",
+            "Plan_Valid": "N",
+            "Goal": _counts_from_goal(goal),
+            "Errors": "Tool call ausente o con esquema inválido",
+            "Comments": summary[:120].replace("\n", " "),
+            "Tiempo": float(f"{tiempo:.3f}")
+        }
 
     print("\nRESULTADO DE LA VALIDACION...")
     print("=" * 50)
@@ -174,7 +223,6 @@ def save_validation_in_csv(state: State) -> Dict[str, Any]:
         if write_header:
             writer.writerow(["Modelo","Intento","Goal","Plan_raw","Formato_valido","Cumple_goal","Plan_Valido","Errores","Comentarios","Tiempo"])
         
-        # Se guarda el nombre del modelo usado para la generación y los resultados de validación.
         writer.writerow([
             MODEL_TEST, 1, validation_args['Goal'], "full_response", 
             validation_args['Format_Valid'], validation_args['Meets_Goal'], 
@@ -207,7 +255,7 @@ if __name__ == "__main__":
         (and
             (visited tiago monalisa)
             (visited tiago elgrito)
-            (visited tiago guernica)
+            (visited tiago guernica)  
             (visited tiago nocheestrellada)
             (explained_painting monalisa)
             (explained_painting elgrito)
