@@ -12,9 +12,6 @@ wheels/
 # .env
 .env
 
-# personal
-/borrar
-
 /log_gpt
 nohup.out
 

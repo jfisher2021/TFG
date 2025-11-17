@@ -1,3 +1,5 @@
+### Script para crear archivos de explicación para cada cuadro en cuadros.csv
+
 from langchain.prompts.prompt import PromptTemplate
 from google import genai
 from google.genai import types

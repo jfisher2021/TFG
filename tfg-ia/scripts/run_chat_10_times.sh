@@ -1,11 +1,11 @@
 #!/bin/bash
 # Script para ejecutar chat_flujo_completo.py 10 veces de forma secuencial
 # Cada ejecución espera a que termine la anterior
+
 # Determinar ruta relativa a la carpeta del script (proyecto tfg-ia)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"  # asumiendo que scripts/ está dentro de tfg-ia/
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)" 
 
-# Rutas relativas dentro del proyecto (comienzan en tfg-ia/...)
 PYTHON_BIN="$PROJECT_ROOT/.venv/bin/python"
 SCRIPT_PATH="$PROJECT_ROOT/tfg_langchain/scripts_evaluacion/chat_flujo_completo.py"
 LOG_FILE="$PROJECT_ROOT/logs_script.txt"
