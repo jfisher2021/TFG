@@ -768,13 +768,16 @@ PROBLEM:
 
 )
 
-Finalmente, estas diseñado para meter los resultados en un csv, por lo tanto tu salida esta estructurada en formato csv.
+Finalmente, debes devolver los resultados EXCLUSIVAMENTE usando la herramienta ResponseFormatter con estas claves EXACTAS (sensibles a mayúsculas):
+- Format_Valid: "S" o "N"
+- Meets_Goal: "S" o "N"
+- Plan_Valid: "S" o "N"
+- Goal: texto exactamente con el formato "Visitar X cuadros y explicar Y" (X = nº de (visited ...), Y = nº de (explained_painting ...) en el GOAL)
+- Errors: cadena vacía si no hay errores, o un mensaje corto si los hay
+- Comments: resumen corto (≤ 12 palabras)
+- Tiempo: usa este valor sugerido (segundos): {{TIEMPO}}
 
-Por ejemplo algo asi :
-Modelo,Intento,Goal,Plan_raw,Formato_valido,Cumple_goal,Plan_Valido,Errores,Comentarios
-gemini-2.5-flash,1,"Visitar 4 cuadros y explicar 8",full_response,S,S,S,None,"The plan is valid. All actions are consistent with the domain and problem, battery levels are maintained above zero, all goals are achieved, and temporal constraints are respected. Recharging occurs at a valid charger location, and the plan format is correct."
-
-Olvidate del modelo y del intento, en el goal quiero que devuelvas el numero de cuadros que vas a visitar y cuants vas a explicar con el siguiente formato "Visitar X cuadros y explicar X"
+No incluyas ninguna otra clave. No devuelvas texto adicional fuera del tool call. Si no puedes validar completamente, devuelve Plan_Valid="N" y explica brevemente en Errors.
 
 \"\"\"
 

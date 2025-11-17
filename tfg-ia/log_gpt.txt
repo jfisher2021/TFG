@@ -1,4 +1,4 @@
-1. GPT-5-instant
+1. gpt-5-nano
 PLAN:
 0.000: (start_welcome tiago) [1.000]
 1.001: (move tiago home monalisa) [15.000]
@@ -25,7 +25,7 @@ PLAN:
 286.022: (move tiago el_3_de_mayo_de_1808 el_jardin_de_las_delicias) [15.000]
 301.023: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
 
-2. GPT-5-instant
+2. gpt-5-nano
 
 0.000: (start_welcome tiago) [1.000]
 1.001: (move tiago home maestro_aprendiz) [15.000]
@@ -50,7 +50,7 @@ PLAN:
 266.020: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
 
 
-3. GPT-5-instant
+3. gpt-5-nano
 
 0.000: (start_welcome tiago) [1.000]
 1.001: (move tiago home maestro_aprendiz) [15.000]
@@ -71,7 +71,7 @@ PLAN:
 206.016: (explain_painting tiago el_3_de_mayo_de_1808) [15.000]
 221.017: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
 
-4. GPT-5-instant
+4. gpt-5-nano
 
 
 0.000: (start_welcome tiago) [1.000]
@@ -100,7 +100,7 @@ PLAN:
 301.023: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
 316.024: (move tiago el_jardin_de_las_delicias home) [15.000]
 
-5. GPT-5-instant
+5. gpt-5-nano
 
 0.000: (start_welcome tiago) [1.000]
 1.001: (move tiago home maestro_aprendiz) [15.000]
@@ -127,7 +127,7 @@ PLAN:
 286.022: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
 
 
-6. GPT-5-instant
+6. gpt-5-nano
 
 0.000: (start_welcome tiago) [1.000]
 1.001: (move tiago home maestro_aprendiz) [15.000]
@@ -155,7 +155,7 @@ PLAN:
 311.023: (move tiago el_jardin_de_las_delicias home) [15.000]
 326.024: (recharge tiago home) [5.000]
 
-7. GPT-5-instant
+7. gpt-5-nano
 
 0.000: (start_welcome tiago) [1.000]
 1.001: (move tiago home monalisa) [15.000]
@@ -177,7 +177,7 @@ PLAN:
 221.017: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
 
 
-8. GPT-5-instant
+8. gpt-5-nano
 
 
 0.000: (start_welcome tiago) [1.000]
@@ -202,7 +202,7 @@ PLAN:
 251.019: (move tiago el_3_de_mayo_de_1808 el_jardin_de_las_delicias) [15.000]
 266.020: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
 
-9. GPT-5-instant
+9. gpt-5-nano
 
 0.000: (start_welcome tiago) [1.000]
 1.001: (move tiago home monalisa) [15.000]
@@ -230,7 +230,7 @@ PLAN:
 301.023: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
 
 
-10. GPT-5-instant
+10. gpt-5-nano
 
 0.000: (start_welcome tiago) [1.000]
 1.001: (move tiago home monalisa) [15.000]
@@ -256,7 +256,7 @@ PLAN:
 271.021: (move tiago el_3_de_mayo_de_1808 el_jardin_de_las_delicias) [15.000]
 286.022: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
 
-1. GPT-5-thinking Penso durante 2m 38s https://chatgpt.com/share/68ef50f3-2170-800b-ac40-334cf870d9a8
+1. gpt-5-thinking Penso durante 2m 38s https://chatgpt.com/share/68ef50f3-2170-800b-ac40-334cf870d9a8
 
 PLAN:
 0.000: (start_welcome tiago) [1.000]
@@ -286,7 +286,7 @@ PLAN:
 316.024: (move tiago el_jardin_de_las_delicias home) [15.000]
 331.025: (recharge tiago home) [5.000]
 
-2. GPT-5-thinking  2m 1s  https://chatgpt.com/share/68ef5224-9aa0-800b-8a7c-5ea86f9d5a51
+2. gpt-5-thinking  2m 1s  https://chatgpt.com/share/68ef5224-9aa0-800b-8a7c-5ea86f9d5a51
 
 PLAN:
 0.000: (start_welcome tiago) [1.000]
@@ -314,7 +314,7 @@ PLAN:
 286.022: (move tiago el_3_de_mayo_de_1808 el_jardin_de_las_delicias) [15.000]
 301.023: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
 
-3. GPT-5-thinking https://chatgpt.com/share/68ef5604-a908-800b-914c-b65fc4a61be3
+3. gpt-5-thinking https://chatgpt.com/share/68ef5604-a908-800b-914c-b65fc4a61be3
 
 PLAN:
 0.000: (start_welcome tiago) [1.000]
@@ -344,7 +344,7 @@ PLAN:
 316.024: (move tiago el_jardin_de_las_delicias home) [15.000]
 331.025: (recharge tiago home) [5.000]
 
-4. GPT-5-thinking 1m 21s https://chatgpt.com/share/68ef5780-7290-800b-9973-a30e82c4bc1a
+4. gpt-5-thinking 1m 21s https://chatgpt.com/share/68ef5780-7290-800b-9973-a30e82c4bc1a
 
 PLAN:
 0.000: (start_welcome tiago) [1.000]
@@ -373,7 +373,7 @@ PLAN:
 301.023: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
 316.024: (move tiago el_jardin_de_las_delicias home) [15.000]
 
-5. GPT-5-thinking 1m 21s https://chatgpt.com/share/68ef5888-afdc-800b-a208-89d83f167e12
+5. gpt-5-thinking 1m 21s https://chatgpt.com/share/68ef5888-afdc-800b-a208-89d83f167e12
 
 0.000: (start_welcome tiago) [1.000]
 1.001: (move tiago home nocheestrellada) [15.000]
@@ -401,7 +401,7 @@ PLAN:
 301.023: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
 316.024: (move tiago el_jardin_de_las_delicias home) [15.000]
 
-6. GPT-5-thinking 1m4s https://chatgpt.com/share/68ef5daa-fcdc-800b-9fc7-488ef6473d40
+6. gpt-5-thinking 1m4s https://chatgpt.com/share/68ef5daa-fcdc-800b-9fc7-488ef6473d40
 
 0.000: (start_welcome tiago) [1.000]
 1.001: (move tiago home monalisa) [15.000]
@@ -430,7 +430,7 @@ PLAN:
 316.024: (recharge tiago home) [5.000]
 321.025: (move tiago home nocheestrellada) [15.000]
 
-7. GPT-5-thinking 2m 28s  https://chatgpt.com/share/68ef5e80-b6b8-800b-ae34-e0c3dff09add
+7. gpt-5-thinking 2m 28s  https://chatgpt.com/share/68ef5e80-b6b8-800b-ae34-e0c3dff09add
 
 PLAN:
 0.000: (start_welcome tiago) [1.000]
@@ -461,7 +461,7 @@ PLAN:
 331.025: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
 
 
-8. GPT-5-thinking 1m 59s
+8. gpt-5-thinking 1m 59s
 
 0.000: (start_welcome tiago) [1.000]
 1.001: (move tiago home maestro_aprendiz) [15.000]
@@ -488,7 +488,7 @@ PLAN:
 286.022: (move tiago el_3_de_mayo_de_1808 el_jardin_de_las_delicias) [15.000]
 301.023: (explain_painting tiago el_jardin_de_las_delicias) [15.000]
 
-9. GPT-5-thinking 2m 0s
+9. gpt-5-thinking 2m 0s
 
 PLAN:
 0.000: (start_welcome tiago) [1.000]
@@ -518,7 +518,7 @@ PLAN:
 316.024: (move tiago el_jardin_de_las_delicias home) [15.000]
 
 
-10. GPT-5-thinking 2m 35s
+10. gpt-5-thinking 2m 35s
 
 PLAN:
 0.000: (start_welcome tiago) [1.000]

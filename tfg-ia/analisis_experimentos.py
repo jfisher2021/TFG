@@ -38,11 +38,11 @@ def main():
     df = pd.read_csv(CSV_PATH)
 
     # detectar columnas relevantes de forma tolerante (mayúsculas/minúsculas)
-    modelo_col = _find_col(df, ["Modelo", "modelo"])
-    formato_col = _find_col(df, ["Formato_valido", "Formato_valido", "formato_valido", "Formato_valídO"])
-    plan_col = _find_col(df, ["Plan_Valido", "Plan_valido", "plan_valido"])
-    cumple_col = _find_col(df, ["Cumple_goal", "cumple_goal", "Cumple_Goal"])
-    fecha_col = _find_col(df, ["Fecha", "fecha"])
+    modelo_col = _find_col(df, ["Modelo"])
+    formato_col = _find_col(df, ["Formato_valido"])
+    plan_col = _find_col(df, ["Plan_Valido"])
+    cumple_col = _find_col(df, ["Cumple_goal"])
+    tiempo_col = _find_col(df, ["Tiempo", "tiempo", "Duracion", "duracion", "Seconds", "seconds"])
 
     if modelo_col is None:
         print("Falta la columna 'Modelo' en el CSV.")
@@ -56,12 +56,14 @@ def main():
     if cumple_col:
         df[cumple_col] = _normalize_bool_series(df[cumple_col])
 
-    # Parsear fecha si está presente
-    if fecha_col:
+
+    # Normalizar columna de tiempo a float (segundos), si existe
+    if tiempo_col:
         try:
-            df[fecha_col] = pd.to_datetime(df[fecha_col], errors="coerce")
+            df[tiempo_col] = pd.to_numeric(df[tiempo_col], errors="coerce")
         except Exception:
-            pass
+            df[tiempo_col] = None
+
 
     # Métricas por modelo
     agg_kwargs = {
@@ -79,7 +81,9 @@ def main():
         agg_kwargs["formatos_validos"] = ("__form_dummy__", "sum")
     if cumple_col:
         agg_kwargs["cumple_goal"] = (cumple_col, "sum")
-    
+    if tiempo_col:
+        agg_kwargs["tiempo_medio"] = (tiempo_col, "mean")
+
     resumen = (
         df
         .groupby(modelo_col)
@@ -91,8 +95,13 @@ def main():
         .sort_values(by=["pct_plan_valido", "pct_formato_valido", "intentos"], ascending=[False, False, False])
     )
 
+    # Formatear columna de tiempo medio
+    if tiempo_col and "tiempo_medio" in resumen.columns:
+        resumen["tiempo_medio"] = resumen["tiempo_medio"].apply(lambda v: f"{v:.2f}" if pd.notnull(v) else "N/A")
+
     print("\n=== Resumen por modelo ===")
     print(resumen.to_string())
+
 
     # ==========================
     # Sección por Goal individual
@@ -128,6 +137,8 @@ def main():
                 agg_kwargs_g["formatos_validos"] = ("__form_dummy__", "sum")
             if cumple_col:
                 agg_kwargs_g["cumple_goal"] = (cumple_col, "sum")
+            if tiempo_col:
+                agg_kwargs_g["tiempo_medio"] = (tiempo_col, "mean")
 
             resumen_g = (
                 sub
@@ -139,6 +150,9 @@ def main():
                 )
                 .sort_values(by=["pct_plan_valido", "pct_formato_valido", "intentos"], ascending=[False, False, False])
             )
+            # Formatear columna de tiempo medio
+            if tiempo_col and "tiempo_medio" in resumen_g.columns:
+                resumen_g["tiempo_medio"] = resumen_g["tiempo_medio"].apply(lambda v: f"{v:.2f}" if pd.notnull(v) else "N/A")
             print(f"\n--- Goal: {g} ---")
             print(resumen_g.to_string())
 

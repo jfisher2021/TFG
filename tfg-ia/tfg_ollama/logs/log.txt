@@ -1301,7 +1301,7 @@ I'll structure the plan step-by-step without recycles because each painting is r
 105.000: (move tiago guernica nocheestrellada)  
 120.000: (explain_painting tiago nocheestrellada)  
 135.000: (done)
-MODEL : llama2:latest
+MODEL : llama2:7b
 PROMPT:
 
 Eres un planificador para PDDL y solo quiero que me des el plan de ejecución. Tienes que tener en cuenta lo siguiente:
@@ -1975,7 +1975,7 @@ RESPUESTA =
 222.021: (explain_painting tiago nocheestrellada) [15.000]
 237.022: (recharge tiago home) [5.000]
 252.024: (move tiago nocheestrellada elgrito) [15.000]
-MODEL : llama2:latest
+MODEL : llama2:7b
 PROMPT:
 
 Eres un planificador para PDDL y solo quiero que me des el plan de ejecución. Tienes que tener en cuenta lo siguiente:
@@ -6291,7 +6291,7 @@ This way, the robot recharges once at home, which is necessary to have enough ba
 111.002: (move tiago home monalisa)  [15.000]
 126.002: (explain_painting tiago monalisa)  [15.000]
 141.002: (move tiago monalisa nocheestrellada)  [15.000]
-MODEL : llama3.3:latest
+MODEL : llama3.3:70b
 PROMPT:
 
 Eres un planificador para PDDL y solo quiero que me des el plan de ejecución. Tienes que tener en cuenta lo siguiente:
@@ -6450,7 +6450,7 @@ RESPONSE:
 136.009: (recharge tiago home)  [5.000]
 141.010: (move tiago home nocheestrellada)  [15.000]
 156.011: (visited tiago nocheestrellada)  [0.000]
-MODEL : llama3.3:latest
+MODEL : llama3.3:70b
 PROMPT:
 
 Eres un planificador para PDDL y solo quiero que me des el plan de ejecución. Tienes que tener en cuenta lo siguiente:
@@ -6608,7 +6608,7 @@ RESPONSE:
 121.008: (move tiago guernica nocheestrellada)  [15.000]
 136.009: (recharge tiago home)  [5.000]
 141.010: (move tiago home nocheestrellada)  [15.000]
-MODEL : llama3.3:latest
+MODEL : llama3.3:70b
 PROMPT:
 
 Eres un planificador para PDDL y solo quiero que me des el plan de ejecución. Tienes que tener en cuenta lo siguiente:
@@ -6801,7 +6801,7 @@ Corregido de nuevo:
 121.008: (move tiago guernica home)  [15.000]
 136.009: (recharge tiago home)  [5.000]
 141.010: (move tiago home nocheestrellada)  [15.000]
-MODEL : llama3.3:latest
+MODEL : llama3.3:70b
 PROMPT:
 
 Eres un planificador para PDDL y solo quiero que me des el plan de ejecución. Tienes que tener en cuenta lo siguiente:
@@ -6960,7 +6960,7 @@ RESPONSE:
 136.008: (recharge tiago nocheestrellada)  [5.000]
 141.009: (move tiago nocheestrellada home)  [15.000]
 156.010: (recharge tiago home)  [5.000]
-MODEL : llama3.3:latest
+MODEL : llama3.3:70b
 PROMPT:
 
 Eres un planificador para PDDL y solo quiero que me des el plan de ejecución. Tienes que tener en cuenta lo siguiente:
@@ -9840,7 +9840,7 @@ To determine if Tiago can complete all tasks without running out of battery, we 
 **Conclusion:** Tiago cannot reach all locations and complete all explanations without exceeding his battery capacity.
 
 $\boxed{\text{Tiago cannot complete all tasks due to insufficient battery life}}$
-MODEL : command-a:latest
+MODEL : command-a:111b
 PROMPT:
 
 You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
@@ -9999,7 +9999,7 @@ RESPONSE:
 136.002: (explain_painting tiago monalisa) [15.000]  
 151.002: (move tiago monalisa home) [15.000]  
 166.002: (recharge tiago home) [5.000]
-MODEL : command-a:latest
+MODEL : command-a:111b
 PROMPT:
 
 You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
@@ -11092,7 +11092,7 @@ To complete the task efficiently while adhering to battery constraints, the robo
 ---
 
 This plan ensures all required goals are met without violating battery constraints. The robot avoids deadlocks by recharging at home before proceeding to the final destinations.
-MODEL : llama3.3:latest
+MODEL : llama3.3:70b
 PROMPT:
 
 You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
@@ -11269,7 +11269,7 @@ PLAN:
 106.002: (explain_painting tiago guernica) [15.000]
 121.002: (move tiago guernica nocheestrellada) [15.000]
 136.002: (move tiago nocheestrellada home) [15.000]
-MODEL : llama3.3:latest
+MODEL : llama3.3:70b
 PROMPT:
 
 You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
@@ -11502,7 +11502,7 @@ PLAN:
 111.001: (move tiago home nocheestrellada) [15.000]
 126.001: (move tiago nocheestrellada maestro_aprendiz) [15.000]
 141.001: (explain_painting tiago maestro_aprendiz) [15.000]
-MODEL : llama3.3:latest
+MODEL : llama3.3:70b
 PROMPT:
 
 You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
@@ -11668,7 +11668,7 @@ RESPONSE:
 126.009: (move tiago guernica nocheestrellada) [15.000]
 141.010: (recharge tiago nocheestrellada) [5.000] 
 146.011: (move tiago nocheestrellada home) [15.000]
-MODEL : llama3.3:latest
+MODEL : llama3.3:70b
 PROMPT:
 
 You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
@@ -11868,7 +11868,7 @@ PLAN:
 186.012: (recharge tiago home) [5.000]
 191.013: (move tiago home nocheestrellada) [15.000]
 206.014: (explain_painting tiago nocheestrellada) [15.000]
-MODEL : command-a:latest
+MODEL : command-a:111b
 PROMPT:
 
 You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
@@ -12037,7 +12037,7 @@ To ensure efficient battery usage, the robot should recharge only when necessary
 126.004: (explain_painting tiago nocheestrellada) [15.000]  
 141.004: (move tiago nocheestrellada monalisa) [15.000]  
 156.004: (explain_painting tiago monalisa) [15.000]
-MODEL : command-a:latest
+MODEL : command-a:111b
 PROMPT:
 
 You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
@@ -12206,7 +12206,7 @@ PLAN:
 156.002: (recharge tiago home) [5.000]  
 161.002: (move tiago home monalisa) [15.000]  
 176.002: (explain_painting tiago monalisa) [15.000]
-MODEL : command-a:latest
+MODEL : command-a:111b
 PROMPT:
 
 You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
@@ -12385,7 +12385,7 @@ RESPONSE:
 141.010: (recharge tiago home) [5.000]  
 146.011: (move tiago home monalisa) [15.000]  
 161.012: (explain_painting tiago monalisa) [15.000]
-MODEL : command-a:latest
+MODEL : command-a:111b
 PROMPT:
 
 You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
@@ -13245,7 +13245,7 @@ This plan ensures all required locations are visited and explanations are done w
 
 **Final Answer:**
 \boxed{191}
-MODEL : llama3.3:latest
+MODEL : llama3.3:70b
 PROMPT:
 
 You are a PDDL execution plan validator for a robot agent operating under battery constraints. Your task is to assess whether the provided plan is valid and correctly formatted based on the following rules:
@@ -13368,7 +13368,7 @@ The corrected plan follows the exact structure required:
 *   Times and durations are numeric and strictly increasing.
 
 This revised plan ensures that the robot never attempts an action without sufficient battery, visits all required locations, explains all necessary paintings, and recharges when needed.
-MODEL : command-a:latest
+MODEL : command-a:111b
 PROMPT:
 
 You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
@@ -13539,7 +13539,7 @@ PLAN:
 141.003: (recharge tiago home) [5.000]  
 146.004: (move tiago home monalisa) [15.000]  
 161.004: (explain_painting tiago monalisa) [15.000]
-MODEL : llama3.3:latest
+MODEL : llama3.3:70b
 PROMPT:
 
 You are a planner for PDDL and I only want you to give me the execution plan. You need to take into account the following:
@@ -16617,7 +16617,7 @@ PLAN:
 116.004: (move tiago home monalisa) [15.000]
 131.004: (explain_painting tiago monalisa) [15.000]
 146.004: (move tiago monalisa nocheestrellada) [15.000]
-MODEL : command-a:latest
+MODEL : command-a:111b
 PROMPT:
 
 
@@ -16900,7 +16900,7 @@ Since you haven't provided the goal yet, I cannot generate a plan. However, I ca
 Once you provide the goal, I will generate the plan accordingly, adhering to the specified format and constraints. 
 
 Please provide the goal so I can create the plan for you.
-MODEL : command-a:latest
+MODEL : command-a:111b
 PROMPT:
 
 
@@ -17173,7 +17173,7 @@ PLAN:
 46.002: (recharge tiago home) [5.000]  
 51.003: (move tiago home guernica) [15.000]  
 66.003: (explain_painting tiago guernica) [15.000]
-MODEL : command-a:latest
+MODEL : command-a:111b
 PROMPT:
 
 
@@ -17446,7 +17446,7 @@ PLAN:
 46.002: (recharge tiago home) [5.000]
 51.003: (move tiago home guernica) [15.000]
 66.003: (explain_painting tiago guernica) [15.000]
-MODEL : command-a:latest
+MODEL : command-a:111b
 PROMPT:
 
 
@@ -17719,7 +17719,7 @@ PLAN:
 46.002: (recharge tiago home) [5.000]  
 51.003: (move tiago home guernica) [15.000]  
 66.003: (explain_painting tiago guernica) [15.000]
-MODEL : command-a:latest
+MODEL : command-a:111b
 PROMPT:
 
 
@@ -21273,7 +21273,7 @@ To efficiently complete the tasks of explaining five paintings and visiting Guer
 - Battery: **70%** (sufficient for return to home if needed).  
 
 This plan ensures the robot completes all tasks efficiently while adhering to battery constraints.
-MODEL : llama3.3:latest
+MODEL : llama3.3:70b
 PROMPT:
 
 
@@ -21563,7 +21563,7 @@ PLAN:
 31.002: (move tiago monalisa home) [15.000]
 46.003: (recharge tiago home) [5.000]
 51.004: (move tiago home guernica) [15.000]
-MODEL : command-a:latest
+MODEL : command-a:111b
 PROMPT:
 
 
