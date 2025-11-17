@@ -158,7 +158,6 @@ LLMPlanSolver::getPlan(
     RCLCPP_ERROR(lc_node_->get_logger(), "STT service no disponible tras 5s");
   }
 
-  // Build command argument from captured goal or use default
   if (spoken_goal.empty()) {
     python_arg = "Explicame el siguiente cuadro: ";
   } else {
@@ -168,27 +167,31 @@ LLMPlanSolver::getPlan(
   // std::string command = "ssh dedalo.tsc.urjc.es '/home/jfisher/miniconda3/bin/python /home/jfisher/tfg/tfg_ollama/create_plan.py " + python_arg + "'";
   command = python_env + " " + python_command + " " + python_arg;
   
-
   FILE* pipe = popen(command.c_str(), "r");
   if (!pipe) {
     RCLCPP_ERROR(lc_node_->get_logger(), "Failed to execute plan generation command");
     return {};
   }
 
-  while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-    result += buffer;
-  }
-
-  pclose(pipe);
-  
-  std::ofstream plan_out("/tmp/plan");
+  // Abrir archivo en modo append para escribir en tiempo real
+  std::ofstream plan_out("/tmp/plan", std::ios::out | std::ios::trunc);
   if (!plan_out.is_open()) {
-    RCLCPP_ERROR(lc_node_->get_logger(), "Failed to write plan output to /tmp/plan");
+    RCLCPP_ERROR(lc_node_->get_logger(), "Failed to open /tmp/plan for writing");
+    pclose(pipe);
     return {};
   }
-  plan_out << result;
-  plan_out.close();
 
+
+  setvbuf(pipe, nullptr, _IONBF, 0);
+  while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+    result += buffer;
+    plan_out << buffer;
+    plan_out.flush();  
+  }
+
+  plan_out.close();
+  pclose(pipe);
+  
   return parse_plan_result("/tmp/plan");
 }
 
