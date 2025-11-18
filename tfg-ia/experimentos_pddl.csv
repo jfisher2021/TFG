@@ -267,6 +267,7 @@ kimi-k2-thinking:cloud,6,Visitar 31 cuadros y explicar 31,full_response,S,S,S,,"
 kimi-k2-thinking:cloud,7,Visitar 31 cuadros y explicar 31,full_response,S,S,S,,"The plan is valid. All actions are consistent, battery levels are maintained, goals are achieved, and temporal constraints are respected.",231.4868233203888
 kimi-k2-thinking:cloud,8,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"The plan is valid. All actions are consistent with the domain and problem, battery levels are maintained above zero, all goals are achieved, and temporal constraints are respected. Recharging occurs at a valid charger location, and the plan format is correct.",239.6888346672058
 kimi-k2-thinking:cloud,9,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"The plan is valid. All actions are consistent with the domain and problem, battery levels are maintained above zero, all goals are achieved, and temporal constraints are respected. Recharging occurs at a valid charger location, and the plan format is correct.",242.6142463684082
+kimi-k2-thinking:cloud,10,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"The plan is valid. All actions are consistent with the domain and problem, battery levels are maintained above zero, all goals are achieved, and temporal constraints are respected. Recharging occurs at a valid charger location, and the plan format is correct.",231.618353308115
 claude-sonnet-4-5,1,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"Plan valid, all constraints met, 31 paintings explained.",242.6142463684082
 claude-sonnet-4-5,2,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"Plan valid, all constraints met, 31 paintings explained.",243.1341552734375
 claude-sonnet-4-5,3,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"Plan valid, all constraints met, 31 paintings explained.",233.98719787597656
@@ -301,6 +302,8 @@ openai/gpt-oss-20b,6,Visitar 4 cuadros y explicar 8,"Plan invalid due to extra e
 qwen3-vl:235b-cloud,1,Visitar 4 cuadros y explicar 8,full_response,S,S,N,Extra visited locations not in goal,Invalid due to extra visited locations,257.68083906173706
 qwen3-vl:235b-cloud,2,Visitar 4 cuadros y explicar 8,full_response,S,S,S,,"Plan valid, all goals met",204.13203024864197
 qwen3-vl:235b-cloud,3,Visitar 4 cuadros y explicar 8,full_response,S,S,S,,"Plan valid, all goals met",215.54303121566772
+qwen3-vl:235b-cloud,4,Visitar 4 cuadros y explicar 8,full_response,N,N,N,The plan is empty and does not contain any actions.,"Empty plan, no actions, no goals met.",257.065922498703
+qwen3-vl:235b-cloud,5,Visitar 4 cuadros y explicar 8,full_response,S,S,S,,"Plan valid and consistent, all goals achieved, battery logic correct.",217.6489007472992
 glm-4.6:cloud,1,Visitar 31 cuadros y explicar 31,full_response,S,S,S,,"Plan valid, all goals met",36.67145538330078
 glm-4.6:cloud,2,Visitar 31 cuadros y explicar 31,full_response,S,S,S,,"Plan valid, all goals achieved",26.74288010597229
 glm-4.6:cloud,3,Visitar 31 cuadros y explicar 31,full_response,S,S,S,,"Plan valid, all goals achieved",32.9574921131134
@@ -359,3 +362,13 @@ minimax-m2:230b,7,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"Pla
 minimax-m2:230b,8,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"Plan valid; all conditions met, battery fine, goals achieved.",215.192
 minimax-m2:230b,9,Visitar 31 cuadros y explicar 31,full_response,S,S,S,None,"Plan valid; all conditions met, battery fine, goals achieved.",182.469
 minimax-m2:230b,10,Visitar 31 cuadros y explicar 31,full_response,S,N,N,"Battery level drops below 0 ",Plan invalid due to battery dropping below zero before recharge.,43.565
+gpt-5-chat-latest,1,Visitar 31 cuadros y explicar 31,full_response,S,N,N,The plan does not achieve the goal of explaining 31 paintings. Only 2 paintings were explained.,"Partial plan valid, but goal not met.",11.616146087646484
+gpt-5-chat-latest,2,Visitar 31 cuadros y explicar 31,full_response,S,N,N,"Battery too low for move action at 91.007. Battery: 10, required: 20.",Plan invalid due to low battery.,21.417273998260498
+gpt-5-chat-latest,3,Visitar 31 cuadros y explicar 31,full_response,S,N,N,"Battery level drops below 0 during a move action from guernica to home. The move requires 20 battery, but only 10 are available, violating the precondition (battery >= 20).",Battery logic error; robot tries to move with insufficient charge.,25.788114547729492
+gpt-5-chat-latest,4,Visitar 31 cuadros y explicar 31,full_response,S,N,N,Plan provided is incomplete. Cannot verify full goal achievement.,Incomplete plan; 10/31 paintings explained.,15.688159704208374
+gpt-5-chat-latest,5,Visitar 31 cuadros y explicar 31,full_response,S,N,N,Battery (10) is insufficient for move action (requires 20) at step 171.013: (move tiago las_meninas home) [15.000].,Plan invalid: battery too low for move action.,12.97771167755127
+minimax-m2:cloud,1,Visitar 4 cuadros y explicar 8,full_response,S,S,S,,"Plan valid, all goals achieved",179.476
+minimax-m2:cloud,2,Visitar 4 cuadros y explicar 8,full_response,S,N,N,Location typo (nocheestrella) and extra visited actions,Plan fails goal and location errors,267.98003697395325
+minimax-m2:cloud,3,Visitar 4 cuadros y explicar 8,full_response,S,S,S,,"Plan valid, all goals achieved",172.25208854675293
+minimax-m2:cloud,4,Visitar 4 cuadros y explicar 8,full_response,S,S,S,,"Plan valid, all goals met",237.3676130771637
+minimax-m2:cloud,5,Visitar 4 cuadros y explicar 8,full_response,S,S,S,,"Plan valid, all goals met",195.1401298046112

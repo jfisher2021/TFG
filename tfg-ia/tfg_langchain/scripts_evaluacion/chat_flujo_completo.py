@@ -20,11 +20,39 @@ if str(ROOT_DIR) not in sys.path:
 
 from prompts import prompt_inicial_sin_ejemplos, validate_plan_prompt
 load_dotenv(override=True)
+input_goal = """
+    (:goal
+    (and
+        (visited tiago monalisa)
+        (visited tiago elgrito)
+        (visited tiago guernica)  
+        (visited tiago nocheestrellada)
+        (explained_painting monalisa)
+        (explained_painting elgrito)
+        (explained_painting maestro_aprendiz)
+        (explained_painting guernica)
+        (explained_painting la_joven_de_la_perla)
+        (explained_painting las_meninas)
+        (explained_painting el_3_de_mayo_de_1808)
+        (explained_painting el_jardin_de_las_delicias)
+        
+    )
+    )"""
 
-pddl_prompt = prompt_inicial_sin_ejemplos
+# input_goal = """
+#     (:goal
+#     (and
+#         Explicar los TODOS los cuadros
+#         (explained_painting ...)
+        
+#     )
+#     )"""
+
+pddl_prompt = prompt_inicial_sin_ejemplos.format(GOAL=input_goal)
 
 # Elegir el modelo global para la generación del plan
-MODEL_TEST = "gpt-5"
+MODEL_TEST = "qwen3-vl:235b-cloud"
+# MODEL_TEST = "minimax-m2:cloud"
 class State(TypedDict):
     goal: str
     plan: str
@@ -165,8 +193,8 @@ def save_validation_in_csv(state: State) -> Dict[str, Any]:
     tiempo = state.get("time_taken", 0.0)
     print("Validando el plan...")
 
-    model = init_chat_model("gemini-2.5-flash", model_provider="google_genai")
-    # model = init_chat_model("openai/gpt-oss-120b", model_provider="groq")
+    # model = init_chat_model("gemini-2.5-flash", model_provider="google_genai")
+    model = init_chat_model("openai/gpt-oss-120b", model_provider="groq")
 
     model_with_tools = model.bind_tools([ResponseFormatter])
     response = model_with_tools.invoke(
@@ -250,23 +278,5 @@ if __name__ == "__main__":
     # print(graph.get_graph().draw_mermaid())
 
     # Ejecución
-    initial_state = {"goal": """
-        (:goal
-        (and
-            (visited tiago monalisa)
-            (visited tiago elgrito)
-            (visited tiago guernica)  
-            (visited tiago nocheestrellada)
-            (explained_painting monalisa)
-            (explained_painting elgrito)
-            (explained_painting maestro_aprendiz)
-            (explained_painting guernica)
-            (explained_painting la_joven_de_la_perla)
-            (explained_painting las_meninas)
-            (explained_painting el_3_de_mayo_de_1808)
-            (explained_painting el_jardin_de_las_delicias)
-        
-        )
-        )""", "plan": "", "validation": [False, ""]}
-    # initial_state = {"goal": "Explicar los 31 cuadros", "plan": "", "validation": [False, ""]}
+    initial_state = {"goal": input_goal, "plan": "", "validation": [False, ""]}
     graph.invoke(initial_state)

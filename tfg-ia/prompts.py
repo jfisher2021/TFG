@@ -122,22 +122,8 @@ problem:
 )
 
 
-(:goal
-    (and
-      (visited tiago monalisa)
-      (visited tiago elgrito)
-      (visited tiago guernica)
-      (visited tiago nocheestrellada)
-      (explained_painting monalisa)
-      (explained_painting elgrito)
-      (explained_painting maestro_aprendiz)
-      (explained_painting guernica)
-      (explained_painting la_joven_de_la_perla)
-      (explained_painting las_meninas)
-      (explained_painting el_3_de_mayo_de_1808)
-      (explained_painting el_jardin_de_las_delicias)
-  )
-)
+GOAL:
+\"\"\"{{GOAL}}\"\"\"
 "
 
 The most important thing in the plan is that you consider the battery.
