@@ -1,0 +1,22 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# .env
+.env
+
+/log_gpt
+nohup.out
+
+# Scripts de evaluación return_goal
+langchain_planner/scripts_evaluacion/return_goal*.py
+
+# vscode
+.vscode/
