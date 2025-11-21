@@ -55,6 +55,7 @@ install/
 log/
 
 ./vscode
+.vscode
 langchain_planner/vscode
 plantilla-latex-tfg-tfm.zip
 my_small_house/
