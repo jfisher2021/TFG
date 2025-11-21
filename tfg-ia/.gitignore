@@ -15,5 +15,8 @@ wheels/
 /log_gpt
 nohup.out
 
+# Scripts de evaluación return_goal
+tfg_langchain/scripts_evaluacion/return_goal*.py
+
 # vscode
 .vscode/
