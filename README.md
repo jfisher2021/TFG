@@ -28,10 +28,20 @@ TFG/
 └── README.md                  # Documentación del proyecto
 ```
 
-### 📝 Nota Histórica
+## 📹 Vídeo de Demostración
 
-El código de `llm_planners/` fue originalmente un repositorio independiente que se integró mediante Git Subtree para simplificar el desarrollo. Ahora se mantiene directamente desde este repositorio.
+**Ver el sistema funcionando completo en `assets/demo_final_tfg.mp4`**
 
+El vídeo muestra:
+- ✅ Arranque completo del sistema (Gazebo + PlanSys2 + Nav2)
+- ✅ Interacción por voz con el usuario
+- ✅ Generación de plan personalizado por el LLM
+- ✅ Navegación autónoma del robot entre pinturas
+- ✅ Explicaciones mediante TTS
+- ✅ Gestión automática de batería
+- ✅ Ciclo completo de funcionamiento
+
+https://github.com/user-attachments/assets/c668026b-cec0-4327-8386-152151cbb093
 
 ## 🎯 Características Principales
 
@@ -696,28 +706,6 @@ museum_navigation/
         ├── TextToSpeech.srv
         └── SpeechToText.srv
 ```
-
----
-
-
-
-## 📹 Vídeo de Demostración
-
-**Ver el sistema funcionando completo en `assets/demo_final_tfg.mp4`**
-
-El vídeo muestra:
-- ✅ Arranque completo del sistema (Gazebo + PlanSys2 + Nav2)
-- ✅ Interacción por voz con el usuario
-- ✅ Generación de plan personalizado por el LLM
-- ✅ Navegación autónoma del robot entre pinturas
-- ✅ Explicaciones mediante TTS
-- ✅ Gestión automática de batería
-- ✅ Ciclo completo de funcionamiento
-
-
-[![Demo del Sistema](assets/demo_final_tfg.mp4)](assets/demo_final_tfg.mp4)
-
-
 ---
 
 ## 📚 Referencias y Tecnologías Utilizadas
