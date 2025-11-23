@@ -172,8 +172,15 @@ rosdep install --from-paths src --ignore-src -r -y
 
 Este proyecto requiere un entorno Python con LangChain y Ollama:
 
+Instala uv si no lo tienes:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
 ```bash
 cd <ros2-workspace>/src/TFG/llm_planners
+
 uv sync
 ```
 

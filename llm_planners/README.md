@@ -11,10 +11,7 @@ llm_planners/
 ├── 🤖 langchain_planner/                    # Implementación con LangChain/LangGraph
 │   ├── get_plan.py                      # ⭐ Script principal con StateGraph
 │   └── scripts_evaluacion/
-│       ├── chat_flujo_completo.py       # Flujo completo + validación
-│       ├── return_goal_tool_genai.py    # Goals con Google GenAI
-│       └── return_goal_tools_langchain.py
-│
+│       └── chat_flujo_completo.py       # Flujo completo + validación
 ├── 🦙 ollama_planner/                       # Implementación con Ollama (local)
 │   ├── create_plan.py                   # ⭐ Script principal Ollama
 │   ├── logs/                            # Logs JSON/TXT de ejecuciones
@@ -44,7 +41,7 @@ llm_planners/
 ├── goals.txt                        # Objetivos de prueba en formato PDDL
 ├── prompts.py                       # Todos los prompts del proyecto
 ├── utils.py                         # Funciones auxiliares (logs, selección)
-├── pyproject.toml                   # Dependencias Python 3.13+
+├── pyproject.toml                   # Dependencias Python 3.12+
 ├── 📄 conclusiones.md                   # Conclusiones del TFG
 └── README.md                            # Este archivo
 ```
@@ -61,14 +58,15 @@ llm_planners/
 #### Configuración y Utilidades
 - **`prompts.py`** ⭐ - **IMPORTANTE**: Contiene todos los prompts usados para generar y validar planes
 - **`utils.py`** - Funciones auxiliares (logging, selección de modelos, etc.)
-- **`pyproject.toml`** - Dependencias del proyecto (Python 3.13+)
+- **`pyproject.toml`** - Dependencias del proyecto (Python 3.12+)
 
 ### 🤖 Directorios de Implementación
 
 #### `langchain_planner/`
-Implementación usando LangChain + LangGraph con modelos de OpenAI y Google GenAI
+Implementación usando LangChain + LangGraph con modelos de OpenAI, Google GenAI y Groq
 - **`get_plan.py`** ⭐ - Script principal que genera planes usando un grafo de estados (StateGraph)
   - Usa herramientas (tools) para consultar CSV cuando el goal es en lenguaje natural
+  - Configurado actualmente para usar Groq con el modelo `gpt-oss-120b`
 - **`scripts_evaluacion/`**
   - `chat_flujo_completo.py` - Flujo completo con validación automática
   - `return_goal_tool_genai.py` - Procesamiento de goals con Google GenAI
@@ -101,10 +99,12 @@ Scripts auxiliares de utilidad
 
 ## 🚀 Uso Rápido
 
-### Generar un plan con LangChain (Gemini/GPT)
+### Generar un plan con LangChain (Groq/Gemini/GPT)
 ```bash
 python langchain_planner/get_plan.py "Explica los cuadros españoles"
 ```
+
+**Nota**: Por defecto usa Groq. Para cambiar el modelo, edita la variable `MODEL_TO_USE` en `get_plan.py`.
 
 ### Generar un plan con Ollama
 ```bash
@@ -148,10 +148,58 @@ Instala uv si no lo tienes:
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-Luego, en el directorio tfg_ia, ejecuta:
+Luego, en el directorio llm_planners, ejecuta:
 
 ```bash
 uv sync
 ```
 
-Requiere: langchain, langgraph, ollama, pandas, google-genai, groq, openai
+## 🔑 Configuración de API Keys
+
+Para usar el script principal `get_plan.py`, necesitas configurar las API keys:
+
+### Groq (Configuración por defecto)
+
+1. Obtén una API key en [https://console.groq.com/keys](https://console.groq.com/keys)
+2. Crea un archivo `.env` en el directorio `llm_planners`:
+
+```bash
+echo "GROQ_API_KEY=tu_api_key_aqui" >> .env
+```
+
+### Otros modelos (opcional)
+
+Para usar Gemini o ChatGPT, añade al `.env`:
+
+```bash
+# Para Gemini
+GOOGLE_API_KEY=tu_api_key_gemini
+
+# Para ChatGPT  
+OPENAI_API_KEY=tu_api_key_openai
+```
+
+Y modifica la variable `MODEL_TO_USE` en `get_plan.py`.
+
+## 🔗 Integración con el Sistema ROS2
+
+Este módulo se integra con el sistema ROS2 del museo a través del plugin LLM:
+
+- **Plugin C++**: `../museum_navigation/my_llm_plan_solver/` llama a `get_plan.py`
+- **Entrada**: Recibe el estado actual del robot y pinturas visitadas
+- **Salida**: Devuelve un plan PDDL válido que PlanSys2 puede ejecutar
+- **Comunicación**: El plugin ejecuta el script Python y parsea el resultado
+
+Ver [museum_navigation/README.md](../museum_navigation/README.md) para detalles técnicos de la integración.
+
+## 📦 Dependencias Principales
+
+Las dependencias se gestionan automáticamente con `uv sync`, e incluyen:
+
+- **langchain**: Framework para aplicaciones con LLM
+- **langgraph**: Grafos de estados para workflows complejos
+- **groq**: Cliente para API de Groq (inferencia rápida)
+- **google-genai**: Cliente para modelos Gemini de Google
+- **openai**: Cliente para modelos GPT de OpenAI
+- **pandas**: Manipulación de datos (CSV de cuadros)
+- **python-dotenv**: Gestión de variables de entorno (.env)
