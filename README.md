@@ -2,7 +2,8 @@
 
 Este proyecto implementa un sistema de planificación inteligente para un robot guía de museo que utiliza un **Large Language Model (LLM)** para generar planes dinámicamente. El robot navega por un museo virtual, explica obras de arte y gestiona su batería de forma autónoma.
 
-> **📌 Nota sobre la documentación**: Este README ofrece una visión general del proyecto, instrucciones de instalación y ejecución, además de un resumen de la estrctura. Para detalles técnicos profundos sobre el código, consulta los README individuales en cada paquete:
+> [!NOTE] 
+> **Nota sobre la documentación**: Este README ofrece una visión general del proyecto, instrucciones de instalación y ejecución, además de un resumen de la estrctura. Para detalles técnicos profundos sobre el código, consulta los README individuales en cada paquete:
 > - 📖 [`museum_navigation/README.md`](museum_navigation/README.md): Dominio PDDL, nodos de acción y controlador
 > - 📖 [`llm_planners/README.md`](llm_planners/README.md): Scripts Python y modelos LLM
 
@@ -89,6 +90,14 @@ source /opt/ros/rolling/setup.bash
 ```
 
 ### 2. Clonar Repositorios Necesarios
+
+#### Clonar este proyecto
+
+```bash
+cd <ros2-workspace>/src
+git clone https://github.com/jfisher2021/TFG.git
+```
+
 <details>
   <summary><i>Instalar kobuki (haz click aquí)</i></summary>
 
@@ -98,7 +107,7 @@ source /opt/ros/rolling/setup.bash
   git clone https://github.com/IntelligentRoboticsLabs/kobuki.git
   ```
 
-  > [!IMPORTANT]
+  > ⚠️ WARNING
   > Asegúrate de cambiar a la rama `rolling` y de utilizar el commit específico `3063d46ad9bd004c8c6583d600e305d427ee9051` para evitar problemas de compatibilidad. Puedes hacerlo con los siguientes comandos:
   
   ```bash
@@ -144,7 +153,7 @@ source /opt/ros/rolling/setup.bash
   git clone https://github.com/IntelligentRoboticsLabs/ros2_planning_system.git
   ```
 
-  > [!IMPORTANT]
+  > ⚠️ IMPORTANTE
   > Asegúrate de utilizar el commit específico `3fc9e946067c75169772851c5d762d323efd5383` para evitar problemas de compatibilidad. Puedes hacerlo con los siguiente comando:
 
   ```bash
@@ -168,7 +177,41 @@ rosdep update
 rosdep install --from-paths src --ignore-src -r -y
 ```
 
-### 4. Configurar Entorno Python para LLM
+### 4. ⚠️ Configurar Rutas Locales
+> [!CAUTION]
+> El proyecto contiene rutas específicas que **debes 
+> modificar** para que apunten a tu instalación local:
+
+#### 4.1 Archivo [bringup_params.yaml](museum_navigation/museo_plansys/config/bringup_params.yaml)
+
+Abre el archivo y modifica las siguientes líneas con las rutas de tu ordenador:
+
+```yaml
+LLM:
+  plugin: "plansys2/LLMPlanSolver"
+  python_command: "/<RUTA_A_ESTE_REPOSITORIO>/src/TFG/llm_planners/langchain_planner/get_plan.py"
+  python_env: "/<RUTA_A_ESTE_REPOSITORIO>/src/TFG/llm_planners/.venv/bin/python"
+```
+
+Reemplaza `/<RUTA_A_ESTE_REPOSITORIO>` con la ruta absoluta a tu directorio donde tienes este TFG.
+
+#### 4.2 Archivo [stt_service.py](museum_navigation/speech_services/speech_services/src/stt_service.py)
+
+```python
+venv_site = "/<RUTA_A_ESTE_REPOSITORIO>/llm_planners/.venv/lib/python3.12/site-packages"
+```
+
+Reemplaza con la ruta a tu entorno virtual de Python y ajusta la versión de Python (3.12, 3.10, etc.).
+
+#### 4.3 Archivo [tts_service.py](museum_navigation/speech_services/speech_services/src/tts_service.py)
+
+```python
+venv_site = "/<RUTA_A_ESTE_REPOSITORIO>/llm_planners/.venv/lib/python3.12/site-packages"
+```
+
+Reemplaza con la ruta a tu entorno virtual de Python y ajusta la versión de Python.
+
+### 5. Configurar Entorno Python para LLM
 
 Este proyecto requiere un entorno Python con LangChain y Ollama:
 
@@ -184,8 +227,9 @@ cd <ros2-workspace>/src/TFG/llm_planners
 uv sync
 ```
 
-**Nota importante**: Asegúrate de que la ruta del entorno virtual en `llm_plan_solver.cpp` coincida con tu instalación.
-### 5. Configurar API Keys
+**Nota importante**: Asegúrate de que las rutas configuradas en el paso 4 coincidan con tu instalación.
+
+### 6. Configurar API Keys
 
 El sistema utiliza APIs de LLM para la generación de planes. Actualmente está configurado para usar **Groq** con el modelo `gpt-oss-120b`.
 
@@ -199,15 +243,16 @@ El sistema utiliza APIs de LLM para la generación de planes. Actualmente está 
    echo "GROQ_API_KEY=tu_api_key_aqui" >> .env
    ```
 
-> **Nota**: También puedes usar Gemini o ChatGPT modificando la variable `MODEL_TO_USE` en `get_plan.py` y agregando las respectivas API keys al `.env`.
+> [!NOTE]
+> También puedes usar Gemini o ChatGPT modificando la variable `MODEL_TO_USE` en `get_plan.py` y agregando las respectivas API keys al `.env`.
 
-### 6. Compilar el Workspace
+### 7. Compilar el Workspace
 
 ```bash
 cd <ros2-workspace>
 colcon build --symlink-install
 ```
-
+> [!TIP]
 > Si tienes problemas de memoria durante la compilación, usa:
 > ```bash
 > colcon build --symlink-install --parallel-workers 1
@@ -222,7 +267,8 @@ El sistema funciona de manera completamente integrada y requiere **3 terminales*
 Antes de ejecutar, asegúrate de:
 1. Haber compilado el workspace completo: `colcon build --symlink-install`
 2. Haber ejecutado `uv sync` en `llm_planners/`
-3. Tener configurada la API key de Groq en el archivo `.env` (ver sección 5)
+3. Tener configurada la API key de Groq en el archivo `.env` (ver sección 6)
+4. **Haber modificado las rutas locales** en los archivos mencionados en la sección 4
 
 ### 📺 Terminal 1: Sistema Principal (Gazebo + PlanSys2 + Servicios)
 
