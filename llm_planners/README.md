@@ -14,10 +14,6 @@ llm_planners/
 │       └── chat_flujo_completo.py       # Flujo completo + validación
 ├── 🦙 ollama_planner/                       # Implementación con Ollama (local)
 │   ├── create_plan.py                   # ⭐ Script principal Ollama
-│   ├── logs/                            # Logs JSON/TXT de ejecuciones
-│   │   ├── log.json
-│   │   ├── log.txt
-│   │   └── logv2.txt
 │   └── scripts_evaluacion/
 │       ├── doble_modelo_correccion.py   # Sistema generador + validador
 │       └── validator.py                 # Validación de planes PDDL
@@ -36,13 +32,12 @@ llm_planners/
 │   ├── log_gpt.txt                      # Logs específicos GPT
 │   └── logs_script*.txt                 # Logs de scripts específicos
 │
-├── experimentos_pddl.csv            # Resultados de pruebas simples
+├── experimentos_pddl.csv            # Resultados todas las pruebas
 ├── cuadros.csv                      # BD de cuadros 
 ├── goals.txt                        # Objetivos de prueba en formato PDDL
 ├── prompts.py                       # Todos los prompts del proyecto
 ├── utils.py                         # Funciones auxiliares (logs, selección)
 ├── pyproject.toml                   # Dependencias Python 3.12+
-├── 📄 conclusiones.md                   # Conclusiones del TFG
 └── README.md                            # Este archivo
 ```
 
@@ -69,8 +64,6 @@ Implementación usando LangChain + LangGraph con modelos de OpenAI, Google GenAI
   - Configurado actualmente para usar Groq con el modelo `gpt-oss-120b`
 - **`scripts_evaluacion/`**
   - `chat_flujo_completo.py` - Flujo completo con validación automática
-  - `return_goal_tool_genai.py` - Procesamiento de goals con Google GenAI
-  - `return_goal_tools_langchain.py` - Procesamiento de goals con LangChain
 
 #### `ollama_planner/`
 Implementación usando Ollama (modelos open-source locales)
@@ -104,7 +97,8 @@ Scripts auxiliares de utilidad
 python langchain_planner/get_plan.py "Explica los cuadros españoles"
 ```
 
-**Nota**: Por defecto usa Groq. Para cambiar el modelo, edita la variable `MODEL_TO_USE` en `get_plan.py`.
+>[!NOTE]
+> Por defecto usa Groq. Para cambiar el modelo, edita la variable `MODEL_TO_USE` en `get_plan.py`.
 
 ### Generar un plan con Ollama
 ```bash
