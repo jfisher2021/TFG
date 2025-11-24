@@ -91,13 +91,6 @@ source /opt/ros/rolling/setup.bash
 
 ### 2. Clonar Repositorios Necesarios
 
-#### Clonar este proyecto
-
-```bash
-cd <ros2-workspace>/src
-git clone https://github.com/jfisher2021/TFG.git
-```
-
 <details>
   <summary><i>Instalar kobuki (haz click aquí)</i></summary>
 
@@ -108,6 +101,7 @@ git clone https://github.com/jfisher2021/TFG.git
   ```
 
   > ⚠️ WARNING
+> 
   > Asegúrate de cambiar a la rama `rolling` y de utilizar el commit específico `3063d46ad9bd004c8c6583d600e305d427ee9051` para evitar problemas de compatibilidad. Puedes hacerlo con los siguientes comandos:
   
   ```bash
@@ -153,7 +147,8 @@ git clone https://github.com/jfisher2021/TFG.git
   git clone https://github.com/IntelligentRoboticsLabs/ros2_planning_system.git
   ```
 
-  > ⚠️ IMPORTANTE
+  > ⚠️ WARNING
+> 
   > Asegúrate de utilizar el commit específico `3fc9e946067c75169772851c5d762d323efd5383` para evitar problemas de compatibilidad. Puedes hacerlo con los siguiente comando:
 
   ```bash
@@ -177,7 +172,16 @@ rosdep update
 rosdep install --from-paths src --ignore-src -r -y
 ```
 
-### 4. ⚠️ Configurar Rutas Locales
+### 4. Clonar el TFG
+
+#### Clonar este proyecto
+
+```bash
+cd <ros2-workspace>/src
+git clone https://github.com/jfisher2021/TFG.git
+```
+### ⚠️ Configurar Rutas Locales
+
 > [!CAUTION]
 > El proyecto contiene rutas específicas que **debes 
 > modificar** para que apunten a tu instalación local:
