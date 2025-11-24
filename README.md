@@ -193,11 +193,11 @@ Abre el archivo y modifica las siguientes líneas con las rutas de tu ordenador:
 ```yaml
 LLM:
   plugin: "plansys2/LLMPlanSolver"
-  python_command: "/<RUTA_A_ESTE_REPOSITORIO>/src/TFG/llm_planners/langchain_planner/get_plan.py"
-  python_env: "/<RUTA_A_ESTE_REPOSITORIO>/src/TFG/llm_planners/.venv/bin/python"
+  python_command: "/<RUTA_A_ESTE_REPOSITORIO>/llm_planners/langchain_planner/get_plan.py"
+  python_env: "/<RUTA_A_ESTE_REPOSITORIO>/llm_planners/.venv/bin/python"
 ```
 
-Reemplaza `/<RUTA_A_ESTE_REPOSITORIO>` con la ruta absoluta a tu directorio donde tienes este TFG.
+Reemplaza `<RUTA_A_ESTE_REPOSITORIO>` con la ruta absoluta a tu directorio donde tienes este TFG.
 
 #### 4.2 Archivo [stt_service.py](museum_navigation/speech_services/speech_services/src/stt_service.py)
 
@@ -231,7 +231,9 @@ cd <ros2-workspace>/src/TFG/llm_planners
 uv sync
 ```
 
-**Nota importante**: Asegúrate de que las rutas configuradas en el paso 4 coincidan con tu instalación.
+> [!CAUTION]
+>
+>  Asegúrate de que las rutas configuradas en el paso 4 coincidan con tu instalación.
 
 ### 6. Configurar API Keys
 
