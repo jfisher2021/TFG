@@ -25,7 +25,7 @@ def main():
         """
     print("Goal to achieve: ", goal)
 
-    model = "openai/gpt-oss-120b"
+    model = "gpt-oss:120b-cloud"
     prompt = prompt_con_3_ejemplos_input_goal.format(GOAL=goal)
 
     response = client.generate(

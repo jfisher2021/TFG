@@ -131,8 +131,8 @@ def generate_plan(state: State):
         full_response = response.text
         
     elif MODEL_TO_USE == "chatgpt":
-        print("USANDO GPT-4O-MINI")
-        selected_model = "gpt-4o-mini"
+        print("USANDO GPT-5-MINI")
+        selected_model = "gpt-5-mini"
         model = ChatOpenAI(
             model=selected_model,
             temperature=1.0,

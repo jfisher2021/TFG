@@ -72,7 +72,7 @@ Google Cloud Text-to-Speech API and plays the generated audio.
 
 
 import sys
-venv_site = "/home/jfisherr/cuarto/2c/plansis/plansys_ws/venv_plansys2/lib/python3.12/site-packages"
+venv_site = "/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/llm_planners/.venv/lib/python3.12/site-packages"
 
 # Asegúrate de que esté en sys.path
 if venv_site not in sys.path:

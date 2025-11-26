@@ -50,7 +50,7 @@ the Whisper model, and returns the transcription as a service response.
 @note
 - Ensure that the Whisper model is installed and accessible.
 - The audio file is temporarily saved in `/tmp/user_audio_input.wav`.
-- The virtual environment at `/home/jfisherr/cuarto/2c/plansis/plansys_ws/venv_plansys2` 
+- The virtual environment at `/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/llm_planners/.venv/`
   must contain the whisper package.
 
 @author Jonathan Fisher @j.fisher.2021
@@ -77,11 +77,11 @@ import sys
 # Forzar a usar el entorno virtual si no se está usando ya
 
 # Ruta a tu venv
-venv_site = "/home/jfisherr/cuarto/2c/plansis/plansys_ws/venv_plansys2/lib/python3.12/site-packages"
-
-# Asegúrate de que esté en sys.path
+# venv_site = "/home/jfisherr/cuarto/2c/plansis/plansys_ws/venv_plansys2/lib/python3.12/site-packages"
+venv_site = "/home/jfisherr/cuarto/2c/plansis/plansys_ws/src/TFG/llm_planners/.venv/lib/python3.12/site-packages"
 if venv_site not in sys.path:
     sys.path.insert(0, venv_site)
+print(venv_site)
 print(sys.executable)
 import whisper  # Importamos Whisper para transcribir el audio
 import sounddevice as sd
